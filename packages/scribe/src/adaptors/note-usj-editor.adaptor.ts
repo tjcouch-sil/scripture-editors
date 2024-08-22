@@ -137,20 +137,6 @@ export function reset(callerCountValue = 0) {
   callerData.count = callerCountValue;
 }
 
-function getNotesFromUsj(usjContent: MarkerContent[]) {
-  const notes: MarkerObject[] = [];
-  usjContent.map((content) => {
-    if (typeof content !== "string") {
-      content.content?.map((note) => {
-        if (typeof note !== "string" && note.type === "note") {
-          notes.push(note);
-        }
-      });
-    }
-  });
-  return notes;
-}
-
 export function serializeEditorState(
   usj: Usj | undefined,
   viewOptions?: ViewOptions,
@@ -172,8 +158,7 @@ export function serializeEditorState(
         `This USJ version '${usj.version}' didn't match the expected version '${USJ_VERSION}'.`,
       );
 
-    const notes = getNotesFromUsj(usj.content);
-    if (notes.length > 0) children = insertImpliedNotes(recurseNodes(notes));
+    if (usj.content.length > 0) children = insertImpliedParasRecurse(recurseNodes(usj.content));
     else children = [emptyParaNode];
   } else {
     children = [emptyParaNode];
@@ -318,7 +303,7 @@ function createChar(markerObject: MarkerObject): SerializedCharNode {
   }
   let text = getTextContent(markerObject.content);
   if (_viewOptions?.markerMode === "visible" || _viewOptions?.markerMode === "editable")
-    text = text + NBSP; //TODO need to handle space before punctuation
+    text = NBSP + text;
   const unknownAttributes = getUnknownAttributes(markerObject);
 
   return {
@@ -334,7 +319,7 @@ function createChar(markerObject: MarkerObject): SerializedCharNode {
   };
 }
 
-function createImpliedPara(children: SerializedLexicalNode[]): SerializedImpliedParaNode {
+export function createImpliedPara(children: SerializedLexicalNode[]): SerializedImpliedParaNode {
   return {
     type: ImpliedParaNode.getType(),
     children,
@@ -587,7 +572,7 @@ function insertMilestoneMarksRecurse(
   return [...nodesBefore, firstMSMarkNode, markNode, secondMSMarkNode, ...nodesAfter];
 }
 
-function recurseNodes(markers: MarkerContent[] | undefined): SerializedLexicalNode[] {
+export function recurseNodes(markers: MarkerContent[] | undefined): SerializedLexicalNode[] {
   const msMarkIndexes: number[] = [];
   const nodes: SerializedLexicalNode[] = [];
   markers?.forEach((markerContent) => {
@@ -636,9 +621,26 @@ function recurseNodes(markers: MarkerContent[] | undefined): SerializedLexicalNo
  * @param nodes - Serialized nodes.
  * @returns nodes with any needed implied paras inserted.
  */
-function insertImpliedNotes(nodes: SerializedLexicalNode[]): SerializedLexicalNode[] {
-  const impliedNoteNodes = nodes.map((node) => createImpliedPara([node]));
-  return impliedNoteNodes;
+export function insertImpliedParasRecurse(nodes: SerializedLexicalNode[]): SerializedLexicalNode[] {
+  const bookNodeIndex = nodes.findIndex((node) => node.type === BookNode.getType());
+  const isBookNodeFound = bookNodeIndex >= 0;
+  const chapterNodeIndex = nodes.findIndex((node) => node.type === ChapterNode.getType());
+  const isChapterNodeFound = chapterNodeIndex >= 0;
+  if (isBookNodeFound && (!isChapterNodeFound || bookNodeIndex < chapterNodeIndex)) {
+    const nodesBefore = insertImpliedParasRecurse(nodes.slice(0, bookNodeIndex));
+    const bookNode = nodes[bookNodeIndex];
+    const nodesAfter = insertImpliedParasRecurse(nodes.slice(bookNodeIndex + 1));
+    return [...nodesBefore, bookNode, ...nodesAfter];
+  } else if (isChapterNodeFound) {
+    const nodesBefore = insertImpliedParasRecurse(nodes.slice(0, chapterNodeIndex));
+    const chapterNode = nodes[chapterNodeIndex];
+    const nodesAfter = insertImpliedParasRecurse(nodes.slice(chapterNodeIndex + 1));
+    return [...nodesBefore, chapterNode, ...nodesAfter];
+  } else if (nodes.some((node) => "text" in node && "mode" in node)) {
+    // If there are any text nodes as a child of this root, enclose in an implied para node.
+    return [createImpliedPara(nodes)];
+  }
+  return nodes;
 }
 
 const UsjNoteEditorAdapter: UsjNoteEditorAdapter = {

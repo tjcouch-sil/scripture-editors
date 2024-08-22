@@ -8,7 +8,7 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { EditorState, LexicalEditor } from "lexical";
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import scriptureUsjNodes from "shared/nodes/scripture/usj";
 import { ImmutableNoteCallerNode } from "shared-react/nodes/scripture/usj/ImmutableNoteCallerNode";
 import { ImmutableVerseNode } from "shared-react/nodes/scripture/usj/ImmutableVerseNode";
@@ -25,7 +25,7 @@ import useDeferredState from "../hooks/use-deferred-state.hook";
 import { ScriptureReferencePlugin, ScriptureReference } from "../plugins/ScriptureReferencePlugin";
 import editorTheme from "../themes/editor-theme";
 import LoadingSpinner from "./LoadingSpinner";
-import { Toolbar } from "./Toolbar";
+import Toolbar from "../plugins/ToolbarPlugin";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -69,6 +69,12 @@ const Editor = forwardRef(function Editor(
   const [usj, setUsj] = useState(usjInput);
   const [loadedUsj, , setEditedUsj] = useDeferredState(usj);
   useDefaultNodeOptions(nodeOptions);
+
+  useEffect(() => {
+    if (usjInput) {
+      setUsj(usjInput);
+    }
+  }, [usjInput]);
 
   const initialConfig = {
     namespace: "ScribeEditor",

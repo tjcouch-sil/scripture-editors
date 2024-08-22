@@ -20,7 +20,7 @@ const defaultScrRef: ScriptureReference = { /* PSA */ bookCode: "PSA", chapterNu
 function App() {
   const editorRef = useRef<EditorRef>(null!);
   const [stateX, setStateX] = useState<boolean>(false);
-  const [text, setText] = useState<string>();
+  const [text, setText] = useState<string>("");
   const [scrRef, setScrRef] = useState(defaultScrRef);
   const { usj } = useUsfm2Usj();
 
@@ -37,23 +37,24 @@ function App() {
       onClick: (e: SyntheticEvent) => {
         setStateX(true);
         setText(e.currentTarget.getAttribute("data-caller-id") as string);
-        console.log({ e });
       },
     },
   };
   const viewOptions = useMemo(() => getViewOptions(viewMode), [viewMode]);
   // const noteViewOptions = useMemo(() => getViewOptions(noteViewMode), [noteViewMode]);
-  const onChange = async (usj: Usj) => {
-    console.log({ usj });
-    const usfm = await Usj2Usfm(usj);
+  const onChange = async (updatedUsj: Usj) => {
+    editorRef.current?.setUsj(updatedUsj);
+    const usfm = await Usj2Usfm(updatedUsj);
     console.log(usfm);
   };
+
   useEffect(() => {
     console.log({ scrRef });
   }, [scrRef]);
+
   return (
-    <div className="flex-center m-2 flex h-editor   justify-center p-8">
-      <div className="relative w-2/3 overflow-hidden rounded-md border-2 border-secondary">
+    <div className="m-2 flex flex h-editor items-start justify-center p-8">
+      <div className="w-[700px] overflow-hidden rounded-md border-2 border-secondary">
         <div className="left-0 right-0 top-0 z-10 flex items-center justify-between bg-gray-200 px-4 py-2">
           <span className="text-lg font-semibold">Editor</span>
           <button
@@ -79,7 +80,7 @@ function App() {
 
       {stateX && (
         <div
-          className="relative h-56 overflow-hidden rounded-md border-2 border-secondary"
+          className="h-56 w-[300px] overflow-hidden rounded-md border-2 border-secondary"
           id="noteEditor"
         >
           <div className="left-0 right-0 top-0 z-10 flex items-center justify-between bg-gray-200 px-4 py-2">
