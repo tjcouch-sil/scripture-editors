@@ -1,4 +1,4 @@
-import "./Input.css";
+// import "./Input.css";
 import { LexicalEditor } from "lexical";
 import React, { ReactNode, useEffect, useState } from "react";
 
@@ -12,18 +12,16 @@ type TextInputProps = {
 };
 
 const TextInput: React.FC<TextInputProps> = ({
-  label,
   value,
   onChange,
   placeholder = "",
   "data-test-id": dataTestId,
   type = "text",
 }) => (
-  <div className="Input__wrapper">
-    <label className="Input__label">{label}</label>
+  <div className="mb-4 flex flex-col">
     <input
       type={type}
-      className="Input__input"
+      className="rounded-md border border-gray-300 px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-orange-500"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -71,7 +69,33 @@ export const InsertDialog: React.FC<InsertDialogProps> = ({
   };
 
   return (
-    <>
+    <div className="mx-auto max-w-sm rounded-lg bg-white p-6 shadow-lg">
+      {/* <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-bold">Insert {label}</h2>
+        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 focus:outline-none">
+          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div> */}
+      {/* <div className="flex items-center justify-between rounded-t-lg bg-gray-900 px-4 py-2">
+        <h2 className="text-lg text-white">Insert Footnote</h2>
+        <button className="rounded bg-primary p-1 transition duration-300 hover:bg-orange-600">
+          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div> */}
       {label === "Footnote" ? (
         <>
           <TextInput
@@ -148,7 +172,7 @@ export const InsertDialog: React.FC<InsertDialogProps> = ({
       <Button disabled={isDisabled} onClick={onClick}>
         Confirm
       </Button>
-    </>
+    </div>
   );
 };
 
@@ -171,7 +195,9 @@ export const Button: React.FC<ButtonProps> = ({
 }) => (
   <button
     disabled={disabled}
-    className={`Button__root ${className}`}
+    className={`rounded-md bg-primary px-4 py-2 font-bold text-white hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 ${
+      disabled ? "cursor-not-allowed opacity-50" : ""
+    } ${className}`}
     onClick={onClick}
     title={title}
     aria-label={title}

@@ -65,7 +65,7 @@ function App() {
           </button>
         </div>
 
-        <div className=" h-editor overflow-y-auto p-2">
+        <div className=" h-editor overflow-y-auto ">
           <Editor
             usjInput={defaultUsj}
             ref={editorRef}

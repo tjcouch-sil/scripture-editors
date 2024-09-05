@@ -25,7 +25,7 @@ import useDeferredState from "../hooks/use-deferred-state.hook";
 import { ScriptureReferencePlugin, ScriptureReference } from "../plugins/ScriptureReferencePlugin";
 import editorTheme from "../themes/editor-theme";
 import LoadingSpinner from "./LoadingSpinner";
-import Toolbar from "../plugins/ToolbarPlugin";
+import ToolbarPlugin from "../plugins/ToolbarPlugin";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -110,34 +110,40 @@ const Editor = forwardRef(function Editor(
   );
 
   return (
-    <>
+    <div className="flex h-full flex-col">
       <LexicalComposer initialConfig={initialConfig}>
-        <Toolbar />
-        <RichTextPlugin
-          contentEditable={
-            <ContentEditable
-              className={`editor-input outline-none ${getViewClassList(viewOptions).join(" ")}`}
-            />
-          }
-          placeholder={<LoadingSpinner />}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <UpdateStatePlugin
-          scripture={loadedUsj}
-          nodeOptions={nodeOptions}
-          editorAdaptor={usjEditorAdaptor}
-          viewOptions={viewOptions}
-          // logger={logger}
-        />
-        <OnChangePlugin onChange={handleChange} ignoreSelectionChange={true} />
-        <NoteNodePlugin nodeOptions={nodeOptions} />
-        <HistoryPlugin />
-        <AutoFocusPlugin />
-        <ContextMenuPlugin />
-        <ClipboardPlugin />
-        <ScriptureReferencePlugin viewOptions={viewOptions} scrRef={scrRef} setScrRef={setScrRef} />
+        <ToolbarPlugin />
+        <div className="flex-grow overflow-y-auto">
+          <RichTextPlugin
+            contentEditable={
+              <ContentEditable
+                className={`min-h-full p-4 outline-none ${getViewClassList(viewOptions).join(" ")}`}
+              />
+            }
+            placeholder={<LoadingSpinner />}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <UpdateStatePlugin
+            scripture={loadedUsj}
+            nodeOptions={nodeOptions}
+            editorAdaptor={usjEditorAdaptor}
+            viewOptions={viewOptions}
+            // logger={logger}
+          />
+          <OnChangePlugin onChange={handleChange} ignoreSelectionChange={true} />
+          <NoteNodePlugin nodeOptions={nodeOptions} />
+          <HistoryPlugin />
+          <AutoFocusPlugin />
+          <ContextMenuPlugin />
+          <ClipboardPlugin />
+          <ScriptureReferencePlugin
+            viewOptions={viewOptions}
+            scrRef={scrRef}
+            setScrRef={setScrRef}
+          />
+        </div>
       </LexicalComposer>
-    </>
+    </div>
   );
 });
 
