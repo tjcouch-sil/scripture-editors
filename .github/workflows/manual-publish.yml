@@ -52,6 +52,7 @@ jobs:
         run: pnpm nx run-many -t build
 
       - name: Publish scribe package
+        if: matrix.os == 'ubuntu-latest'
         shell: bash
         run: |
           cd ./packages/scribe
@@ -59,8 +60,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Exit with error if not on scribe-v1 branch
+      - name: Error handling and file content
         if: failure()
         run: |
-          echo "This workflow can only be run on the scribe-v1 branch."
-          exit 1
+          echo "An error occurred during the workflow execution."
+          echo "Current branch: ${{ github.ref }}"
+          echo "Current workflow file content:"
+          cat ${{ github.workflow }}
+          echo "Directory structure:"
+          ls -R
+          echo "Workflow run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
