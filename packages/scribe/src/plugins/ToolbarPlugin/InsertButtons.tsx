@@ -61,12 +61,12 @@ export function InsertButtons() {
       </button>
       <button
         onClick={() => {
-          showModal("Insert Footnote", (onClose) => (
+          showModal("Insert Cross Reference", (onClose) => (
             <InsertDialog
               activeEditor={editor}
               onClose={onClose}
               insertFunction={insertFootNoteNode}
-              label="Footnote"
+              label="XRef"
             />
           ));
         }}

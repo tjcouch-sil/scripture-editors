@@ -70,32 +70,6 @@ export const InsertDialog: React.FC<InsertDialogProps> = ({
 
   return (
     <div className="mx-auto max-w-sm rounded-lg bg-white p-6 shadow-lg">
-      {/* <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-bold">Insert {label}</h2>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 focus:outline-none">
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div> */}
-      {/* <div className="flex items-center justify-between rounded-t-lg bg-gray-900 px-4 py-2">
-        <h2 className="text-lg text-white">Insert Footnote</h2>
-        <button className="rounded bg-primary p-1 transition duration-300 hover:bg-orange-600">
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div> */}
       {label === "Footnote" ? (
         <>
           <TextInput
@@ -131,32 +105,25 @@ export const InsertDialog: React.FC<InsertDialogProps> = ({
       ) : label === "XRef" ? (
         <>
           <TextInput
-            placeholder="Note Title"
-            label="Title"
-            onChange={handleChange("title")}
-            value={inputValues.title || ""}
-            data-test-id="note-title"
+            placeholder="Origin Reference."
+            label="Origin Reference"
+            onChange={handleChange("xo")}
+            value={inputValues.xo || ""}
+            data-test-id="note-xo"
           />
           <TextInput
-            placeholder="Note Content"
-            label="Content"
-            onChange={handleChange("content")}
-            value={inputValues.content || ""}
-            data-test-id="note-content"
+            placeholder="Target Reference"
+            label="Target Reference"
+            onChange={handleChange("xt")}
+            value={inputValues.xt || ""}
+            data-test-id="note-xt"
           />
           <TextInput
-            placeholder="Author"
-            label="Author"
-            onChange={handleChange("author")}
-            value={inputValues.author || ""}
-            data-test-id="note-author"
-          />
-          <TextInput
-            placeholder="Date"
-            label="Date"
-            onChange={handleChange("date")}
-            value={inputValues.date || ""}
-            data-test-id="note-date"
+            placeholder="Quotation"
+            label="Quotation"
+            onChange={handleChange("xq")}
+            value={inputValues.xq || ""}
+            data-test-id="note-xq"
           />
         </>
       ) : (

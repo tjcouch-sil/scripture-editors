@@ -26,6 +26,9 @@ import { ScriptureReferencePlugin, ScriptureReference } from "../plugins/Scriptu
 import editorTheme from "../themes/editor-theme";
 import LoadingSpinner from "./LoadingSpinner";
 import ToolbarPlugin from "../plugins/ToolbarPlugin";
+import TextDirectionPlugin from "shared-react/plugins/TextDirectionPlugin";
+import { TextDirection } from "shared-react/plugins/text-direction.model";
+import { blackListedChangeTags } from "shared/nodes/scripture/usj/node.utils";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -33,6 +36,9 @@ export type EditorRef = {
   focus(): void;
   /** Method to set the USJ Scripture data. */
   setUsj(usj: Usj): void;
+  getScrollPosition: () => number;
+  setScrollPosition: (position: number) => void;
+  addEventListener?: (type: string, listener: EventListenerOrEventListenerObject) => void;
 };
 
 /** Options to configure the editor. */
@@ -59,15 +65,36 @@ type EditorProps = {
   nodeOptions?: UsjNodeOptions;
   scrRef: ScriptureReference;
   setScrRef: React.Dispatch<React.SetStateAction<ScriptureReference>>;
+  textDirection: TextDirection;
+  onScroll?: (position: number) => void;
+  syncScrollPosition?: number;
+  IsRefEditor?: boolean;
+  font?: string;
+  fontSize?: number;
 };
 
 const Editor = forwardRef(function Editor(
-  { usjInput, onChange, viewOptions, nodeOptions = {}, scrRef, setScrRef }: EditorProps,
+  {
+    usjInput,
+    onChange,
+    viewOptions,
+    nodeOptions = {},
+    scrRef,
+    setScrRef,
+    textDirection,
+    onScroll,
+    syncScrollPosition,
+    IsRefEditor = false,
+    font,
+    fontSize,
+  }: EditorProps,
   ref: React.ForwardedRef<EditorRef>,
 ): JSX.Element {
   const editorRef = useRef<LexicalEditor>(null);
   const [usj, setUsj] = useState(usjInput);
   const [loadedUsj, , setEditedUsj] = useDeferredState(usj);
+  const contentEditableRef = useRef<HTMLDivElement>(null);
+
   useDefaultNodeOptions(nodeOptions);
 
   useEffect(() => {
@@ -94,10 +121,47 @@ const Editor = forwardRef(function Editor(
     setUsj(usj: Usj) {
       setUsj(usj);
     },
+    getScrollPosition: () => {
+      return contentEditableRef.current?.scrollTop || 0;
+    },
+    setScrollPosition: (position: number) => {
+      if (contentEditableRef.current) {
+        contentEditableRef.current.scrollTop = position;
+      }
+    },
   }));
 
+  useEffect(() => {
+    console.log({ syncScrollPosition });
+    if (syncScrollPosition !== undefined) {
+      if (contentEditableRef.current) {
+        contentEditableRef.current.scrollTop = syncScrollPosition;
+      }
+    }
+  }, [syncScrollPosition]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (contentEditableRef.current) {
+        const scrollTop = contentEditableRef.current.scrollTop;
+        console.log("Scroll Top:", scrollTop);
+      }
+    };
+
+    if (contentEditableRef.current) {
+      contentEditableRef.current.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (contentEditableRef.current) {
+        contentEditableRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
   const handleChange = useCallback(
-    (editorState: EditorState, editor: LexicalEditor) => {
+    (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => {
+      if (blackListedChangeTags.some((tag) => tags.has(tag))) return;
       const usj = editorUsjAdaptor.deserializeEditorState(editorState);
       const serializedState = editor.parseEditorState(usjEditorAdaptor.serializeEditorState(usj));
       console.log({ serializedState });
@@ -109,11 +173,20 @@ const Editor = forwardRef(function Editor(
     [onChange, setEditedUsj],
   );
 
+  const handleScroll = useCallback(() => {
+    if (contentEditableRef.current) {
+      const scrollTop = contentEditableRef.current.scrollTop;
+      if (onScroll) {
+        onScroll(scrollTop); // Call the parent scroll handler if provided
+      }
+    }
+  }, [onScroll]);
+
   return (
     <div className="flex h-full flex-col">
       <LexicalComposer initialConfig={initialConfig}>
-        <ToolbarPlugin />
-        <div className="flex-grow overflow-y-auto">
+        {!IsRefEditor && <ToolbarPlugin font={font} fontSize={fontSize} />}
+        <div className="flex-grow overflow-y-auto" onScroll={handleScroll} ref={contentEditableRef}>
           <RichTextPlugin
             contentEditable={
               <ContentEditable
@@ -141,6 +214,7 @@ const Editor = forwardRef(function Editor(
             scrRef={scrRef}
             setScrRef={setScrRef}
           />
+          <TextDirectionPlugin textDirection={textDirection} />
         </div>
       </LexicalComposer>
     </div>
