@@ -132,7 +132,6 @@ const Editor = forwardRef(function Editor(
   }));
 
   useEffect(() => {
-    console.log({ syncScrollPosition });
     if (syncScrollPosition !== undefined) {
       if (contentEditableRef.current) {
         contentEditableRef.current.scrollTop = syncScrollPosition;
@@ -140,24 +139,24 @@ const Editor = forwardRef(function Editor(
     }
   }, [syncScrollPosition]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (contentEditableRef.current) {
-        const scrollTop = contentEditableRef.current.scrollTop;
-        console.log("Scroll Top:", scrollTop);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (contentEditableRef.current) {
+  //       const scrollTop = contentEditableRef.current.scrollTop;
+  //       console.log("Scroll Top:", scrollTop);
+  //     }
+  //   };
 
-    if (contentEditableRef.current) {
-      contentEditableRef.current.addEventListener("scroll", handleScroll);
-    }
+  //   if (contentEditableRef.current) {
+  //     contentEditableRef.current.addEventListener("scroll", handleScroll);
+  //   }
 
-    return () => {
-      if (contentEditableRef.current) {
-        contentEditableRef.current.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (contentEditableRef.current) {
+  //       contentEditableRef.current.removeEventListener("scroll", handleScroll);
+  //     }
+  //   };
+  // }, []);
 
   const handleChange = useCallback(
     (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => {
@@ -177,16 +176,20 @@ const Editor = forwardRef(function Editor(
     if (contentEditableRef.current) {
       const scrollTop = contentEditableRef.current.scrollTop;
       if (onScroll) {
-        onScroll(scrollTop); // Call the parent scroll handler if provided
+        onScroll(scrollTop);
       }
     }
   }, [onScroll]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-hidden">
       <LexicalComposer initialConfig={initialConfig}>
         {!IsRefEditor && <ToolbarPlugin font={font} fontSize={fontSize} />}
-        <div className="flex-grow overflow-y-auto" onScroll={handleScroll} ref={contentEditableRef}>
+        <div
+          className="max-h-[calc(100vh-40px)] flex-grow overflow-y-auto"
+          onScroll={handleScroll}
+          ref={contentEditableRef}
+        >
           <RichTextPlugin
             contentEditable={
               <ContentEditable

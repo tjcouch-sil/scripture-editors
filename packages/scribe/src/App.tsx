@@ -69,7 +69,6 @@ function App() {
   };
   const handleMainEditorScroll = useCallback(
     (position: number) => {
-      console.log("scroll handler");
       if (!isSyncingScroll) {
         setIsSyncingScroll(true);
         setMainEditorScrollPosition(position);
@@ -89,7 +88,6 @@ function App() {
   const handleNoteEditorScroll = useCallback(
     (position: number) => {
       if (!isSyncingScroll) {
-        console.log("note scroll handler");
         setIsSyncingScroll(true);
         setNoteEditorScrollPosition(position);
         if (
@@ -106,7 +104,7 @@ function App() {
   );
 
   return (
-    <div className="m-2 flex flex h-editor items-start justify-center">
+    <div className="m-2 flex h-editor items-start justify-center">
       <div className="w-full overflow-hidden rounded-md border-2 border-secondary">
         <div className="left-0 right-0 top-0 z-10 flex items-center justify-between bg-gray-200 px-4 py-2">
           <span className="text-lg font-semibold">Editor</span>
@@ -124,7 +122,7 @@ function App() {
           </button>
         </div>
         <div className="flex">
-          <div className=" h-editor ">
+          <div className="h-editor">
             <Editor
               usjInput={defaultUsj}
               ref={editorRef1}
@@ -138,7 +136,7 @@ function App() {
               syncScrollPosition={mainEditorScrollPosition}
             />
           </div>
-          <div className=" h-editor overflow-y-auto ">
+          <div className="h-editor overflow-y-auto">
             <Editor
               usjInput={defaultUsj}
               ref={editorRef2}
