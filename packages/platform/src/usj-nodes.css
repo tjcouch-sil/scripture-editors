@@ -2099,10 +2099,6 @@ body {
   background-color: inherit;
 }
 
-.immutable-note-caller[data-caller="-"] {
-  display: none;
-}
-
 .caller_big {
   unicode-bidi: normal;
   color: rgba(18, 82, 179, 1);

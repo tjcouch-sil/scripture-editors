@@ -2119,10 +2119,6 @@ body {
   background-color: inherit;
 }
 
-.immutable-note-caller[data-caller="-"] {
-  display: none;
-}
-
 .formatted-font .immutable-note-caller {
   @apply text-xs text-blue-500;
 }

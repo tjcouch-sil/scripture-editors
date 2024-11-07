@@ -20,8 +20,8 @@ type VerseNodes = VerseNode | ImmutableVerseNode;
  * @param noteCallers - List of possible note callers.
  * @param callerData - Caller count. Passed via object so this function can modify the count.
  * @param logger - Logger to use, if any.
- * @returns the specified caller, if '+' replace with up to 2 characters from the possible note
- *   callers list, '*' if undefined.
+ * @returns the specified caller - for '+' replace with up to 2 characters from the possible note
+ *   callers list, '*' otherwise.
  */
 export function generateNoteCaller(
   markerCaller: string | undefined,
@@ -29,6 +29,8 @@ export function generateNoteCaller(
   callerData: CallerData,
   logger: LoggerBasic | undefined,
 ): string {
+  if (markerCaller === "-") return "*";
+
   let caller = markerCaller;
   if (markerCaller === GENERATOR_NOTE_CALLER && noteCallers && noteCallers.length > 0) {
     if (callerData.count >= noteCallers.length ** 2 + noteCallers.length) {
