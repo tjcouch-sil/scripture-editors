@@ -52,6 +52,7 @@ import { getViewClassList, getViewOptions, ViewOptions } from "./adaptors/view-o
 import editorTheme from "./editor.theme";
 import ScriptureReferencePlugin from "./ScriptureReferencePlugin";
 import ToolbarPlugin from "./toolbar/ToolbarPlugin";
+import TreeViewPlugin from "./TreeViewPlugin";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -302,6 +303,7 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
           <TextDirectionPlugin textDirection={textDirection} />
           {children}
         </div>
+        <TreeViewPlugin />
       </div>
     </LexicalComposer>
   );
