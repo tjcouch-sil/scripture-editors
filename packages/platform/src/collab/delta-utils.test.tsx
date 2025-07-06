@@ -3259,8 +3259,7 @@ describe("Delta Utils $applyUpdate", () => {
           {
             insert: LF,
             attributes: {
-              para: { style: "q1" },
-              customAttr: "value",
+              para: { style: "q1", customAttr: "value" },
             },
           },
         ];

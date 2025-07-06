@@ -86,6 +86,7 @@ export default function App() {
   const [scrRef, setScrRef] = useState(defaultScrRef);
   const [annotations, setAnnotations] = useState(defaultAnnotations);
   const [annotationType, setAnnotationType] = useState("spelling");
+  const [opsInput, setOpsInput] = useState("");
 
   const viewOptions = useMemo<ViewOptions | undefined>(() => getViewOptions(viewMode), [viewMode]);
 
@@ -152,97 +153,179 @@ export default function App() {
     return () => clearTimeout(timeoutId);
   }, []);
 
+  // Handler to clear the editor
+  const handleEmptyEditor = useCallback(() => {
+    marginalRef.current?.setUsj({
+      type: "USJ",
+      version: "3.1",
+      content: [],
+    });
+  }, []);
+
+  // Handler to apply ops (expects JSON array of objects)
+  const handleApplyOps = useCallback(() => {
+    try {
+      const ops = JSON.parse(opsInput);
+      if (Array.isArray(ops)) {
+        marginalRef.current?.applyUpdate(ops);
+      } else {
+        alert("Input must be a JSON array of objects");
+      }
+    } catch (e) {
+      alert("Invalid JSON: " + e);
+    }
+  }, [opsInput]);
+
   return (
-    <>
-      <div className="controls">
-        <BookChapterControl scrRef={scrRef} handleSubmit={setScrRef} />
-        <span>
-          <div>Cursor Location</div>
-          <div>
-            <button onClick={() => handleCursorClick(-3)}>-3</button>
-            <button onClick={() => handleCursorClick(-1)}>-1</button>
-            <button onClick={() => handleCursorClick(1)}>+1</button>
-            <button onClick={() => handleCursorClick(3)}>+3</button>
+    <div style={{ display: "flex", flexDirection: "row", alignItems: "stretch", height: "80vh" }}>
+      <div style={{ flex: 1, minWidth: 0, maxWidth: 700, width: 700 }}>
+        <div className="controls">
+          <BookChapterControl scrRef={scrRef} handleSubmit={setScrRef} />
+          <span>
+            <div>Cursor Location</div>
+            <div>
+              <button onClick={() => handleCursorClick(-3)}>-3</button>
+              <button onClick={() => handleCursorClick(-1)}>-1</button>
+              <button onClick={() => handleCursorClick(1)}>+1</button>
+              <button onClick={() => handleCursorClick(3)}>+3</button>
+            </div>
+          </span>
+          <span>
+            <div>
+              Annotate <AnnotationTypeSelect onChange={handleTypeChange} />
+            </div>
+            <div>
+              <button
+                id="annotation1"
+                className={annotateButtonClass("annotation1")}
+                onClick={handleAnnotationClick}
+              >
+                man
+              </button>
+              <button
+                id="annotation2"
+                className={annotateButtonClass("annotation2")}
+                onClick={handleAnnotationClick}
+              >
+                man who
+              </button>
+              <button
+                id="annotation3"
+                className={annotateButtonClass("annotation3")}
+                onClick={handleAnnotationClick}
+              >
+                stand
+              </button>
+            </div>
+          </span>
+          <div className="debug">
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                id="debugCheckBox"
+                checked={debug}
+                onChange={(e) => setDebug(e.target.checked)}
+              />
+              <label htmlFor="debugCheckBox">Debug</label>
+            </div>
           </div>
-        </span>
-        <span>
-          <div>
-            Annotate <AnnotationTypeSelect onChange={handleTypeChange} />
-          </div>
-          <div>
-            <button
-              id="annotation1"
-              className={annotateButtonClass("annotation1")}
-              onClick={handleAnnotationClick}
-            >
-              man
-            </button>
-            <button
-              id="annotation2"
-              className={annotateButtonClass("annotation2")}
-              onClick={handleAnnotationClick}
-            >
-              man who
-            </button>
-            <button
-              id="annotation3"
-              className={annotateButtonClass("annotation3")}
-              onClick={handleAnnotationClick}
-            >
-              stand
-            </button>
-          </div>
-        </span>
-        <div className="debug">
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="debugCheckBox"
-              checked={debug}
-              onChange={(e) => setDebug(e.target.checked)}
-            />
-            <label htmlFor="debugCheckBox">Debug</label>
-          </div>
+          <button onClick={toggleIsOptionsDefined}>
+            {isOptionsDefined ? "Undefine" : "Define"} Options
+          </button>
         </div>
-        <button onClick={toggleIsOptionsDefined}>
-          {isOptionsDefined ? "Undefine" : "Define"} Options
-        </button>
+        {isOptionsDefined && (
+          <div className="defined-options">
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                id="isReadonlyCheckBox"
+                checked={isReadonly}
+                onChange={(e) => setIsReadonly(e.target.checked)}
+              />
+              <label htmlFor="isReadonlyCheckBox">Is Readonly</label>
+            </div>
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                id="hasSpellCheckBox"
+                checked={hasSpellCheck}
+                onChange={(e) => setHasSpellCheck(e.target.checked)}
+              />
+              <label htmlFor="hasSpellCheckBox">Has Spell Check</label>
+            </div>
+            <TextDirectionDropDown textDirection={textDirection} handleSelect={setTextDirection} />
+            <ViewModeDropDown viewMode={viewMode} handleSelect={setViewMode} />
+          </div>
+        )}
+        <Marginal
+          ref={marginalRef}
+          defaultUsj={defaultUsj}
+          scrRef={scrRef}
+          onScrRefChange={setScrRef}
+          onSelectionChange={(selection) => console.log({ selection })}
+          onCommentChange={(comments) => console.log({ comments })}
+          onUsjChange={handleUsjChange}
+          options={isOptionsDefined ? options : { debug }}
+          logger={console}
+        />
       </div>
-      {isOptionsDefined && (
-        <div className="defined-options">
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="isReadonlyCheckBox"
-              checked={isReadonly}
-              onChange={(e) => setIsReadonly(e.target.checked)}
+      {debug && (
+        <div
+          style={{
+            minWidth: 320,
+            maxWidth: 380,
+            marginLeft: 24,
+            border: "1px solid #ccc",
+            padding: 16,
+            background: "#fafafa",
+            display: "flex",
+            flexDirection: "column",
+            flex: 1,
+            height: "100%",
+          }}
+        >
+          <h4 style={{ color: "#222" }}>OT Apply Updates</h4>
+          <button
+            onClick={handleEmptyEditor}
+            style={{
+              marginBottom: 8,
+              width: "auto",
+              alignSelf: "center",
+              minWidth: 0,
+              padding: "4px 12px",
+            }}
+          >
+            Empty Editor
+          </button>
+          <div
+            style={{
+              marginBottom: 8,
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              minHeight: 0,
+            }}
+          >
+            <label htmlFor="opsInput">Delta Ops (JSON array):</label>
+            <textarea
+              id="opsInput"
+              value={opsInput}
+              onChange={(e) => setOpsInput(e.target.value)}
+              style={{
+                width: "100%",
+                fontFamily: "monospace",
+                resize: "none",
+                flex: 1,
+                minHeight: 0,
+              }}
+              placeholder='[{"insert": "<text>"}, {"retain": 5}, {"delete": 2}]'
             />
-            <label htmlFor="isReadonlyCheckBox">Is Readonly</label>
+            <button onClick={handleApplyOps} style={{ marginTop: 4, alignSelf: "flex-end" }}>
+              Apply Ops
+            </button>
           </div>
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="hasSpellCheckBox"
-              checked={hasSpellCheck}
-              onChange={(e) => setHasSpellCheck(e.target.checked)}
-            />
-            <label htmlFor="hasSpellCheckBox">Has Spell Check</label>
-          </div>
-          <TextDirectionDropDown textDirection={textDirection} handleSelect={setTextDirection} />
-          <ViewModeDropDown viewMode={viewMode} handleSelect={setViewMode} />
         </div>
       )}
-      <Marginal
-        ref={marginalRef}
-        defaultUsj={defaultUsj}
-        scrRef={scrRef}
-        onScrRefChange={setScrRef}
-        onSelectionChange={(selection) => console.log({ selection })}
-        onCommentChange={(comments) => console.log({ comments })}
-        onUsjChange={handleUsjChange}
-        options={isOptionsDefined ? options : { debug }}
-        logger={console}
-      />
-    </>
+    </div>
   );
 }

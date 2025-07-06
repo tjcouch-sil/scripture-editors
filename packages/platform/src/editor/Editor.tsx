@@ -209,7 +209,17 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
     applyUpdate(ops) {
       editorRef.current?.update(() => $applyUpdate(ops, viewOptions, nodeOptions, logger), {
         tag: DELTA_CHANGE_TAG,
+        discrete: true,
       });
+      const editorState = editorRef.current?.getEditorState();
+      if (!editorState) return;
+
+      const newUsj = editorUsjAdaptor.deserializeEditorState(editorState);
+      if (newUsj) {
+        const isEdited = !deepEqual(editedUsjRef.current, newUsj);
+        if (isEdited) editedUsjRef.current = newUsj;
+        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj);
+      }
     },
     getSelection() {
       return editorRef.current?.read($getRangeFromEditor);

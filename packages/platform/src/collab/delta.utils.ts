@@ -40,7 +40,7 @@ import { $isSomeVerseNode, SomeVerseNode } from "shared-react/nodes/usj/node-rea
 import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
 import { ViewOptions } from "shared-react/views/view-options.utils";
 import { LoggerBasic } from "shared/adaptors/logger-basic.model";
-import { charIdState, deltaStates, segmentState } from "shared/nodes/collab/delta.state";
+import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
 import {
   $isImmutableUnmatchedNode,
   ImmutableUnmatchedNode,
@@ -51,7 +51,11 @@ import { $createBookNode, $isBookNode, BOOK_MARKER, BookNode } from "shared/node
 import { $createChapterNode } from "shared/nodes/usj/ChapterNode";
 import { $createCharNode, $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
 import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $createImpliedParaNode, $isImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
+import {
+  $createImpliedParaNode,
+  $isImpliedParaNode,
+  ImpliedParaNode,
+} from "shared/nodes/usj/ImpliedParaNode";
 import {
   $createMilestoneNode,
   $isMilestoneNode,
@@ -210,12 +214,12 @@ function $applyAttributes(
           const needsSplitAtEnd = lengthToApplyInThisNode < textLength - offsetInNode;
 
           if (needsSplitAtStart && needsSplitAtEnd) {
-            const [, middleNode] = $splitTextWithDeltaStates(currentNode, offsetInNode);
-            [targetNode] = $splitTextWithDeltaStates(middleNode, lengthToApplyInThisNode);
+            const [, middleNode] = currentNode.splitText(offsetInNode);
+            [targetNode] = middleNode.splitText(lengthToApplyInThisNode);
           } else if (needsSplitAtStart) {
-            [, targetNode] = $splitTextWithDeltaStates(currentNode, offsetInNode);
+            [, targetNode] = currentNode.splitText(offsetInNode);
           } else if (needsSplitAtEnd) {
-            [targetNode] = $splitTextWithDeltaStates(currentNode, lengthToApplyInThisNode);
+            [targetNode] = currentNode.splitText(lengthToApplyInThisNode);
           }
 
           // Check if we need to convert TextNode to CharNode
@@ -274,18 +278,17 @@ function $applyAttributes(
         }
       }
       currentIndex += textLength;
-    } else if ($isAtomicEmbedNode(currentNode)) {
-      const atomicNodeOtLength = 1;
+    } else if ($isEmbedNode(currentNode)) {
+      const embedNodeOtLength = 1;
       if (
         targetIndex <= currentIndex &&
         currentIndex < targetIndex + retain &&
         lengthToFormat > 0
       ) {
-        // Apply attributes to the atomic node itself
         $applyEmbedAttributes(currentNode, attributes);
-        lengthToFormat -= atomicNodeOtLength;
+        lengthToFormat -= embedNodeOtLength;
       }
-      currentIndex += atomicNodeOtLength;
+      currentIndex += embedNodeOtLength;
     } else if ($isCharNode(currentNode)) {
       // CharNodes don't contribute to OT length, they're just formatted text containers
       nestedCharCount += 1;
@@ -353,30 +356,6 @@ function $applyAttributes(
         $unwrapNode(currentNode);
       }
       nestedCharCount -= 1;
-    } else if ($isContainerEmbedNode(currentNode)) {
-      // True container embeds have an OT length of 1 for their "tag", then their children are processed.
-      const containerEmbedOtLength = 1;
-      if (
-        targetIndex <= currentIndex &&
-        currentIndex < targetIndex + retain &&
-        lengthToFormat > 0
-      ) {
-        // Apply attributes to the container node itself (its "tag")
-        $applyEmbedAttributes(currentNode, attributes);
-        lengthToFormat -= containerEmbedOtLength;
-      }
-      currentIndex += containerEmbedOtLength;
-
-      // Then, process children of these container embeds
-      if (lengthToFormat > 0) {
-        const children = currentNode.getChildren();
-        for (const child of children) {
-          if (lengthToFormat <= 0) break;
-          if ($traverseAndApplyAttributesRecursive(child)) {
-            if (lengthToFormat <= 0) return true;
-          }
-        }
-      }
     } else if ($isSomeParaNode(currentNode) || $isBookNode(currentNode)) {
       // Paragraph-like nodes: process children first, then account for the block's own closing OT
       // length.
@@ -399,7 +378,7 @@ function $applyAttributes(
       ) {
         if (!$isImpliedParaNode(currentNode)) $applyEmbedAttributes(currentNode, attributes);
         else if (hasParaAttributes(attributes)) {
-          const newPara = $createPara(attributes);
+          const newPara = $createPara(attributes.para);
           if (newPara) currentNode.replace(newPara, true);
         }
         lengthToFormat -= blockClosingOtLength;
@@ -499,7 +478,7 @@ function $wrapInNestedCharNodes(
 
 // Apply attributes to the given embed node
 function $applyEmbedAttributes(
-  node: AtomicEmbedNode | CharNode | NoteNode | UnknownNode | ParaNode | BookNode,
+  node: EmbedNode | CharNode | NoteNode | UnknownNode | ParaNode | BookNode,
   attributes: AttributeMap,
 ) {
   for (const key of Object.keys(attributes)) {
@@ -546,7 +525,7 @@ function $applyEmbedAttributes(
     } else if ($isBookNode(node) || $isParaNode(node) || $isCharNode(node)) {
       if (key === "style" && !$isBookNode(node)) {
         node.setMarker(value);
-      } else if (key == "code" && $isBookNode(node)) {
+      } else if (key === "code" && $isBookNode(node)) {
         node.setCode(value as BookCode);
       } else {
         node.setUnknownAttributes({
@@ -605,30 +584,19 @@ function $delete(targetIndex: number, otLength: number, logger: LoggerBasic | un
         }
       }
       currentIndex += textLength;
-    } else if ($isAtomicEmbedNode(currentNode)) {
-      // Check if the deletion should remove this atomic embed
+    } else if ($isEmbedNode(currentNode)) {
+      // Check if the deletion should remove this embed
       if (targetIndex <= currentIndex && currentIndex < targetIndex + remainingToDelete) {
-        // The deletion spans this atomic embed - remove it
+        // The deletion spans this embed - remove it
         currentNode.remove();
         logger?.debug(
-          `Deleted atomic embed node (key: ${currentNode.getKey()}) at currentIndex: ${currentIndex}. ` +
+          `Deleted embed node (key: ${currentNode.getKey()}) at currentIndex: ${currentIndex}. ` +
             `Original targetIndex: ${targetIndex}, remainingToDelete: ${remainingToDelete}.`,
         );
         remainingToDelete -= 1;
       } else {
         // Deletion doesn't affect this embed, just advance past it
         currentIndex += 1;
-      }
-    } else if ($isContainerEmbedNode(currentNode)) {
-      // True container embeds: advance past their tag (OT length 1), then recurse to delete text *inside* them.
-      currentIndex += 1; // For the container tag itself
-
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if (remainingToDelete <= 0) break;
-        if ($traverseAndDelete(child)) {
-          if (remainingToDelete <= 0) return true;
-        }
       }
     } else if ($isSomeParaNode(currentNode) || $isBookNode(currentNode)) {
       // Paragraph-like nodes: process children first, then handle the symbolic close
@@ -701,7 +669,7 @@ function $delete(targetIndex: number, otLength: number, logger: LoggerBasic | un
 
               if ($isTextNode(nextChild)) {
                 tempCurrentIndex += nextChild.getTextContentSize();
-              } else if ($isAtomicEmbedNode(nextChild)) {
+              } else if ($isEmbedNode(nextChild)) {
                 tempCurrentIndex += 1;
               }
 
@@ -776,16 +744,9 @@ function $insertTextAtCurrentIndex(
   attributes: AttributeMap | undefined,
   logger?: LoggerBasic,
 ): number {
-  if (textToInsert === LF && !attributes) {
-    // Handle LF without attributes - split ParaNode into ImpliedParaNode + ParaNode
-    return $handleNewlineWithoutAttributes(targetIndex, logger);
-  } else if (
-    textToInsert === LF &&
-    (hasParaAttributes(attributes) || hasBookAttributes(attributes))
-  ) {
-    // Handle LF with para/book attributes - replace current ImpliedParaNode with ParaNode/BookNode
-    return $handleNewlineWithBlockAttributes(targetIndex, attributes, logger);
-  } else if (textToInsert !== LF && hasCharAttributes(attributes)) {
+  if (textToInsert === LF) {
+    return $handleNewline(targetIndex, attributes, logger);
+  } else if (hasCharAttributes(attributes)) {
     return $handleCharText(targetIndex, textToInsert, attributes, logger);
   } else {
     // Handle rich text insertion (possibly with formatting like bold, italic)
@@ -831,7 +792,7 @@ function $handleCharText(
           return true;
         }
         currentIndex += textLength;
-      } else if ($isAtomicEmbedNode(node)) {
+      } else if ($isEmbedNode(node)) {
         currentIndex += 1;
       } else if ($isCharNode(node)) {
         // CharNodes don't contribute to OT length, but may contain text
@@ -844,7 +805,7 @@ function $handleCharText(
         for (const child of children) {
           if (findParentCharNode(child)) return true;
         }
-        if ($isContainerEmbedNode(node) || $isSomeParaNode(node) || $isBookNode(node)) {
+        if ($isSomeParaNode(node) || $isBookNode(node)) {
           currentIndex += 1;
         }
       }
@@ -938,7 +899,7 @@ function $insertRichText(
         } else if (offsetInNode === textLength) {
           currentNode.insertAfter(newTextNode);
         } else {
-          const [, tailNode] = $splitTextWithDeltaStates(currentNode, offsetInNode);
+          const [, tailNode] = currentNode.splitText(offsetInNode);
           tailNode.insertBefore(newTextNode);
         }
         logger?.debug(
@@ -951,9 +912,9 @@ function $insertRichText(
         return true;
       }
       currentIndex += textLength;
-    } else if ($isAtomicEmbedNode(currentNode)) {
-      // If targetIndex is exactly at currentIndex, means insert *before* this atomic node.
-      // This function is for rich text; inserting before/after atomic nodes usually involves
+    } else if ($isEmbedNode(currentNode)) {
+      // If targetIndex is exactly at currentIndex, means insert *before* this embed node.
+      // This function is for rich text; inserting before/after embed nodes usually involves
       // $insertNodeAtCharacterOffset or ensuring a Para wrapper.
       // For now, just advance offset.
       if (targetIndex === currentIndex && !insertionPointFound) {
@@ -998,49 +959,6 @@ function $insertRichText(
         currentNode.append(newTextNode);
         logger?.debug(
           `Appended text "${textToInsert}" to end of CharNode ` +
-            `${currentNode.getType()} (key: ${currentNode.getKey()}).`,
-        );
-        insertionPointFound = true;
-        return true;
-      }
-    } else if ($isContainerEmbedNode(currentNode)) {
-      // True container embeds have an OT length of 1 for their "tag", then their children are processed.
-      const containerEmbedOtLength = 1;
-      const offsetAtContainerStart = currentIndex;
-
-      // Try inserting at the beginning of the container's *content*
-      // (i.e., targetIndex matches after the container's opening tag)
-      if (!insertionPointFound && targetIndex === offsetAtContainerStart + containerEmbedOtLength) {
-        // This implies inserting as the first child inside the container
-        const newTextNode = $createTextNode(textToInsert);
-        $applyTextAttributes(attributes, newTextNode);
-        const firstChild = currentNode.getFirstChild();
-        if (firstChild) {
-          firstChild.insertBefore(newTextNode);
-        } else {
-          currentNode.append(newTextNode);
-        }
-        logger?.debug(
-          `Inserted text "${textToInsert}" at beginning of container ` +
-            `${currentNode.getType()} (key: ${currentNode.getKey()}).`,
-        );
-        insertionPointFound = true;
-        return true;
-      }
-      currentIndex += containerEmbedOtLength; // Advance for the container tag
-
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if ($findAndInsertRecursive(child)) return true;
-        if (insertionPointFound) break;
-      }
-      // Try appending to the container if targetIndex matches after children
-      if (!insertionPointFound && targetIndex === currentIndex) {
-        const newTextNode = $createTextNode(textToInsert);
-        $applyTextAttributes(attributes, newTextNode);
-        currentNode.append(newTextNode);
-        logger?.debug(
-          `Appended text "${textToInsert}" to end of container ` +
             `${currentNode.getType()} (key: ${currentNode.getKey()}).`,
         );
         insertionPointFound = true;
@@ -1224,7 +1142,7 @@ function $insertNodeAtCharacterOffset(
         // Case 2a: Insert *within* this TextNode
         if (!wasInserted && targetIndex > currentIndex && targetIndex < currentIndex + textLength) {
           const splitOffset = targetIndex - currentIndex;
-          const [headNode] = $splitTextWithDeltaStates(child, splitOffset);
+          const [headNode] = child.splitText(splitOffset);
           headNode.insertAfter(nodeToInsert);
           logger?.debug(
             `$insertNodeAtCharacterOffset: Inserted node ${nodeToInsert.getType()} ` +
@@ -1237,16 +1155,11 @@ function $insertNodeAtCharacterOffset(
           return true;
         }
         currentIndex += textLength;
-      } else if ($isAtomicEmbedNode(child)) {
+      } else if ($isEmbedNode(child)) {
         currentIndex += 1;
       } else if ($isCharNode(child)) {
         // CharNodes don't contribute to OT length, they're just formatted text containers
         // No OT length contribution for the CharNode itself
-        if ($traverseAndInsertRecursive(child)) return true;
-        // currentIndex is now after child's content and its own recursive calls
-      } else if ($isContainerEmbedNode(child)) {
-        // Container embeds have an OT length of 1, then their children are processed.
-        currentIndex += 1; // For the container tag itself
         if ($traverseAndInsertRecursive(child)) return true;
         // currentIndex is now after child's content and its own recursive calls
       } else if ($isSomeParaNode(child) || $isBookNode(child)) {
@@ -1326,12 +1239,11 @@ function $insertNodeAtCharacterOffset(
         wasInserted = true;
         return true;
       } else if (
-        // Appending to an existing container (ParaNode, ImpliedParaNode, CharNode, etc.)
+        // Appending to an existing container (ParaNode, ImpliedParaNode)
         // currentNode here is the container itself. currentIndex is at the point of currentNode's
         // closing marker. targetIndex === currentIndex means we are inserting at the conceptual end
         // of this container.
-        $isSomeParaNode(currentNode) ||
-        $isContainerEmbedNode(currentNode)
+        $isSomeParaNode(currentNode)
       ) {
         // If trying to insert a ParaNode at the closing marker of an ImpliedParaNode (this
         // container)
@@ -1450,23 +1362,31 @@ function $insertEmbedAtCurrentIndex(
 }
 
 /**
- * Handles inserting a newline (LF) character with para or book attributes.
+ * Handles inserting a newline (LF) character.
  * This can replace an ImpliedParaNode with a ParaNode or BookNode, or split a regular ParaNode
  * if the para attributes differ from the containing paragraph.
+ * When there are no attributes it splits a regular ParaNode into an ImpliedParaNode for the first
+ * part and keeps the second part as a ParaNode.
  * @param targetIndex - The index in the document's flat representation.
  * @param attributes - The attributes to use for creating the ParaNode or BookNode.
  * @param logger - Logger to use, if any.
  * @returns Always returns 1 (the LF character's OT length).
  */
-function $handleNewlineWithBlockAttributes(
+function $handleNewline(
   targetIndex: number,
-  attributes: AttributeMapWithPara | AttributeMapWithBook,
+  attributes: AttributeMap | undefined,
   logger?: LoggerBasic,
 ): number {
-  const root = $getRoot();
-  const _hasParaAttributes = hasParaAttributes(attributes);
-  const newBlockNode = _hasParaAttributes ? $createPara(attributes) : $createBook(attributes);
+  let _newBlockNode: ParaNode | BookNode | ImpliedParaNode | undefined;
+  if (hasParaAttributes(attributes)) {
+    _newBlockNode = $createPara(attributes.para);
+  } else if (hasBookAttributes(attributes)) {
+    _newBlockNode = $createBook(attributes.book);
+  }
+  _newBlockNode ??= $createImpliedParaNode();
+  const newBlockNode = _newBlockNode;
   const isNewParaNode = $isParaNode(newBlockNode);
+  const isNewImpliedParaNode = $isImpliedParaNode(newBlockNode);
   let currentIndex = 0;
   let foundTargetBlock = false;
 
@@ -1476,10 +1396,10 @@ function $handleNewlineWithBlockAttributes(
     if ($isTextNode(currentNode)) {
       const textLength = currentNode.getTextContentSize();
       // Check if targetIndex is within this text node
-      if (targetIndex >= currentIndex && targetIndex < currentIndex + textLength) {
+      if (targetIndex >= currentIndex && targetIndex <= currentIndex + textLength) {
         // Split is happening within a text node - need to check if we're in a ParaNode
         const parentPara = currentNode.getParent();
-        if ($isParaNode(parentPara) && isNewParaNode) {
+        if ($isParaNode(parentPara) && (isNewParaNode || isNewImpliedParaNode)) {
           // LF with attributes should ALWAYS split a regular ParaNode
           logger?.debug(
             `Splitting ParaNode (marker: ${parentPara.getMarker()}) with LF attributes at ` +
@@ -1488,97 +1408,33 @@ function $handleNewlineWithBlockAttributes(
 
           // Split the text node at the target position
           const splitOffset = targetIndex - currentIndex;
-          const beforeText = currentNode.getTextContent().slice(0, splitOffset);
-          const afterText = currentNode.getTextContent().slice(splitOffset);
+          const [headNode] = splitOffset > 0 ? currentNode.splitText(splitOffset) : [undefined];
 
-          // Create new ParaNode with original attributes (for the SECOND paragraph)
-          const secondParaNode = $createParaNode(
-            parentPara.getMarker(),
-            parentPara.getUnknownAttributes(),
-          );
-
-          // Set the current text node to contain only the before text
-          currentNode.setTextContent(beforeText);
-
-          // Move all content after the split to the second paragraph
-          const afterTextNode = afterText ? $createTextNode(afterText) : null;
-          if (afterTextNode) {
-            secondParaNode.append(afterTextNode);
+          // Move all content before the split to the new ParaNode
+          let prevSibling = headNode?.getPreviousSibling();
+          while (prevSibling) {
+            const siblingToMove = prevSibling;
+            prevSibling = prevSibling.getPreviousSibling();
+            const firstChild = newBlockNode.getFirstChild();
+            if (firstChild) {
+              firstChild.insertBefore(siblingToMove);
+            } else {
+              newBlockNode.append(siblingToMove);
+            }
           }
 
-          // Move subsequent siblings to the second paragraph
-          let nextSibling = currentNode.getNextSibling();
-          while (nextSibling) {
-            const siblingToMove = nextSibling;
-            nextSibling = nextSibling.getNextSibling();
-            secondParaNode.append(siblingToMove);
-          }
+          if (headNode) newBlockNode.append(headNode);
 
-          // Apply LF attributes to the FIRST paragraph (current one)
-          if (newBlockNode.getMarker() !== parentPara.getMarker()) {
-            parentPara.setMarker(newBlockNode.getMarker());
-          }
-          if (newBlockNode.getUnknownAttributes()) {
-            parentPara.setUnknownAttributes(newBlockNode.getUnknownAttributes());
-          }
-
-          // Insert the second paragraph after the first one
-          parentPara.insertAfter(secondParaNode);
-
-          foundTargetBlock = true;
-          return true;
-        }
-      }
-      // Check if targetIndex is exactly at the end of this text node (between siblings)
-      if (targetIndex === currentIndex + textLength) {
-        const parentPara = currentNode.getParent();
-        if ($isParaNode(parentPara) && isNewParaNode) {
-          // Split is happening between this text node and the next sibling
-          logger?.debug(
-            `Splitting ParaNode (marker: ${parentPara.getMarker()}) between siblings at ` +
-              `targetIndex ${targetIndex}`,
-          );
-
-          // Create new ParaNode with original attributes (for the SECOND paragraph)
-          const secondParaNode = $createParaNode(
-            parentPara.getMarker(),
-            parentPara.getUnknownAttributes(),
-          );
-
-          // Move subsequent siblings to the second paragraph
-          let nextSibling = currentNode.getNextSibling();
-          while (nextSibling) {
-            const siblingToMove = nextSibling;
-            nextSibling = nextSibling.getNextSibling();
-            secondParaNode.append(siblingToMove);
-          }
-
-          // Apply LF attributes to the FIRST paragraph (current one)
-          if (newBlockNode.getMarker() !== parentPara.getMarker()) {
-            parentPara.setMarker(newBlockNode.getMarker());
-          }
-          if (newBlockNode.getUnknownAttributes()) {
-            parentPara.setUnknownAttributes(newBlockNode.getUnknownAttributes());
-          }
-
-          // Insert the second paragraph after the first one
-          parentPara.insertAfter(secondParaNode);
+          // Insert the new paragraph before the existing one
+          parentPara.insertBefore(newBlockNode);
 
           foundTargetBlock = true;
           return true;
         }
       }
       currentIndex += textLength;
-    } else if ($isAtomicEmbedNode(currentNode)) {
+    } else if ($isEmbedNode(currentNode)) {
       currentIndex += 1;
-    } else if ($isContainerEmbedNode(currentNode)) {
-      // True container embeds have an OT length of 1 for their "tag", then their children are processed.
-      currentIndex += 1; // For the container tag itself
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if ($traverseAndHandleNewline(child)) return true;
-        if (foundTargetBlock) break;
-      }
     } else if ($isSomeParaNode(currentNode) || $isBookNode(currentNode)) {
       // First, process children to find current position
       const children = currentNode.getChildren();
@@ -1647,7 +1503,7 @@ function $handleNewlineWithBlockAttributes(
     return foundTargetBlock;
   }
 
-  $traverseAndHandleNewline(root);
+  $traverseAndHandleNewline($getRoot());
 
   if (!foundTargetBlock) {
     logger?.warn(
@@ -1660,214 +1516,13 @@ function $handleNewlineWithBlockAttributes(
   return 1; // LF always contributes 1 to the OT index
 }
 
-/**
- * Handles inserting a newline (LF) character without attributes.
- * This splits a regular ParaNode into an ImpliedParaNode for the first part
- * and keeps the second part as a ParaNode.
- * @param targetIndex - The index in the document's flat representation.
- * @param logger - Logger to use, if any.
- * @returns Always returns 1 (the LF character's OT length).
- */
-function $handleNewlineWithoutAttributes(targetIndex: number, logger?: LoggerBasic): number {
-  const root = $getRoot();
-  let currentIndex = 0;
-  let foundTargetPara = false;
-
-  function $traverseAndHandleNewline(currentNode: LexicalNode): boolean {
-    if (foundTargetPara) return true;
-
-    if ($isTextNode(currentNode)) {
-      const textLength = currentNode.getTextContentSize();
-      // Check if targetIndex is within this text node
-      if (targetIndex >= currentIndex && targetIndex < currentIndex + textLength) {
-        // Split is happening within a text node - check if we're in a ParaNode
-        const parentPara = currentNode.getParent();
-        if ($isParaNode(parentPara)) {
-          // LF without attributes should split ParaNode into ImpliedParaNode + ParaNode
-          logger?.debug(
-            `Splitting ParaNode (marker: ${parentPara.getMarker()}) without attributes at ` +
-              `targetIndex ${targetIndex}`,
-          );
-
-          // Split the text node at the target position
-          const splitOffset = targetIndex - currentIndex;
-          const beforeText = currentNode.getTextContent().slice(0, splitOffset);
-          const afterText = currentNode.getTextContent().slice(splitOffset);
-
-          // Create ImpliedParaNode for the first part
-          const firstImpliedParaNode = $createImpliedParaNode();
-
-          // Create ParaNode with original attributes for the second part
-          const secondParaNode = $createParaNode(
-            parentPara.getMarker(),
-            parentPara.getUnknownAttributes(),
-          );
-
-          // Add before text to the first ImpliedParaNode if it exists
-          if (beforeText) {
-            firstImpliedParaNode.append($createTextNode(beforeText));
-          }
-
-          // Move all content before the split to the first ImpliedParaNode
-          let prevSibling = currentNode.getPreviousSibling();
-          while (prevSibling) {
-            const siblingToMove = prevSibling;
-            prevSibling = prevSibling.getPreviousSibling();
-            const firstChild = firstImpliedParaNode.getFirstChild();
-            if (firstChild) {
-              firstChild.insertBefore(siblingToMove);
-            } else {
-              firstImpliedParaNode.append(siblingToMove);
-            }
-          }
-
-          // Add after text to the second ParaNode if it exists
-          if (afterText) {
-            secondParaNode.append($createTextNode(afterText));
-          }
-
-          // Move subsequent siblings to the second ParaNode
-          let nextSibling = currentNode.getNextSibling();
-          while (nextSibling) {
-            const siblingToMove = nextSibling;
-            nextSibling = nextSibling.getNextSibling();
-            secondParaNode.append(siblingToMove);
-          }
-
-          // Replace the original ParaNode with the first ImpliedParaNode
-          parentPara.replace(firstImpliedParaNode);
-
-          // Insert the second ParaNode after the first one
-          firstImpliedParaNode.insertAfter(secondParaNode);
-
-          foundTargetPara = true;
-          return true;
-        }
-      }
-      // Check if targetIndex is exactly at the end of this text node (between siblings)
-      if (targetIndex === currentIndex + textLength) {
-        const parentPara = currentNode.getParent();
-        if ($isParaNode(parentPara)) {
-          // Split is happening between this text node and the next sibling
-          logger?.debug(
-            `Splitting ParaNode (marker: ${parentPara.getMarker()}) between siblings without ` +
-              `attributes at targetIndex ${targetIndex}`,
-          );
-
-          // Create ImpliedParaNode for the first part
-          const firstImpliedParaNode = $createImpliedParaNode();
-
-          // Create ParaNode with original attributes for the second part
-          const secondParaNode = $createParaNode(
-            parentPara.getMarker(),
-            parentPara.getUnknownAttributes(),
-          );
-
-          // Move all content up to and including the current text node to the first ImpliedParaNode
-          let currentChild = parentPara.getFirstChild();
-          while (currentChild && currentChild !== currentNode.getNextSibling()) {
-            const childToMove = currentChild;
-            currentChild = currentChild.getNextSibling();
-            firstImpliedParaNode.append(childToMove);
-          }
-
-          // Move subsequent siblings to the second ParaNode
-          let nextSibling = currentNode.getNextSibling();
-          while (nextSibling) {
-            const siblingToMove = nextSibling;
-            nextSibling = nextSibling.getNextSibling();
-            secondParaNode.append(siblingToMove);
-          }
-
-          // Replace the original ParaNode with the first ImpliedParaNode
-          parentPara.replace(firstImpliedParaNode);
-
-          // Insert the second ParaNode after the first one
-          firstImpliedParaNode.insertAfter(secondParaNode);
-
-          foundTargetPara = true;
-          return true;
-        }
-      }
-      currentIndex += textLength;
-    } else if ($isAtomicEmbedNode(currentNode)) {
-      currentIndex += 1;
-    } else if ($isContainerEmbedNode(currentNode)) {
-      // True container embeds have an OT length of 1 for their "tag", then their children are processed.
-      currentIndex += 1; // For the container tag itself
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if ($traverseAndHandleNewline(child)) return true;
-        if (foundTargetPara) break;
-      }
-    } else if ($isSomeParaNode(currentNode) || $isBookNode(currentNode)) {
-      // First, process children to find current position
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if ($traverseAndHandleNewline(child)) return true;
-        if (foundTargetPara) break;
-      }
-
-      // currentIndex is now at the end of this para's content
-      // Check if targetIndex matches the para's closing marker position
-      if (targetIndex === currentIndex && !foundTargetPara) {
-        // This handles the case where we're inserting at the very end of a ParaNode. For LF without
-        // attributes, we only split if we're in a regular ParaNode (not ImpliedParaNode)
-        if ($isParaNode(currentNode)) {
-          logger?.debug(
-            `Splitting ParaNode (marker: ${currentNode.getMarker()}) at end without attributes ` +
-              `at targetIndex ${targetIndex}`,
-          );
-
-          // Create a new empty ParaNode for the second part
-          const newParaNode = $createParaNode(
-            currentNode.getMarker(),
-            currentNode.getUnknownAttributes(),
-          );
-
-          // Insert the new paragraph after the current one
-          currentNode.insertAfter(newParaNode);
-
-          foundTargetPara = true;
-          return true;
-        }
-      }
-
-      // Advance by 1 for the para's closing marker
-      currentIndex += 1;
-    } else if ($isElementNode(currentNode)) {
-      // Other ElementNodes that don't contribute to the OT length (like RootNode, CharNode)
-      const children = currentNode.getChildren();
-      for (const child of children) {
-        if ($traverseAndHandleNewline(child)) return true;
-        if (foundTargetPara) break;
-      }
-    }
-
-    return foundTargetPara;
-  }
-
-  $traverseAndHandleNewline(root);
-
-  if (!foundTargetPara) {
-    logger?.warn(
-      `Could not find location to handle newline without attributes at targetIndex ${
-        targetIndex
-      }. Final currentIndex: ${currentIndex}.`,
-    );
-  }
-
-  return 1; // LF always contributes 1 to the OT index
-}
-
-type AtomicEmbedNode = SomeChapterNode | SomeVerseNode | MilestoneNode | ImmutableUnmatchedNode;
+type EmbedNode = SomeChapterNode | SomeVerseNode | MilestoneNode | ImmutableUnmatchedNode;
 
 /**
- * Type guard to check if a node is a atomic embed (SomeChapterNode, SomeVerseNode, MilestoneNode,
- * or ImmutableUnmatchedNode). Atomic embeds have an OT length of 1 and are self-contained (no
- * children to process).
+ * Type guard to check if a node is an embed. Embeds have an OT length of 1 and are self-contained
+ * (no children to process).
  */
-function $isAtomicEmbedNode(node: LexicalNode): node is AtomicEmbedNode {
+function $isEmbedNode(node: LexicalNode): node is EmbedNode {
   return (
     $isSomeChapterNode(node) ||
     $isSomeVerseNode(node) ||
@@ -1875,14 +1530,6 @@ function $isAtomicEmbedNode(node: LexicalNode): node is AtomicEmbedNode {
     $isNoteNode(node) ||
     $isImmutableUnmatchedNode(node)
   );
-}
-
-/**
- * Type guard to check if a node is a true container embed that contributes 1 to OT length.
- * This excludes CharNodes which are just formatted text without OT tag contribution.
- */
-function $isContainerEmbedNode(node: LexicalNode): node is NoteNode | UnknownNode {
-  return $isNoteNode(node) || $isUnknownNode(node);
 }
 
 function $createChapter(chapterData: OTChapterEmbed, viewOptions: ViewOptions) {
@@ -1987,63 +1634,19 @@ function $createNote(op: Op, viewOptions: ViewOptions, nodeOptions: UsjNodeOptio
   return note;
 }
 
-function $createBook(attributes: AttributeMapWithBook) {
-  const { style, code } = attributes.book;
+function $createBook(bookAttributes: OTBookAttribute) {
+  const { style, code } = bookAttributes;
   if (!style || style !== BOOK_MARKER || !code || !BookNode.isValidBookCode(code)) return;
 
-  // Start with para-specific unknown attributes
-  let unknownAttributes = getUnknownAttributes(attributes.book, OT_BOOK_PROPS);
-
-  // Add non-para attributes from allAttributes if provided
-  if (attributes) {
-    const nonParaAttributes: Record<string, string> = {};
-
-    // Extract all non-para attributes as strings
-    for (const [key, value] of Object.entries(attributes)) {
-      if (key !== "book" && typeof value === "string") {
-        nonParaAttributes[key] = value;
-      }
-    }
-
-    // Merge with existing unknown attributes
-    if (Object.keys(nonParaAttributes).length > 0) {
-      unknownAttributes = {
-        ...(unknownAttributes ?? {}),
-        ...nonParaAttributes,
-      };
-    }
-  }
-
+  const unknownAttributes = getUnknownAttributes(bookAttributes, OT_BOOK_PROPS);
   return $createBookNode(code, unknownAttributes);
 }
 
-function $createPara(attributes: AttributeMapWithPara) {
-  const { style } = attributes.para;
+function $createPara(paraAttributes: OTParaAttribute) {
+  const { style } = paraAttributes;
   if (!style) return;
 
-  // Start with para-specific unknown attributes
-  let unknownAttributes = getUnknownAttributes(attributes.para, OT_PARA_PROPS);
-
-  // Add non-para attributes from allAttributes if provided
-  if (attributes) {
-    const nonParaAttributes: Record<string, string> = {};
-
-    // Extract all non-para attributes as strings
-    for (const [key, value] of Object.entries(attributes)) {
-      if (key !== "para" && typeof value === "string") {
-        nonParaAttributes[key] = value;
-      }
-    }
-
-    // Merge with existing unknown attributes
-    if (Object.keys(nonParaAttributes).length > 0) {
-      unknownAttributes = {
-        ...(unknownAttributes ?? {}),
-        ...nonParaAttributes,
-      };
-    }
-  }
-
+  const unknownAttributes = getUnknownAttributes(paraAttributes, OT_PARA_PROPS);
   return $createParaNode(style, unknownAttributes);
 }
 
@@ -2190,23 +1793,4 @@ const TEXT_FORMAT_TYPES: readonly TextFormatType[] = [
 function isTextFormatType(key: string): key is TextFormatType {
   // This cast is safe because TEXT_FORMAT_TYPES is readonly TextFormatType[]
   return (TEXT_FORMAT_TYPES as readonly string[]).includes(key);
-}
-
-/**
- * Helper function to split a text node while preserving delta states.
- * Fixed in https://github.com/facebook/lexical/pull/7641 but not released as of 2025-06-26.
- * TODO: Remove this when Lexical releases a version with the fix.
- */
-function $splitTextWithDeltaStates(textNode: TextNode, offset: number): [TextNode, TextNode] {
-  const [headNode, tailNode] = textNode.splitText(offset);
-
-  // Preserve delta states on the tail node if they exist (head is already preserved).
-  for (const state of deltaStates) {
-    const stateValue = $getState(textNode, state);
-    if (stateValue !== undefined) {
-      $setState(tailNode, state, () => stateValue);
-    }
-  }
-
-  return [headNode, tailNode];
 }
