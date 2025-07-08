@@ -28,6 +28,7 @@ import React, {
   useState,
 } from "react";
 import { usjReactNodes } from "shared-react/nodes/usj";
+import { $applyUpdate, Op } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
 import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
 import { ArrowNavigationPlugin } from "shared-react/plugins/usj/ArrowNavigationPlugin";
 import { CharNodePlugin } from "shared-react/plugins/usj/CharNodePlugin";
@@ -57,7 +58,11 @@ import {
 import { getDefaultViewOptions, getViewClassList } from "shared-react/views/view-options.utils";
 import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 import { TypedMarkNode } from "shared/nodes/features/TypedMarkNode";
-import { blackListedChangeTags, SELECTION_CHANGE_TAG } from "shared/nodes/usj/node-constants";
+import {
+  blackListedChangeTags,
+  DELTA_CHANGE_TAG,
+  SELECTION_CHANGE_TAG,
+} from "shared/nodes/usj/node-constants";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -67,6 +72,8 @@ export type EditorRef = {
   getUsj(): Usj | undefined;
   /** Set the USJ Scripture data. */
   setUsj(usj: Usj): void;
+  /** Apply Operational Transform delta update */
+  applyUpdate(ops: Op[]): void;
   /**
    * Get the selection location or range.
    * @returns the selection location or range, or `undefined` if there is no selection. The
@@ -198,8 +205,23 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
         setUsj(incomingUsj);
       }
     },
+    applyUpdate(ops) {
+      editorRef.current?.update(() => $applyUpdate(ops, viewOptions, nodeOptions, logger), {
+        tag: DELTA_CHANGE_TAG,
+        discrete: true,
+      });
+      const editorState = editorRef.current?.getEditorState();
+      if (!editorState) return;
+
+      const newUsj = editorUsjAdaptor.deserializeEditorState(editorState);
+      if (newUsj) {
+        const isEdited = !deepEqual(editedUsjRef.current, newUsj);
+        if (isEdited) editedUsjRef.current = newUsj;
+        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj);
+      }
+    },
     getSelection() {
-      return editorRef.current?.read(() => $getRangeFromEditor());
+      return editorRef.current?.read($getRangeFromEditor);
     },
     setSelection(selection) {
       editorRef.current?.update(

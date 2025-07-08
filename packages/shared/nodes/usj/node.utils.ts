@@ -3,6 +3,7 @@
 import { MARKER_OBJECT_PROPS, MarkerObject } from "@eten-tech-foundation/scripture-utilities";
 import {
   $getCommonAncestor,
+  $getState,
   $isElementNode,
   BaseSelection,
   LexicalEditor,
@@ -12,6 +13,7 @@ import {
   SerializedTextNode,
   TextNode,
 } from "lexical";
+import { charIdState } from "../collab/delta.state";
 import { $isUnknownNode, UnknownNode } from "../features/UnknownNode";
 import { $isBookNode, BookNode } from "./BookNode";
 import {
@@ -30,9 +32,9 @@ import {
 import { $isImpliedParaNode, ImpliedParaNode } from "./ImpliedParaNode";
 import { $isMilestoneNode, MilestoneNode } from "./MilestoneNode";
 import { $isNoteNode, NoteNode } from "./NoteNode";
-import { NBSP, UnknownAttributes } from "./node-constants";
 import { $isParaNode, ParaNode } from "./ParaNode";
 import { $isVerseNode, VerseNode } from "./VerseNode";
+import { NBSP, UnknownAttributes } from "./node-constants";
 
 export type NodesWithMarker =
   | BookNode
@@ -47,7 +49,8 @@ export type NodesWithMarker =
   | UnknownNode;
 
 // If you want use these utils with your own chapter node, add it to this list of types.
-type SomeChapterNode = ChapterNode | ImmutableChapterNode;
+export type SomeChapterNode = ChapterNode | ImmutableChapterNode;
+export type SomeParaNode = ParaNode | ImpliedParaNode;
 
 /** RegEx to test for a string only containing digits. */
 const ONLY_DIGITS_TEST = /^\d+$/;
@@ -208,6 +211,34 @@ export function $getPreviousNode(selection: RangeSelection): LexicalNode | null 
 
   const anchorNode = selection.anchor.getNode();
   return anchorNode.getPreviousSibling() ?? anchorNode.getParent()?.getPreviousSibling() ?? null;
+}
+
+/**
+ * Checks if the given node is a ParaNode or ImpliedParaNode.
+ * @param node - The node to check.
+ * @returns `true` if the node is a ParaNode or ImpliedParaNode, `false` otherwise.
+ */
+export function $isSomeParaNode(node: LexicalNode | null | undefined): node is SomeParaNode {
+  return $isParaNode(node) || $isImpliedParaNode(node);
+}
+
+/**
+ * Check if the given char attributes are the same as the ones in the CharNode.
+ * @param charAttributes - The char attributes to compare.
+ * @param charNode - The character node to compare against.
+ * @returns `true` if the attributes are the same, `false` otherwise.
+ */
+export function $hasSameCharAttributes(
+  charAttributes: { style: string; cid?: string },
+  charNode: CharNode,
+): boolean {
+  const charNodeCid = $getState(charNode, charIdState);
+  const bothHaveCid = !!(charAttributes.cid && charNodeCid);
+  const bothHaveNoCid = !charAttributes.cid && !charNodeCid;
+  return (
+    charAttributes.style === charNode.getMarker() &&
+    (bothHaveNoCid || (bothHaveCid && charAttributes.cid === charNodeCid))
+  );
 }
 
 /**
@@ -380,11 +411,15 @@ export function getNoteCallerPreviewText(childNodes: LexicalNode[]): string {
 /**
  * Remove all known properties of the `markerObject`.
  * @param markerObject - Scripture marker and its contents.
+ * @param markerObjectProps - List of known properties to remove. Defaults to `MARKER_OBJECT_PROPS`.
  * @returns all the unknown properties or `undefined` if all are known.
  */
-export function getUnknownAttributes(markerObject: MarkerObject): UnknownAttributes | undefined {
-  const attributes: Partial<MarkerObject> = { ...markerObject };
-  MARKER_OBJECT_PROPS.forEach((property) => delete attributes[property]);
+export function getUnknownAttributes<T extends object = MarkerObject>(
+  markerObject: T,
+  markerObjectProps: (keyof T)[] = MARKER_OBJECT_PROPS as (keyof T)[],
+): UnknownAttributes | undefined {
+  const attributes: Partial<T> = { ...markerObject };
+  markerObjectProps.forEach((property) => delete attributes[property]);
   return Object.keys(attributes).length === 0 ? undefined : (attributes as UnknownAttributes);
 }
 

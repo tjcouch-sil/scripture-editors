@@ -55,7 +55,7 @@ export function LoadStatePlugin<TLogger extends LoggerBasic>({
     } catch {
       logger?.error("LoadStatePlugin: error parsing or setting editor state.");
     }
-  }, [editor, scripture, viewOptions, editorAdaptor]);
+  }, [editor, editorAdaptor, logger, scripture, viewOptions]);
 
   return null;
 }

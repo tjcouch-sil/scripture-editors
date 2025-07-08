@@ -1,0 +1,74 @@
+{
+  "README": "Run up the demo app `nx dev platform`. Click 'Empty Editor'. Paste in the array of ops from 'Initial document 1' and click 'Apply Ops'. Follow with the other array of ops.",
+  "Initial document 1": [
+    { "insert": "- My Project " },
+    { "insert": "\n", "attributes": { "book": { "style": "id", "code": "GEN" } } },
+    { "insert": { "chapter": { "number": "1", "style": "c" } } },
+    { "insert": { "verse": { "number": "1", "style": "v" } } },
+    { "insert": "v1 text " },
+    {
+      "insert": "\n",
+      "attributes": {
+        "para": {
+          "style": "p"
+        }
+      }
+    },
+    { "insert": { "verse": { "number": "3", "style": "v" } } },
+    {
+      "insert": "v2 text",
+      "attributes": {
+        "segment": "verse_1_2"
+      }
+    },
+    {
+      "attributes": { "segment": "verse_1_2" },
+      "insert": {
+        "note": {
+          "style": "f",
+          "caller": "+",
+          "contents": {
+            "ops": [
+              {
+                "insert": "1.2 ",
+                "attributes": {
+                  "char": {
+                    "style": "fr",
+                    "closed": "false",
+                    "cid": "a4f30846-b45c-4bc0-aebe-103dd36a9af3"
+                  }
+                }
+              },
+              {
+                "insert": "no comment.",
+                "attributes": {
+                  "char": {
+                    "style": "ft",
+                    "closed": "false",
+                    "cid": "6b911d54-dd6f-41a8-948e-52c7bd03aeb6"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    { "insert": { "ms": { "style": "ts-s", "sid": "TS1" } } },
+    {
+      "insert": "\n",
+      "attributes": {
+        "para": {
+          "style": "q1"
+        }
+      }
+    }
+  ],
+  "Insert in v1 text: 13 + 1 + 1 + 1 + 3": [{ "retain": 19 }, { "insert": "new " }],
+  "Delete the insert above": [{ "retain": 19 }, { "delete": 4 }],
+  "Change v3 to v2: 13 + 1 + 1 + 1 + 8 + 1": [
+    { "retain": 25 },
+    { "insert": { "verse": { "number": "2", "style": "v" } } },
+    { "delete": 1 }
+  ]
+}

@@ -1,8 +1,10 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { deepEqual } from "fast-equals";
-import { LexicalEditor } from "lexical";
+import { $getState, LexicalEditor } from "lexical";
 import { useEffect } from "react";
+import { charIdState } from "shared/nodes/collab/delta.state";
 import { $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
+import { $hasSameCharAttributes } from "shared/nodes/usj/node.utils";
 
 /** Combine adjacent CharNodes with the same attributes. */
 export function CharNodePlugin(): null {
@@ -34,13 +36,16 @@ function $charNodeTransform(node: CharNode): void {
     return;
   }
 
+  const style = node.getMarker();
+  const cid = $getState(node, charIdState);
+  const unknownAttributes = node.getUnknownAttributes();
   const nextNode = node.getNextSibling();
   if (
     $isCharNode(nextNode) &&
-    node.getMarker() === nextNode.getMarker() &&
-    deepEqual(node.getUnknownAttributes(), nextNode.getUnknownAttributes())
+    $hasSameCharAttributes({ style, cid }, nextNode) &&
+    deepEqual(unknownAttributes, nextNode.getUnknownAttributes())
   ) {
-    // Combine with next CharNode if it has the same attributes.
+    // Combine with next CharNode since it has the same attributes.
     node.append(...nextNode.getChildren());
     nextNode.remove();
   }
@@ -48,10 +53,10 @@ function $charNodeTransform(node: CharNode): void {
   const prevNode = node.getPreviousSibling();
   if (
     $isCharNode(prevNode) &&
-    node.getMarker() === prevNode.getMarker() &&
-    deepEqual(node.getUnknownAttributes(), prevNode.getUnknownAttributes())
+    $hasSameCharAttributes({ style, cid }, prevNode) &&
+    deepEqual(unknownAttributes, prevNode.getUnknownAttributes())
   ) {
-    // Combine with previous CharNode if it has the same attributes.
+    // Combine with previous CharNode since it has the same attributes.
     prevNode.append(...node.getChildren());
     node.remove();
   }
