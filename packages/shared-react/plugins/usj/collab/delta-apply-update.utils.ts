@@ -1,4 +1,14 @@
 import {
+  $createImmutableNoteCallerNode,
+  ImmutableNoteCallerNode,
+  immutableNoteCallerNodeName,
+  OnClick,
+} from "../../../nodes/usj/ImmutableNoteCallerNode";
+import { $createImmutableVerseNode } from "../../../nodes/usj/ImmutableVerseNode";
+import { $isSomeVerseNode, SomeVerseNode } from "../../../nodes/usj/node-react.utils";
+import { UsjNodeOptions } from "../../../nodes/usj/usj-node-options.model";
+import { ViewOptions } from "../../../views/view-options.utils";
+import {
   OT_BOOK_PROPS,
   OT_CHAPTER_PROPS,
   OT_CHAR_PROPS,
@@ -29,16 +39,6 @@ import {
   TextNode,
 } from "lexical";
 import { AttributeMap, Op } from "quill-delta";
-import {
-  $createImmutableNoteCallerNode,
-  ImmutableNoteCallerNode,
-  immutableNoteCallerNodeName,
-  OnClick,
-} from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { $createImmutableVerseNode } from "shared-react/nodes/usj/ImmutableVerseNode";
-import { $isSomeVerseNode, SomeVerseNode } from "shared-react/nodes/usj/node-react.utils";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { ViewOptions } from "shared-react/views/view-options.utils";
 import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
 import {
@@ -74,6 +74,8 @@ import {
 import { $createNoteNode, $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
 import { $createParaNode, $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
 import { $createVerseNode } from "shared/nodes/usj/VerseNode";
+
+export { Op } from "quill-delta";
 
 type AttributeMapWithPara = AttributeMap & {
   para: OTParaAttribute;

@@ -1,4 +1,15 @@
-import { $applyUpdate, LF } from "./delta.utils";
+import {
+  $createImmutableNoteCallerNode,
+  $isImmutableNoteCallerNode,
+  GENERATOR_NOTE_CALLER,
+} from "../../../nodes/usj/ImmutableNoteCallerNode";
+import { $createImmutableVerseNode } from "../../../nodes/usj/ImmutableVerseNode";
+import { $isSomeVerseNode } from "../../../nodes/usj/node-react.utils";
+import { UsjNodeOptions } from "../../../nodes/usj/usj-node-options.model";
+import { CharNodePlugin } from "../../../plugins/usj/CharNodePlugin";
+import { baseTestEnvironment } from "../../../plugins/usj/react-test.utils";
+import { getDefaultViewOptions, ViewOptions } from "../../../views/view-options.utils";
+import { $applyUpdate, LF } from "./delta-apply-update.utils";
 import { act } from "@testing-library/react";
 import {
   $createTextNode,
@@ -9,17 +20,6 @@ import {
   LexicalEditor,
 } from "lexical";
 import Delta, { Op } from "quill-delta";
-import {
-  $createImmutableNoteCallerNode,
-  $isImmutableNoteCallerNode,
-  GENERATOR_NOTE_CALLER,
-} from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { $createImmutableVerseNode } from "shared-react/nodes/usj/ImmutableVerseNode";
-import { $isSomeVerseNode } from "shared-react/nodes/usj/node-react.utils";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { CharNodePlugin } from "shared-react/plugins/usj/CharNodePlugin";
-import { baseTestEnvironment } from "shared-react/plugins/usj/react-test.utils";
-import { getDefaultViewOptions, ViewOptions } from "shared-react/views/view-options.utils";
 import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
 import { $createBookNode, $isBookNode } from "shared/nodes/usj/BookNode";
 import { $isCharNode, $createCharNode } from "shared/nodes/usj/CharNode";

@@ -1,4 +1,5 @@
 {
+  "README": "Run up the demo app `nx dev platform`. Click 'Empty Editor'. Paste in the array of ops from 'Initial document 1' and click 'Apply Ops'. Follow with the other array of ops.",
   "Initial document 1": [
     { "insert": "- My Project " },
     { "insert": "\n", "attributes": { "book": { "style": "id", "code": "GEN" } } },

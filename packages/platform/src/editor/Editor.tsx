@@ -1,4 +1,3 @@
-import { $applyUpdate } from "../collab/delta.utils";
 import OptionChangePlugin from "./OptionChangePlugin";
 import ScriptureReferencePlugin from "./ScriptureReferencePlugin";
 import TreeViewPlugin from "./TreeViewPlugin";
@@ -19,7 +18,6 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { SerializedVerseRef } from "@sillsdev/scripture";
 import { deepEqual } from "fast-equals";
 import { $setSelection, EditorState, LexicalEditor } from "lexical";
-import { Op } from "quill-delta";
 import React, {
   JSX,
   PropsWithChildren,
@@ -30,6 +28,7 @@ import React, {
   useState,
 } from "react";
 import { usjReactNodes } from "shared-react/nodes/usj";
+import { $applyUpdate, Op } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
 import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
 import { ArrowNavigationPlugin } from "shared-react/plugins/usj/ArrowNavigationPlugin";
 import { CharNodePlugin } from "shared-react/plugins/usj/CharNodePlugin";
