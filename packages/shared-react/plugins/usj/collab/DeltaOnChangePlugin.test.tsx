@@ -1,5 +1,11 @@
+import {
+  $createImmutableVerseNode,
+  $isImmutableVerseNode,
+  ImmutableVerseNode,
+} from "../../../nodes/usj/ImmutableVerseNode";
 import { baseTestEnvironment } from "../react-test.utils";
 import { OnChangePlugin } from "./DeltaOnChangePlugin";
+import { act } from "@testing-library/react";
 import {
   $createTextNode,
   $getRoot,
@@ -8,19 +14,23 @@ import {
   LexicalEditor,
   TextNode,
   $setState,
+  $getState,
 } from "lexical";
 import { Op } from "quill-delta";
-import { charIdState } from "shared/nodes/collab/delta.state";
+import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
 import { $createBookNode } from "shared/nodes/usj/BookNode";
 import { $createCharNode } from "shared/nodes/usj/CharNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $createImmutableVerseNode } from "shared-react/nodes/usj/ImmutableVerseNode";
+import {
+  $createImmutableChapterNode,
+  $isImmutableChapterNode,
+  ImmutableChapterNode,
+} from "shared/nodes/usj/ImmutableChapterNode";
 import {
   $createImpliedParaNode,
   $isImpliedParaNode,
   ImpliedParaNode,
 } from "shared/nodes/usj/ImpliedParaNode";
-import { typeTextAtSelection } from "shared/nodes/usj/test.utils";
+import { $typeTextAtSelection, typeTextAtSelection } from "shared/nodes/usj/test.utils";
 
 let updateOps: Op[];
 
@@ -39,7 +49,7 @@ describe("OnChangePlugin", () => {
     });
   });
 
-  describe("Text Operations", () => {
+  describe("Text-only Operations", () => {
     it("should get character inserts when typing in an implied paragraph", async () => {
       let impliedPara: ImpliedParaNode;
       const { editor } = await testEnvironment(() => {
@@ -49,9 +59,9 @@ describe("OnChangePlugin", () => {
 
       // Defined by the test environment.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await typeTextAtSelection(editor, "a", impliedPara!, 0);
+      await typeTextAtSelection(editor, "a", impliedPara!, 0, undefined, undefined, "verse_3_16");
 
-      expect(updateOps).toEqual([{ insert: "a" }]);
+      expect(updateOps).toEqual([{ insert: "a", attributes: { segment: "verse_3_16" } }]);
       editor.getEditorState().read(() => {
         const root = $getRoot();
         expect(root.getChildrenSize()).toBe(1);
@@ -63,21 +73,23 @@ describe("OnChangePlugin", () => {
         const t1 = p.getFirstChild();
         if (!$isTextNode(t1)) throw new Error("Expected a TextNode");
         expect(t1.getTextContent()).toBe("a");
+        expect($getState(t1, segmentState)).toBe("verse_3_16");
       });
     });
 
     it("should get character inserts when typing in a text node at the beginning", async () => {
       let textNode: TextNode;
       const { editor } = await testEnvironment(() => {
-        textNode = $createTextNode("a");
+        textNode = $createTextNode("b");
+        $setState(textNode, segmentState, "verse_3_16");
         $getRoot().append($createImpliedParaNode().append(textNode));
       });
 
       // Defined by the test environment.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      await typeTextAtSelection(editor, "b", textNode!, 1);
+      await typeTextAtSelection(editor, "a", textNode!, 0);
 
-      expect(updateOps).toEqual([{ retain: 1 }, { insert: "b" }]);
+      expect(updateOps).toEqual([{ insert: "a", attributes: { segment: "verse_3_16" } }]);
       editor.getEditorState().read(() => {
         const root = $getRoot();
         expect(root.getChildrenSize()).toBe(1);
@@ -89,6 +101,38 @@ describe("OnChangePlugin", () => {
         const t1 = p.getFirstChild();
         if (!$isTextNode(t1)) throw new Error("Expected a TextNode");
         expect(t1.getTextContent()).toBe("ab");
+        expect($getState(t1, segmentState)).toBe("verse_3_16");
+      });
+    });
+
+    it("should get character inserts when typing in a text node at the end", async () => {
+      let textNode: TextNode;
+      const { editor } = await testEnvironment(() => {
+        textNode = $createTextNode("a");
+        $setState(textNode, segmentState, "verse_3_16");
+        $getRoot().append($createImpliedParaNode().append(textNode));
+      });
+
+      // Defined by the test environment.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      await typeTextAtSelection(editor, "b", textNode!, 1);
+
+      expect(updateOps).toEqual([
+        { retain: 1 },
+        { insert: "b", attributes: { segment: "verse_3_16" } },
+      ]);
+      editor.getEditorState().read(() => {
+        const root = $getRoot();
+        expect(root.getChildrenSize()).toBe(1);
+
+        const p = root.getFirstChild();
+        if (!$isImpliedParaNode(p)) throw new Error("Expected an ImpliedParaNode");
+        expect(p.getChildrenSize()).toBe(1);
+
+        const t1 = p.getFirstChild();
+        if (!$isTextNode(t1)) throw new Error("Expected a TextNode");
+        expect(t1.getTextContent()).toBe("ab");
+        expect($getState(t1, segmentState)).toBe("verse_3_16");
       });
     });
 
@@ -118,6 +162,7 @@ describe("OnChangePlugin", () => {
         const t1 = p.getFirstChild();
         if (!$isTextNode(t1)) throw new Error("Expected a TextNode");
         expect(t1.getTextContent()).toBe("abc");
+        expect($getState(t1, segmentState)).toBeUndefined();
       });
     });
 
@@ -147,7 +192,7 @@ describe("OnChangePlugin", () => {
       });
     });
 
-    it("should handle complex OT position calculation with chapters, verses, and char nodes", async () => {
+    it("should handle complex OT text position calculation with chapters, verses, and char nodes", async () => {
       let textNode: TextNode;
       const { editor } = await testEnvironment(() => {
         const char = $createCharNode("wj");
@@ -187,6 +232,83 @@ describe("OnChangePlugin", () => {
         const impliedPara = root.getChildAtIndex(1);
         if (!$isImpliedParaNode(impliedPara)) throw new Error("Expected ImpliedParaNode");
         expect(impliedPara.getChildrenSize()).toBe(4); // VerseNode, CharNode, VerseNode, TextNode
+
+        const t2 = impliedPara.getChildAtIndex(3);
+        if (!$isTextNode(t2)) throw new Error("Expected TextNode");
+        expect(t2.getTextContent()).toBe("and all the brethren who are with me");
+      });
+    });
+  });
+
+  describe("Mixed Operations", () => {
+    it("should handle complex OT position calculation with chapters, verses, and char nodes", async () => {
+      let ch1: ImmutableChapterNode;
+      let v1: ImmutableVerseNode;
+      let v2: ImmutableVerseNode;
+      let textNode: TextNode;
+      const { editor } = await testEnvironment(() => {
+        ch1 = $createImmutableChapterNode("2");
+        v1 = $createImmutableVerseNode("2");
+        const char = $createCharNode("wj");
+        $setState(char, charIdState, "afd886c6-2397-4e4c-8a94-696bf9f2e545");
+        v2 = $createImmutableVerseNode("3");
+        textNode = $createTextNode("and all the brothers who are with me");
+        $getRoot().append(
+          ch1,
+          $createImpliedParaNode().append(
+            v1,
+            char.append($createTextNode("It is finished.")), // length: 15
+            v2,
+            textNode,
+          ),
+        );
+      });
+
+      await act(async () => {
+        editor.update(() => {
+          ch1.setNumber("1");
+          v1.setNumber("1");
+          v2.setNumber("2");
+          // Select after "and all the " (12) and all of "brothers" (8 long) 12 + 8 = 20.
+          // Defined by the test environment.
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          $typeTextAtSelection("brethren", textNode!, 12, textNode!, 20);
+        });
+      });
+
+      expect(updateOps).toEqual([
+        { insert: { chapter: { number: "1", style: "c" } } },
+        { insert: { verse: { number: "1", style: "v" } } },
+        { delete: 2 },
+        { retain: 15 }, // char text
+        { insert: { verse: { number: "2", style: "v" } } },
+        { delete: 1 },
+        { retain: 14 }, // "and all the br"
+        { insert: "e" },
+        { delete: 1 },
+        { retain: 2 },
+        { insert: "ren" },
+        { delete: 3 },
+      ]);
+      editor.getEditorState().read(() => {
+        const root = $getRoot();
+        expect(root.getChildrenSize()).toBe(2); // Chapter, ImpliedParaNode
+
+        const ch1 = root.getChildAtIndex(0);
+        if (!$isImmutableChapterNode(ch1)) throw new Error("Expected ImmutableChapterNode");
+        expect(ch1.getNumber()).toBe("1");
+
+        const impliedPara = root.getChildAtIndex(1);
+        if (!$isImpliedParaNode(impliedPara)) throw new Error("Expected ImpliedParaNode");
+        expect(impliedPara.getChildrenSize()).toBe(4); // VerseNode, CharNode, VerseNode, TextNode
+
+        const v1 = impliedPara.getChildAtIndex(0);
+        if (!$isImmutableVerseNode(v1)) throw new Error("Expected ImmutableVerseNode");
+        expect(v1.getNumber()).toBe("1");
+
+        const v2 = impliedPara.getChildAtIndex(2);
+        if (!$isImmutableVerseNode(v2)) throw new Error("Expected ImmutableVerseNode");
+        expect(v2.getNumber()).toBe("2");
 
         const t2 = impliedPara.getChildAtIndex(3);
         if (!$isTextNode(t2)) throw new Error("Expected TextNode");

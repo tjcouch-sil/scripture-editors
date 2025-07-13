@@ -3,11 +3,12 @@
  */
 
 import {
-  $isClosingParaLikeNode,
+  $isElementNodeClosing,
   $isEmbedNode,
   $isParaLikeNode,
   ParaLikeNode,
 } from "./delta-common.utils";
+import { $getTextOp, getEditorDelta } from "./editor-delta.adaptor";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $dfs, DFSNode } from "@lexical/utils";
 import type { EditorState, LexicalEditor, LexicalNode, UpdateListenerPayload } from "lexical";
@@ -15,6 +16,7 @@ import { $getNodeByKey, $isTextNode, HISTORY_MERGE_TAG } from "lexical";
 import Delta, { Op } from "quill-delta";
 import { useLayoutEffect } from "react";
 
+/** Adapted from the LexicalOnChangePlugin to include collaborative editing operations. */
 export function OnChangePlugin({
   ignoreHistoryMergeTagChange = true,
   ignoreSelectionChange = false,
@@ -53,16 +55,24 @@ function $getUpdateOps(
 ): Op[] {
   let update = new Delta();
   editor.getEditorState().read(() => {
-    for (const nodeKey of dirtyLeaves) {
-      const prevNode = $getNodeByKey(nodeKey, prevEditorState);
+    const nodeKey = dirtyLeaves.values().next().value ?? "";
+    if (dirtyLeaves.size === 1 && $isTextNode($getNodeByKey(nodeKey))) {
+      // Handle the most common case of text changing in a single text node.
       const node = $getNodeByKey(nodeKey);
       const retain = $getNodeOTPosition(node);
       if ($isTextNode(node)) {
-        const prevTextDoc = new Delta([{ insert: $isTextNode(prevNode) ? prevNode.__text : "" }]);
-        const textDoc = new Delta([{ insert: node.__text }]);
+        const prevTextDoc = prevEditorState.read(() => {
+          const prevNode = $getNodeByKey(nodeKey);
+          return new Delta([$isTextNode(prevNode) ? $getTextOp(prevNode) : { insert: "" }]);
+        });
+        const textDoc = new Delta([$getTextOp(node)]);
         const nodePositionRetain = new Delta(retain > 0 ? [{ retain }] : []);
         update = update.concat(nodePositionRetain).concat(prevTextDoc.diff(textDoc));
       }
+    } else {
+      const prevDoc = getEditorDelta(prevEditorState);
+      const currentDoc = getEditorDelta(editor.getEditorState());
+      update = prevDoc.diff(currentDoc);
     }
   });
   return update.ops;
@@ -123,7 +133,7 @@ function $calculateParaLikeNodeOTLength(
     openParaLikeNodes.push(currentNode);
   }
 
-  if ($isClosingParaLikeNode(currentNode, currentIndex, dfsNodes)) {
+  if ($isElementNodeClosing(currentNode, dfsNodes[currentIndex + 1])) {
     // Remove from open nodes and return 1 for the closing
     const index = openParaLikeNodes.indexOf(currentNode);
     if (index > -1) {

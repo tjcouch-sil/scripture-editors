@@ -1,8 +1,8 @@
 /** Common utilities used for OT Delta realtime collaborative editing. */
 
+import { $isSomeVerseNode, SomeVerseNode } from "../../../nodes/usj/node-react.utils";
 import { DFSNode } from "@lexical/utils";
-import { LexicalNode } from "lexical";
-import { SomeVerseNode, $isSomeVerseNode } from "shared-react/nodes/usj/node-react.utils";
+import { ElementNode, LexicalNode } from "lexical";
 import {
   ImmutableUnmatchedNode,
   $isImmutableUnmatchedNode,
@@ -25,6 +25,9 @@ export type EmbedNode =
   | ImmutableUnmatchedNode;
 
 export type ParaLikeNode = SomeParaNode | BookNode;
+
+/** Line Feed character used to close para-like nodes.*/
+export const LF = "\n";
 
 /**
  * Type guard to check if a node is an embed. Embeds have an OT length of 1 and are self-contained
@@ -49,18 +52,17 @@ export function $isParaLikeNode(node: LexicalNode | null | undefined): node is P
 }
 
 /**
- * Check if a para-like node is being closed at this point in the DFS traversal.
+ * Check if an element node is being closed at this point in the DFS traversal.
  */
-export function $isClosingParaLikeNode(
-  node: ParaLikeNode,
-  currentIndex: number,
-  dfsNodes: DFSNode[],
+export function $isElementNodeClosing(
+  node: ElementNode | undefined,
+  nextDfsNode: DFSNode | undefined,
 ): boolean {
-  // A para-like node is closing if the next node in DFS is not a descendant.
+  if (!node) return false;
+
+  // An element node is closing if the next node in DFS is not a descendant.
   // In DFS, all descendants of a node appear consecutively after the node.
   // Look at the next node
-  const nextDfsNode = dfsNodes[currentIndex + 1];
-
   if (!nextDfsNode) {
     // End of traversal, so this node is closing
     return true;

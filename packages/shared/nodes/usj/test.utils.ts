@@ -1,3 +1,4 @@
+import { segmentState } from "../collab/delta.state";
 import { usjBaseNodes } from ".";
 import { act } from "@testing-library/react";
 import {
@@ -9,6 +10,7 @@ import {
   $isElementNode,
   $isRangeSelection,
   $setSelection,
+  $setState,
   CreateEditorArgs,
   KEY_DOWN_COMMAND,
   KEY_ENTER_COMMAND,
@@ -61,8 +63,6 @@ export function createBasicTestEnvironment(
  * Sets the selection range in the LexicalEditor.
  *
  * @param editor - The LexicalEditor instance where the selection will be set.
- * @param $createNoteNodeToInsert - A callback function to create the NoteNode to insert at the
- *   selection.
  * @param startNode - The starting LexicalNode of the selection.
  * @param startOffset - The offset within the startNode where the selection begins. Defaults to the
  *   end of the startNode's text content.
@@ -193,9 +193,10 @@ export async function pressKey(editor: LexicalEditor, key: string): Promise<void
 }
 
 /**
- * Type text after the selection point in the LexicalEditor.
+ * Type text after the node in the LexicalEditor.
  *
  * @param editor - The LexicalEditor instance where the selection will be set.
+ * @param text - The text to type after the selection.
  * @param node - The LexicalNode after which the selection will start.
  * @param startOffset - The offset within the startNode (after `node`) where the selection begins.
  *   Defaults to the end of the startNode's text content.
@@ -231,12 +232,14 @@ export async function typeTextAfterNode(
  * Type text at the selection point in the LexicalEditor.
  *
  * @param editor - The LexicalEditor instance where the selection will be set.
+ * @param text - The text to type at the selection.
  * @param startNode - The starting LexicalNode of the selection.
  * @param startOffset - The offset within the startNode where the selection begins. Defaults to the
  *   end of the startNode's text content.
  * @param endNode - The ending LexicalNode of the selection to delete. Defaults to the startNode.
  * @param endOffset - The offset within the endNode where the deletion ends. Defaults to the
  *   end of the endNode's text content.
+ * @param segment - Optional segment attribute to set on the inserted text.
  */
 export async function typeTextAtSelection(
   editor: LexicalEditor,
@@ -245,33 +248,63 @@ export async function typeTextAtSelection(
   startOffset?: number,
   endNode?: LexicalNode,
   endOffset?: number,
+  segment?: string,
 ) {
   await act(async () => {
     editor.update(() => {
-      startOffset ??= startNode.getTextContentSize();
-      endOffset ??= endNode ? endNode.getTextContentSize() : startOffset;
-      endNode ??= startNode;
-      const rangeSelection = $createRangeSelection();
-      rangeSelection.anchor = $createPoint(
-        startNode.getKey(),
-        startOffset,
-        $isElementNode(startNode) ? "element" : "text",
-      );
-      rangeSelection.focus = $createPoint(
-        endNode.getKey(),
-        endOffset,
-        $isElementNode(endNode) ? "element" : "text",
-      );
-      $setSelection(rangeSelection);
-      rangeSelection.insertText(text);
+      $typeTextAtSelection(text, startNode, startOffset, endNode, endOffset, segment);
     });
   });
+}
+
+/**
+ * Type text at the selection point in the LexicalEditor.
+ *
+ * @param text - The text to type at the selection.
+ * @param startNode - The starting LexicalNode of the selection.
+ * @param startOffset - The offset within the startNode where the selection begins. Defaults to the
+ *   end of the startNode's text content.
+ * @param endNode - The ending LexicalNode of the selection to delete. Defaults to the startNode.
+ * @param endOffset - The offset within the endNode where the deletion ends. Defaults to the
+ *   end of the endNode's text content.
+ * @param segment - Optional segment attribute to set on the inserted text.
+ */
+export function $typeTextAtSelection(
+  text: string,
+  startNode: LexicalNode,
+  startOffset?: number | undefined,
+  endNode?: LexicalNode | undefined,
+  endOffset?: number | undefined,
+  segment?: string | undefined,
+) {
+  startOffset ??= startNode.getTextContentSize();
+  endOffset ??= endNode ? endNode.getTextContentSize() : startOffset;
+  endNode ??= startNode;
+  const rangeSelection = $createRangeSelection();
+  rangeSelection.anchor = $createPoint(
+    startNode.getKey(),
+    startOffset,
+    $isElementNode(startNode) ? "element" : "text",
+  );
+  rangeSelection.focus = $createPoint(
+    endNode.getKey(),
+    endOffset,
+    $isElementNode(endNode) ? "element" : "text",
+  );
+  $setSelection(rangeSelection);
+  rangeSelection.insertText(text);
+  if (segment !== undefined) {
+    rangeSelection.getNodes().forEach((node) => {
+      $setState(node, segmentState, segment);
+    });
+  }
 }
 
 /**
  * Creates text at the selection point in the LexicalEditor.
  *
  * @param editor - The LexicalEditor instance where the selection will be set.
+ * @param text - The text to create at the selection.
  * @param startNode - The starting LexicalNode of the selection.
  * @param startOffset - The offset within the startNode where the selection begins. Defaults to the
  *   end of the startNode's text content.
