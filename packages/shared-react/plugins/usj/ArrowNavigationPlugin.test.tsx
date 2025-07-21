@@ -2,14 +2,14 @@ import { $createImmutableNoteCallerNode } from "../../nodes/usj/ImmutableNoteCal
 import { $createImmutableVerseNode } from "../../nodes/usj/ImmutableVerseNode";
 import { ArrowNavigationPlugin } from "./ArrowNavigationPlugin";
 import { TextDirectionPlugin } from "./TextDirectionPlugin";
-import { baseTestEnvironment } from "./react-test.utils";
+import { baseTestEnvironment, pressKey } from "./react-test.utils";
 import { $createTextNode, $getRoot, TextNode } from "lexical";
 import { $createCharNode } from "shared/nodes/usj/CharNode";
 import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
 import { $createImpliedParaNode, ImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
 import { $createNoteNode } from "shared/nodes/usj/NoteNode";
 import { $createParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
-import { $expectSelectionToBe, pressKey, updateSelection } from "shared/nodes/usj/test.utils";
+import { $expectSelectionToBe, updateSelection } from "shared/nodes/usj/test.utils";
 
 let paraNode: ParaNode | ImpliedParaNode;
 let v1TextNode: TextNode;

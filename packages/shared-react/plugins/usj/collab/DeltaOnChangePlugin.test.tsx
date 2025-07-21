@@ -3,9 +3,13 @@ import {
   $isImmutableVerseNode,
   ImmutableVerseNode,
 } from "../../../nodes/usj/ImmutableVerseNode";
-import { baseTestEnvironment } from "../react-test.utils";
+import {
+  $typeTextAtSelection,
+  baseTestEnvironment,
+  sutUpdate,
+  typeTextAtSelection,
+} from "../react-test.utils";
 import { OnChangePlugin } from "./DeltaOnChangePlugin";
-import { act } from "@testing-library/react";
 import {
   $createTextNode,
   $getRoot,
@@ -30,7 +34,6 @@ import {
   $isImpliedParaNode,
   ImpliedParaNode,
 } from "shared/nodes/usj/ImpliedParaNode";
-import { $typeTextAtSelection, typeTextAtSelection } from "shared/nodes/usj/test.utils";
 
 let updateOps: Op[];
 
@@ -264,16 +267,14 @@ describe("OnChangePlugin", () => {
         );
       });
 
-      await act(async () => {
-        editor.update(() => {
-          ch1.setNumber("1");
-          v1.setNumber("1");
-          v2.setNumber("2");
-          // Select after "and all the " (12) and all of "brothers" (8 long) 12 + 8 = 20.
-          // Defined by the test environment.
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          $typeTextAtSelection("brethren", textNode!, 12, textNode!, 20);
-        });
+      await sutUpdate(editor, () => {
+        ch1.setNumber("1");
+        v1.setNumber("1");
+        v2.setNumber("2");
+        // Select after "and all the " (12) and all of "brothers" (8 long) 12 + 8 = 20.
+        // Defined by the test environment.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        $typeTextAtSelection("brethren", textNode!, 12, textNode!, 20);
       });
 
       expect(updateOps).toEqual([

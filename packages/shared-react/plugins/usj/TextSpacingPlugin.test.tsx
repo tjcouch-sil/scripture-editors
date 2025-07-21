@@ -1,7 +1,13 @@
 import { ImmutableVerseNode, $createImmutableVerseNode } from "../../nodes/usj/ImmutableVerseNode";
 import { $isSomeVerseNode } from "../../nodes/usj/node-react.utils";
 import { TextSpacingPlugin } from "./TextSpacingPlugin";
-import { baseTestEnvironment } from "./react-test.utils";
+import {
+  baseTestEnvironment,
+  createTextAtSelection,
+  deleteTextAtSelection,
+  typeTextAfterNode,
+  typeTextAtSelection,
+} from "./react-test.utils";
 import { act } from "@testing-library/react";
 import { $createTextNode, $getRoot, $isTextNode, TextNode, $setSelection } from "lexical";
 import { $createUnknownNode, $isUnknownNode, UnknownNode } from "shared/nodes/features/UnknownNode";
@@ -9,13 +15,7 @@ import { $createCharNode, $isCharNode } from "shared/nodes/usj/CharNode";
 import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
 import { $createNoteNode } from "shared/nodes/usj/NoteNode";
 import { $createParaNode, $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
-import {
-  $expectSelectionToBe,
-  createTextAtSelection,
-  deleteTextAtSelection,
-  typeTextAfterNode,
-  typeTextAtSelection,
-} from "shared/nodes/usj/test.utils";
+import { $expectSelectionToBe } from "shared/nodes/usj/test.utils";
 
 let v1Node: ImmutableVerseNode;
 let textNode: TextNode;
