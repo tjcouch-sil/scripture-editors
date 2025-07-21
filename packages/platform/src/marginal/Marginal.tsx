@@ -1,6 +1,6 @@
 import Editor, { EditorProps, EditorRef } from "../editor/Editor";
-import { Comments } from "./comments/commenting";
 import CommentPlugin from "./comments/CommentPlugin";
+import { Comments } from "./comments/commenting";
 import useCommentStoreRef from "./comments/use-comment-store-ref.hook";
 import useMissingCommentsProps from "./comments/use-missing-comments-props.hook";
 import { Usj } from "@eten-tech-foundation/scripture-utilities";
@@ -14,7 +14,7 @@ import {
   useState,
   ReactElement,
 } from "react";
-import { Op } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
+import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
 import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 
 /** Forward reference for the editor. */
@@ -30,7 +30,7 @@ export type MarginalProps<TLogger extends LoggerBasic> = Omit<
   /** Callback function when comments have changed. */
   onCommentChange?: (comments: Comments | undefined) => void;
   /** Callback function when USJ Scripture data has changed. */
-  onUsjChange?: (usj: Usj, comments: Comments | undefined, ops?: Op[]) => void;
+  onUsjChange?: (usj: Usj, comments: Comments | undefined, ops?: Op[], source?: OpsSource) => void;
 };
 
 /**
@@ -77,8 +77,8 @@ const Marginal = forwardRef(function Marginal<TLogger extends LoggerBasic>(
     setUsj(usj) {
       editorRef.current?.setUsj(usj);
     },
-    applyUpdate(ops) {
-      editorRef.current?.applyUpdate(ops);
+    applyUpdate(ops, source) {
+      editorRef.current?.applyUpdate(ops, source);
     },
     getSelection() {
       return editorRef.current?.getSelection();
@@ -102,11 +102,11 @@ const Marginal = forwardRef(function Marginal<TLogger extends LoggerBasic>(
   }));
 
   const handleUsjChange = useCallback(
-    (usj: Usj, ops?: Op[]) => {
+    (usj: Usj, ops?: Op[], source?: OpsSource) => {
       if (!onUsjChange) return;
 
       const comments = commentStoreRef.current?.getComments();
-      onUsjChange(usj, comments, ops);
+      onUsjChange(usj, comments, ops, source);
     },
     [commentStoreRef, onUsjChange],
   );

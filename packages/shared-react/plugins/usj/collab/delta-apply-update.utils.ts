@@ -68,8 +68,6 @@ import { $createNoteNode, $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNod
 import { $createParaNode, $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
 import { $createVerseNode } from "shared/nodes/usj/VerseNode";
 
-export { Op } from "quill-delta";
-
 type AttributeMapWithPara = AttributeMap & {
   para: OTParaAttribute;
 };

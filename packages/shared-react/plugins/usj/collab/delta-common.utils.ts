@@ -17,6 +17,8 @@ import {
 } from "shared/nodes/usj/node.utils";
 import { NoteNode, $isNoteNode } from "shared/nodes/usj/NoteNode";
 
+export { Op } from "quill-delta";
+
 export type EmbedNode =
   | SomeChapterNode
   | SomeVerseNode
@@ -25,6 +27,8 @@ export type EmbedNode =
   | ImmutableUnmatchedNode;
 
 export type ParaLikeNode = SomeParaNode | BookNode;
+
+export type OpsSource = "local" | "remote";
 
 /** Line Feed character used to close para-like nodes.*/
 export const LF = "\n";

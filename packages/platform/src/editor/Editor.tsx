@@ -16,8 +16,8 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { SerializedVerseRef } from "@sillsdev/scripture";
 import { deepEqual } from "fast-equals";
-import { $setSelection, EditorState, LexicalEditor } from "lexical";
-import {
+import { $addUpdateTag, $setSelection, EditorState, LexicalEditor } from "lexical";
+import React, {
   PropsWithChildren,
   forwardRef,
   useCallback,
@@ -27,8 +27,6 @@ import {
   ReactElement,
 } from "react";
 import { usjReactNodes } from "shared-react/nodes/usj";
-import { OnChangePlugin } from "shared-react/plugins/usj/collab/DeltaOnChangePlugin";
-import { $applyUpdate, Op } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
 import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
 import { ArrowNavigationPlugin } from "shared-react/plugins/usj/ArrowNavigationPlugin";
 import { CharNodePlugin } from "shared-react/plugins/usj/CharNodePlugin";
@@ -55,6 +53,9 @@ import {
   $getRangeFromEditor,
   $getRangeFromSelection,
 } from "shared-react/plugins/usj/annotation/selection.utils";
+import { OnChangePlugin } from "shared-react/plugins/usj/collab/DeltaOnChangePlugin";
+import { $applyUpdate } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
+import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
 import { getDefaultViewOptions, getViewClassList } from "shared-react/views/view-options.utils";
 import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 import { TypedMarkNode } from "shared/nodes/features/TypedMarkNode";
@@ -73,7 +74,7 @@ export type EditorRef = {
   /** Set the USJ Scripture data. */
   setUsj(usj: Usj): void;
   /** Apply Operational Transform delta update */
-  applyUpdate(ops: Op[]): void;
+  applyUpdate(ops: Op[], source?: OpsSource): void;
   /**
    * Get the selection location or range.
    * @returns the selection location or range, or `undefined` if there is no selection. The
@@ -114,7 +115,7 @@ export type EditorProps<TLogger extends LoggerBasic> = {
   /** Callback function when the cursor selection changes. */
   onSelectionChange?: (selection: SelectionRange | undefined) => void;
   /** Callback function when USJ Scripture data has changed. */
-  onUsjChange?: (usj: Usj, ops?: Op[]) => void;
+  onUsjChange?: (usj: Usj, ops?: Op[], source?: OpsSource) => void;
   /** Options to configure the editor. */
   options?: EditorOptions;
   /** Logger instance. */
@@ -205,11 +206,14 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
         setUsj(incomingUsj);
       }
     },
-    applyUpdate(ops) {
-      editorRef.current?.update(() => $applyUpdate(ops, viewOptions, nodeOptions, logger), {
-        tag: DELTA_CHANGE_TAG,
-        discrete: true,
-      });
+    applyUpdate(ops, source = "remote") {
+      editorRef.current?.update(
+        () => {
+          if (source === "remote") $addUpdateTag(DELTA_CHANGE_TAG);
+          $applyUpdate(ops, viewOptions, nodeOptions, logger);
+        },
+        { discrete: true },
+      );
       const editorState = editorRef.current?.getEditorState();
       if (!editorState) return;
 
@@ -217,7 +221,7 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
       if (newUsj) {
         const isEdited = !deepEqual(editedUsjRef.current, newUsj);
         if (isEdited) editedUsjRef.current = newUsj;
-        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj, ops);
+        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj, ops, source);
       }
     },
     getSelection() {
@@ -251,7 +255,8 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
       if (newUsj) {
         const isEdited = !deepEqual(editedUsjRef.current, newUsj);
         if (isEdited) editedUsjRef.current = newUsj;
-        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj, ops);
+        const source = tags.has(DELTA_CHANGE_TAG) ? "remote" : "local";
+        if (isEdited || !deepEqual(usj, newUsj)) onUsjChange?.(newUsj, ops, source);
       }
     },
     [usj, onUsjChange],

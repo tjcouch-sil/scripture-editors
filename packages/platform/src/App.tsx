@@ -12,7 +12,7 @@ import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "r
 import { immutableNoteCallerNodeName } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
 import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
 import { AnnotationRange } from "shared-react/plugins/usj/annotation/selection.model";
-import { Op } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
+import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
 import { TextDirection } from "shared-react/plugins/usj/text-direction.model";
 import {
   getDefaultViewMode,
@@ -103,10 +103,13 @@ export default function App() {
     [isReadonly, hasSpellCheck, textDirection, viewOptions, debug],
   );
 
-  const handleUsjChange = useCallback((usj: Usj, comments: Comments | undefined, ops?: Op[]) => {
-    console.log({ usj, comments, ops });
-    marginalRef.current?.setUsj(usj);
-  }, []);
+  const handleUsjChange = useCallback(
+    (usj: Usj, comments: Comments | undefined, ops?: Op[], source?: OpsSource) => {
+      console.log({ usj, comments, ops, source });
+      marginalRef.current?.setUsj(usj);
+    },
+    [],
+  );
 
   const handleTypeChange = useCallback((type: string) => setAnnotationType(type), []);
 
