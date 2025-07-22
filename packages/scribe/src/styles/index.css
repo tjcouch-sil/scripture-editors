@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #FF5500;
-  --color-primary-50: #E4F2FF;
+  --color-primary: #ff5500;
+  --color-primary-50: #e4f2ff;
   --color-secondary: #151515;
-  --color-success: #05C715;
-  --color-error: #FF1500;
-  --color-validation: #FFE5E5;
-  --color-light: #E4F1FF;
+  --color-success: #05c715;
+  --color-error: #ff1500;
+  --color-validation: #ffe5e5;
+  --color-light: #e4f1ff;
   --color-dark: #333333;
   --height-editor: 98vh;
-  --height-reference: calc((-9.5rem + 100vh)/2);
+  --height-reference: calc((-9.5rem + 100vh) / 2);
 }
 
 /* Editor */
@@ -79,7 +79,7 @@
 /* ChapterNode, ImmutableChapterNode */
 
 .formatted-font .usfm_c {
-  @apply m-2 block break-before-column font-medium uppercase tracking-wider;
+  @apply m-2 block break-before-column font-medium tracking-wider uppercase;
 }
 .text-spacing[dir="ltr"] .usfm_c {
   @apply pl-4 text-left;
@@ -107,7 +107,7 @@
 /* VerseNode, ImmutableVerseNode */
 
 .formatted-font .usfm_v {
-  @apply align-top text-xs uppercase tracking-wider text-cyan-500;
+  @apply align-top text-xs tracking-wider text-cyan-500 uppercase;
 }
 .text-spacing[dir="ltr"] .usfm_v {
   @apply text-left;
@@ -160,7 +160,7 @@
   @apply hidden;
 }
 .formatted-font .usfm_toc1 {
-  @apply font-bold italic text-green-900;
+  @apply font-bold text-green-900 italic;
 }
 .text-spacing[dir="ltr"] .usfm_toc1 {
   @apply ml-2 text-left;
@@ -173,7 +173,7 @@
   @apply hidden;
 }
 .formatted-font .usfm_toc2 {
-  @apply italic text-green-900;
+  @apply text-green-900 italic;
 }
 .text-spacing[dir="ltr"] .usfm_toc2 {
   @apply ml-2 text-left;
@@ -186,7 +186,7 @@
   @apply hidden;
 }
 .formatted-font .usfm_toc3 {
-  @apply font-bold italic text-red-500;
+  @apply font-bold text-red-500 italic;
 }
 .text-spacing[dir="ltr"] .usfm_toc3 {
   @apply ml-2 text-left;

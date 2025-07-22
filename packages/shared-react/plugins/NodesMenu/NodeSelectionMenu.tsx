@@ -11,19 +11,15 @@ interface NodeSelectionMenuProps {
   onClose?: () => void;
   inverse?: boolean;
   query?: string;
+  menuOpenKey?: string;
 }
 
-export function NodeSelectionMenu({
-  options,
-  onSelectOption,
-  onClose,
-  inverse,
-  query: controlledQuery,
-}: NodeSelectionMenuProps) {
+export function NodeSelectionMenu(props: NodeSelectionMenuProps) {
+  const { options, onSelectOption, onClose, inverse, query: controlledQuery, menuOpenKey } = props;
   const [editor] = useLexicalComposerContext();
   const isControlled = controlledQuery !== undefined;
   const [query, setQuery] = useState("");
-  const localQuery = isControlled ? controlledQuery : query;
+  const localQuery: string = isControlled ? (controlledQuery ?? "") : query;
 
   const filteredOptions = useFilteredItems({ query: localQuery, items: options, filterBy: "name" });
 
@@ -57,7 +53,7 @@ export function NodeSelectionMenu({
         } else if (event.key.length === 1) {
           event.stopPropagation();
           event.preventDefault();
-          setQuery((prev) => prev + event.key);
+          if (event.key !== menuOpenKey) setQuery((prev) => prev + event.key);
           return true;
         }
         return false;

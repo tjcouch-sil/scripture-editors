@@ -1,8 +1,8 @@
 /// <reference types='vitest' />
+import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
+import path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import * as path from "path";
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 export default defineConfig({
   root: __dirname,
@@ -22,7 +22,6 @@ export default defineConfig({
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
     sourcemap: true,
-    reportCompressedSize: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: "src/index.ts",

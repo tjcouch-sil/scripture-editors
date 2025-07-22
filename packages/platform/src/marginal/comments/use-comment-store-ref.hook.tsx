@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { CommentStore } from "./commenting";
 
 type UseCommentStoreRef = [
-  commentStoreRef: React.MutableRefObject<CommentStore | undefined>,
+  commentStoreRef: React.RefObject<CommentStore | undefined>,
   setCommentStoreRef: (cs: CommentStore) => void,
 ];
 
