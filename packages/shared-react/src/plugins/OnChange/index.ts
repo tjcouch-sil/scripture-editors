@@ -1,5 +1,4 @@
-import { LexicalEditor } from "lexical";
-import { UpdateListener } from "lexical/LexicalEditor";
+import { LexicalEditor, UpdateListener } from "lexical";
 
 export const registerOnChange = (editor: LexicalEditor, onChange: UpdateListener) => {
   const handleChange: UpdateListener = ({

@@ -19,8 +19,8 @@ import {
   getViewOptions,
   ViewOptions,
 } from "shared-react/views/view-options.utils";
-import { WEB_PSA_USX as usx } from "shared/data/WEB-PSA.usx";
-import { WEB_PSA_COMMENTS as comments } from "shared/data/WEB_PSA.comments";
+import { WEB_PSA_USX as usx } from "shared/../data/WEB-PSA.usx";
+import { WEB_PSA_COMMENTS as comments } from "shared/../data/WEB_PSA.comments";
 
 type Annotations = {
   [buttonId: string]: {

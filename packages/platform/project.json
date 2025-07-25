@@ -61,7 +61,6 @@
         "cwd": "{projectRoot}"
       }
     },
-    "typecheck": {},
     "test": {},
     "lint": {}
   }

@@ -1,105 +1,88 @@
 {
-  "pluginsConfig": { "@nx/js": { "analyzeSourceFiles": true } },
-  "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "main",
-  "targetDefaults": {
-    "build": {
-      "cache": true,
-      "inputs": ["production", "^production"],
-      "dependsOn": ["^build"]
-    },
-    "dev": { "cache": true, "dependsOn": ["^build"] },
-    "devpub": { "dependsOn": ["build", "^build"] },
-    "preview": { "cache": true, "dependsOn": ["^build"] },
-    "serve": { "cache": true, "dependsOn": ["^build"] },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "cache": true,
-      "options": {
-        "commands": [{ "command": "tsc -p tsconfig.json", "forwardAllArgs": false }],
-        "cwd": "{projectRoot}"
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "cache": true,
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "{projectRoot}/jest.config.ts",
-        "passWithNoTests": true,
-        "silent": false
-      },
-      "configurations": { "ci": { "ci": true, "codeCoverage": true } }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "cache": true,
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ],
-      "outputs": ["{options.outputFile}"],
-      "options": { "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"] }
-    },
-    "@nx/vite:build": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    },
-    "@nx/js:tsc": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
-    }
-  },
+  "nxCloudId": "66a2e268e3adf95b524754c9",
+  "nxCloudAccessToken": "Mzk3MDg0NjAtMGMwMy00NWUxLTliMTQtN2Y0YTYxMjc3Njc1fHJlYWQ=",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
-      "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
-      "!{projectRoot}/test-setup.[jt]s"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.mjs"
     ],
-    "sharedGlobals": []
-  },
-  "generators": {
-    "@nx/react": {
-      "application": {
-        "style": "css",
-        "linter": "eslint",
-        "bundler": "vite",
-        "babel": true
-      },
-      "library": { "unitTestRunner": "vitest" }
-    }
+    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
   "plugins": [
     {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "build-deps",
+          "watchDepsName": "watch-deps"
+        }
+      }
+    },
+    {
       "plugin": "@nx/vite/plugin",
       "options": {
-        "buildTargetName": "vite:build",
+        "buildTargetName": "build",
         "testTargetName": "test",
-        "serveTargetName": "vite:serve",
-        "previewTargetName": "vite:preview",
-        "serveStaticTargetName": "serve-static"
+        "serveTargetName": "serve",
+        "devTargetName": "dev",
+        "previewTargetName": "preview",
+        "serveStaticTargetName": "serve-static",
+        "typecheckTargetName": "typecheck",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
       }
     },
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
-        "targetName": "eslint:lint",
-        "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/react/router-plugin",
+      "options": {
+        "buildTargetName": "build",
+        "devTargetName": "dev",
+        "startTargetName": "start",
+        "watchDepsTargetName": "watch-deps",
+        "buildDepsTargetName": "build-deps",
+        "typecheckTargetName": "typecheck"
       }
     }
   ],
-  "nxCloudAccessToken": "Mzk3MDg0NjAtMGMwMy00NWUxLTliMTQtN2Y0YTYxMjc3Njc1fHJlYWQ=",
-  "nxCloudId": "66a2e268e3adf95b524754c9"
+  "targetDefaults": {
+    "test": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "generators": {
+    "@nx/react": {
+      "library": {
+        "style": "css",
+        "linter": "eslint",
+        "unitTestRunner": "vitest"
+      },
+      "application": {
+        "babel": true,
+        "style": "css",
+        "linter": "eslint",
+        "bundler": "vite"
+      },
+      "component": {
+        "style": "css"
+      }
+    }
+  }
 }

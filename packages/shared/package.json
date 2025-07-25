@@ -9,7 +9,7 @@
   "license": "MIT",
   "version": "0.13.1",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -23,15 +23,45 @@
       "import": "./dist/adaptors/index.js",
       "require": "./dist/adaptors/index.cjs"
     },
+    "./contentManager": {
+      "types": "./dist/contentManager/index.d.ts",
+      "import": "./dist/contentManager/index.js",
+      "require": "./dist/contentManager/index.cjs"
+    },
+    "./contentManager/mockup": {
+      "types": "./dist/contentManager/mockup/index.d.ts",
+      "import": "./dist/contentManager/mockup/index.js",
+      "require": "./dist/contentManager/mockup/index.cjs"
+    },
+    "./converters": {
+      "types": "./dist/converters/index.d.ts",
+      "import": "./dist/converters/index.js",
+      "require": "./dist/converters/index.cjs"
+    },
+    "./converters/perf": {
+      "types": "./dist/converters/perf/index.d.ts",
+      "import": "./dist/converters/perf/index.js",
+      "require": "./dist/converters/perf/index.cjs"
+    },
+    "./converters/usfm": {
+      "types": "./dist/converters/usfm/index.d.ts",
+      "import": "./dist/converters/usfm/index.js",
+      "require": "./dist/converters/usfm/index.cjs"
+    },
+    "./localLexical": {
+      "types": "./dist/localLexical/index.d.ts",
+      "import": "./dist/localLexical/index.js",
+      "require": "./dist/localLexical/index.cjs"
+    },
     "./nodes": {
       "types": "./dist/nodes/index.d.ts",
       "import": "./dist/nodes/index.js",
       "require": "./dist/nodes/index.cjs"
     },
-    "./nodes/usj": {
-      "types": "./dist/nodes/usj/index.d.ts",
-      "import": "./dist/nodes/usj/index.js",
-      "require": "./dist/nodes/usj/index.cjs"
+    "./nodes/collab": {
+      "types": "./dist/nodes/collab/index.d.ts",
+      "import": "./dist/nodes/collab/index.js",
+      "require": "./dist/nodes/collab/index.cjs"
     },
     "./nodes/features": {
       "types": "./dist/nodes/features/index.d.ts",
@@ -43,10 +73,10 @@
       "import": "./dist/nodes/usfm/index.js",
       "require": "./dist/nodes/usfm/index.cjs"
     },
-    "./nodes/collab": {
-      "types": "./dist/nodes/collab/index.d.ts",
-      "import": "./dist/nodes/collab/index.js",
-      "require": "./dist/nodes/collab/index.cjs"
+    "./nodes/usj": {
+      "types": "./dist/nodes/usj/index.d.ts",
+      "import": "./dist/nodes/usj/index.js",
+      "require": "./dist/nodes/usj/index.cjs"
     },
     "./plugins": {
       "types": "./dist/plugins/index.d.ts",
@@ -92,30 +122,11 @@
       "types": "./dist/utils/usj/index.d.ts",
       "import": "./dist/utils/usj/index.js",
       "require": "./dist/utils/usj/index.cjs"
-    },
-    "./converters": {
-      "types": "./dist/converters/index.d.ts",
-      "import": "./dist/converters/index.js",
-      "require": "./dist/converters/index.cjs"
-    },
-    "./converters/perf": {
-      "types": "./dist/converters/perf/index.d.ts",
-      "import": "./dist/converters/perf/index.js",
-      "require": "./dist/converters/perf/index.cjs"
-    },
-    "./converters/usfm": {
-      "types": "./dist/converters/usfm/index.d.ts",
-      "import": "./dist/converters/usfm/index.js",
-      "require": "./dist/converters/usfm/index.cjs"
-    },
-    "./localLexical": {
-      "types": "./dist/localLexical/index.d.ts",
-      "import": "./dist/localLexical/index.js",
-      "require": "./dist/localLexical/index.cjs"
     }
   },
   "files": [
     "dist",
+    "!dist/package.json",
     "src",
     "!src/**/*.test.ts",
     "!src/**/*.data.ts"
@@ -125,7 +136,7 @@
     "proskomma-core": ">=0.10.4"
   },
   "dependencies": {
-    "@eten-tech-foundation/scripture-utilities": "workspace:*",
+    "@eten-tech-foundation/scripture-utilities": "workspace:~",
     "@lexical/mark": "^0.33.1",
     "@lexical/utils": "^0.33.1",
     "@sillsdev/scripture": "^2.0.2",

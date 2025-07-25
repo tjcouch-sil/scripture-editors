@@ -3,17 +3,15 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "paths": {
-      "@eten-tech-foundation/scripture-utilities": [
-        "utilities/src"
-      ],
-      "@/*": [
-        "scribe/src/*"
-      ]
+      "@eten-tech-foundation/scripture-utilities": ["utilities/src"],
+      "shared": ["shared/src"],
+      "shared/*": ["shared/src/*"],
+      "shared-react": ["shared-react/src"],
+      "shared-react/*": ["shared-react/src/*"],
+      "@/*": ["scribe/src/*"]
     }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -1,18 +1,19 @@
 import { NodeBuildSource, convertBlock, convertContentElement, convertSequence } from "../perfToX";
-import { FlatDocument as PerfDocument } from "../../../plugins/PerfOperations/Types/Document";
+import { FlatDocument, PerfDocument } from "../../../plugins/PerfOperations/Types/Document";
 import { PerfKind } from "../../../plugins/PerfOperations/types";
 import Sequence from "../../../plugins/PerfOperations/Types/Sequence";
 import Block from "../../../plugins/PerfOperations/Types/Block";
 import ContentElement from "../../../plugins/PerfOperations/Types/ContentElement";
 import { PerfMap, mapPerf } from "../perfMapper";
 import { PerfLexicalNode, createPerfToLexicalMap } from "./perfToLexicalMap";
+import { SerializedEditorState, SerializedLexicalNode } from "lexical";
 
 export const transformPerfDocumentToSerializedLexicalState = (
   perfDocument: PerfDocument,
   sequenceId: string,
-  perfMap: PerfMap<PerfLexicalNode>,
+  perfMap?: PerfMap<PerfLexicalNode>,
 ) => {
-  if (!perfDocument.sequences) throw new Error("No sequences found in the PERF document");
+  if (!isFlatDocument(perfDocument)) throw new Error("No sequences found in the PERF document");
   const nodeAdapter = (buildSource: NodeBuildSource<PerfKind, PerfLexicalNode>) => {
     const map = mapPerf({
       buildSource: buildSource,
@@ -27,9 +28,13 @@ export const transformPerfDocumentToSerializedLexicalState = (
       sequenceId,
       nodeBuilder: nodeAdapter,
     }),
-  };
+  } as SerializedEditorState | SerializedLexicalNode;
 };
 export default transformPerfDocumentToSerializedLexicalState;
+
+function isFlatDocument(doc: PerfDocument): doc is FlatDocument {
+  return typeof doc === "object" && doc !== null && "sequences" in doc && "main_sequence_id" in doc;
+}
 
 type NodeSource =
   | { node: Sequence; kind: PerfKind.Sequence; sequenceId?: string }
@@ -42,7 +47,7 @@ export function transformPerfNodeToSerializedLexicalNode({
   perfMap,
 }: {
   source: NodeSource;
-  perfSequences: PerfDocument["sequences"];
+  perfSequences: FlatDocument["sequences"];
   perfMap?: PerfMap<PerfLexicalNode>;
 }) {
   const { node, kind } = source;

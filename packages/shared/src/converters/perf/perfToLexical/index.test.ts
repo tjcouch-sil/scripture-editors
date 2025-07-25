@@ -1,6 +1,6 @@
 import { getLexicalState } from "../../../contentManager";
-import perfDocument from "../../../data/tit.perf";
-import lexicalState from "../../../data/tit.lexical";
+import perfDocument from "../../../../data/tit.perf";
+import lexicalState from "../../../../data/tit.lexical";
 
 describe("Testing Perf To Lexical", () => {
   it("should convert perf to lexical", () => {

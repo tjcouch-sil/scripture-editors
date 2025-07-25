@@ -1,9 +1,9 @@
 import "shared/styles/perf-app.css";
 import "shared/styles/perf-editor.css";
 import { createEditor } from "lexical";
-import scriptureNodes from "shared/nodes";
+import { scriptureNodes } from "shared/nodes";
 import { registerRichText } from "@lexical/rich-text";
-import { getLexicalState, getBookHandler } from "shared/contentManager";
+import { getLexicalState, getBookHandler } from "shared/contentManager/index";
 import { fetchUsfm } from "shared/contentManager/mockup/fetchUsfm";
 import { createEmptyHistoryState, registerHistory } from "shared/plugins/History";
 import { getPerfHistoryUpdater } from "shared/plugins/PerfOperations/updatePerfHistory";

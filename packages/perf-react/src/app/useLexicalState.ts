@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
-import { getBookHandler } from "shared/contentManager";
+import { BookStore, getBookHandler } from "shared/contentManager/index";
 import { fetchUsfm } from "shared/contentManager/mockup/fetchUsfm";
 
-export function useBibleBook({ serverName, organizationId, languageCode, versionId, bookCode }) {
-  const [bookHandler, setBookHandler] = useState(null);
+export function useBibleBook({
+  serverName,
+  organizationId,
+  languageCode,
+  versionId,
+  bookCode,
+}: {
+  serverName: string;
+  organizationId: string;
+  languageCode: string;
+  versionId: string;
+  bookCode: string;
+}) {
+  const [bookHandler, setBookHandler] = useState<BookStore | null>(null);
 
   useEffect(() => {
     async function updateBookHandler() {

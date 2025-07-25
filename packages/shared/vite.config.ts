@@ -1,8 +1,8 @@
 /// <reference types='vitest' />
+import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
+import * as path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import * as path from "path";
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 export default defineConfig({
   root: __dirname,
@@ -28,14 +28,17 @@ export default defineConfig({
       entry: {
         index: "src/index.ts",
         "adaptors/index": "src/adaptors/index.ts",
+        "contentManager/index": "src/contentManager/index.js",
+        "contentManager/mockup/index": "src/contentManager/mockup/index.ts",
         "converters/index": "src/converters/index.ts",
         "converters/perf/index": "src/converters/perf/index.ts",
         "converters/usfm/index": "src/converters/usfm/index.ts",
+        "localLexical/index": "src/localLexical/index.ts",
         "nodes/index": "src/nodes/index.ts",
-        "nodes/usj/index": "src/nodes/usj/index.ts",
+        "nodes/collab/index": "src/nodes/collab/index.ts",
         "nodes/features/index": "src/nodes/features/index.ts",
         "nodes/usfm/index": "src/nodes/usfm/index.ts",
-        "nodes/collab/index": "src/nodes/collab/index.ts",
+        "nodes/usj/index": "src/nodes/usj/index.ts",
         "plugins/index": "src/plugins/index.ts",
         "plugins/CursorHandler/index": "src/plugins/CursorHandler/index.ts",
         "plugins/History/index": "src/plugins/History/index.ts",
@@ -45,7 +48,6 @@ export default defineConfig({
         "utils/index": "src/utils/index.ts",
         "utils/usfm/index": "src/utils/usfm/index.ts",
         "utils/usj/index": "src/utils/usj/index.ts",
-        "localLexical/index": "src/localLexical/index.ts",
       },
       formats: ["es", "cjs"],
     },

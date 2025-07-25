@@ -1,5 +1,5 @@
-import perfDocument from "../../../data/tit.perf";
-import lexicalState from "../../../data/tit.lexical";
+import perfDocument from "../../../../data/tit.perf";
+import lexicalState from "../../../../data/tit.lexical";
 import transformLexicalStateToPerf from ".";
 import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode";
 import { PerfKind } from "../../../plugins/PerfOperations/types";

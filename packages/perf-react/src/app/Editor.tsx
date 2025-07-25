@@ -1,12 +1,12 @@
 import { InitialConfigType, LexicalComposer } from "@lexical/react/LexicalComposer";
-import scriptureNodes from "shared/nodes";
+import { scriptureNodes } from "shared/nodes";
 import { useBibleBook } from "./useLexicalState";
 import { HistoryPlugin } from "shared-react/plugins/History/HistoryPlugin";
 import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { getPerfHistoryUpdater } from "shared/plugins/PerfOperations/updatePerfHistory";
 import { HistoryMergeListener, createEmptyHistoryState } from "shared/plugins/History";
 import { PerfHandlersPlugin } from "shared-react/plugins/PerfHandlers/PerfHandlersPlugin";
-import { BookStore, getLexicalState } from "shared/contentManager";
+import { BookStore, getLexicalState } from "shared/contentManager/index";
 import { FlatDocument as PerfDocument } from "shared/plugins/PerfOperations/Types/Document";
 
 import Button from "./Components/Button";

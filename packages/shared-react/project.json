@@ -14,7 +14,6 @@
         "tsConfig": "{projectRoot}/tsconfig.lib.json"
       }
     },
-    "typecheck": {},
     "test": {},
     "lint": {}
   }

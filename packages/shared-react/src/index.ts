@@ -41,7 +41,6 @@ export * from "./plugins/NodesMenu/Menu/Options";
 export * from "./plugins/NodesMenu/Menu/Root";
 export * from "./plugins/NodesMenu/Menu/filterAndRankItems";
 export * from "./plugins/NodesMenu/Menu/index";
-export * from "./plugins/NodesMenu/Menu/types";
 export * from "./plugins/NodesMenu/Menu/useFilteredItems";
 export * from "./plugins/NodesMenu/Menu/useLexicalMenuNavigation";
 export * from "./plugins/NodesMenu/Menu/useMenuActions";
@@ -100,8 +99,9 @@ export * from "./plugins/usj/annotation/selection.utils";
 export * from "./plugins/usj/clipboard.utils";
 
 // USJ Collaboration
+export { OnChangePlugin as DeltaOnChangePlugin } from "./plugins/usj/collab/DeltaOnChangePlugin";
 export * from "./plugins/usj/collab/delta-apply-update.utils";
-export * from "./plugins/usj/collab/rich-text-ot.model";
+export { Op } from "./plugins/usj/collab/delta-common.utils";
 
 // USJ React Test Utils
 export * from "./plugins/usj/react-test.utils";

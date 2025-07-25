@@ -3,7 +3,7 @@
  * Original source: https://github.com/facebook/lexical
  */
 
-import type { EditorState, LexicalEditor, LexicalNode, NodeKey } from "lexical";
+import type { EditorState, LexicalEditor, LexicalNode, NodeKey, UpdateListener } from "lexical";
 
 import { mergeRegister } from "@lexical/utils";
 import { debounce } from "../../utils";
@@ -20,7 +20,6 @@ import {
 } from "lexical";
 import { HistoryState, HistoryStateEntry, LexicalHistoryManager } from "./HistoryManager";
 import { DirtyNodes } from "./DirtyNodes";
-import { UpdateListener } from "lexical/LexicalEditor";
 
 export const PUSH_COMMAND = createCommand("PUSH_COMMAND");
 

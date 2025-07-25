@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/platform"
+    },
+    {
+      "path": "./packages/shared-react"
+    },
+    {
+      "path": "./packages/shared"
+    }
+  ]
+}

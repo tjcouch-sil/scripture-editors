@@ -1,19 +1,20 @@
-import Epitelete from "epitelete";
 import { usfm2perf } from "../converters/perf/usfmToPerf";
 import transformPerfDocumentToSerializedLexicalState from "../converters/perf/perfToLexical";
+import Epitelete from "../plugins/PerfOperations/epitelete";
+import { FlatDocument as PerfDocument } from "../plugins/PerfOperations/Types/Document";
 
 const readOptions = { readPipeline: "stripAlignmentPipeline" };
 const writeOptions = { writePipeline: "mergeAlignmentPipeline", ...readOptions };
 
 export class BookStore extends Epitelete {
-  read(bookCode) {
+  read(bookCode: string): Promise<PerfDocument> {
     return this.readPerf(bookCode, readOptions);
   }
-  write(bookCode) {
+  write(bookCode: string): Promise<PerfDocument> {
     return this.writePerf(bookCode, writeOptions);
   }
-  sideload(bookCode, perf) {
-    return this.sideloadPerf(bookCode, perf, readOptions);
+  sideload(bookCode: string, perfDocument: PerfDocument): Promise<PerfDocument> {
+    return this.sideloadPerf(bookCode, perfDocument, readOptions);
   }
 }
 
@@ -24,7 +25,14 @@ export const getBookHandler = async ({
   languageCode,
   versionId,
   bookCode,
-}) => {
+}: {
+  usfm: string;
+  serverName: string;
+  organizationId: string;
+  languageCode: string;
+  versionId: string;
+  bookCode: string;
+}): Promise<BookStore> => {
   const perf = usfm2perf(usfm, {
     serverName,
     organizationId,
@@ -41,55 +49,53 @@ export const getBookHandler = async ({
   return bookHandler;
 };
 
-export const getLexicalState = (perf) => {
+export const getLexicalState = (perf: PerfDocument) => {
   const _lexicalState = transformPerfDocumentToSerializedLexicalState(perf, perf.main_sequence_id);
   return _lexicalState;
 };
 
-// export const lexicalState = getTestLexicalState();
-
 /**
  * A class with useful methods for managing
- * multiple intances of epitelete, each epitelete instance
+ * multiple instances of epitelete, each epitelete instance
  * can hold one Bible version (docSet), so this store allows
  * managing multiple Bible versions. Each Bible Version
  * is identified by a docSetId
  */
-class BibleStore {
+export class BibleStore {
+  store: Map<string, Epitelete>;
+
   constructor() {
     this.store = new Map();
   }
 
-  /** creates a new Epitelete instance given a docsetId
+  /** creates a new Epitelete instance given a docSetId
    * and params for Epitelete's constructor
    */
-  create(epiteleteParams) {
+  create(epiteleteParams: { docSetId: string; options?: { historySize?: number } }) {
     const epitelete = new BookStore(epiteleteParams);
     this.store.set(epiteleteParams.docSetId, epitelete);
     return epitelete;
   }
 
   /** adds an Epitelete instance to the store
-   * @param { Epitelete } epiteleteInstance
+   * @param epiteleteInstance
    */
-  add(epiteleteInstance) {
+  add(epiteleteInstance: Epitelete) {
     const docSetId = epiteleteInstance?.docSetId;
     if (docSetId) this.store.set(docSetId, epiteleteInstance);
   }
 
   /** removes a Epitelete instance from the store
-   * @param {string} docSetId
+   * @param docSetId
    */
-  remove(docSetId) {
+  remove(docSetId: string) {
     this.store.delete(docSetId);
   }
 
-  /** gets an Epitelete instance given a docsetId
-   * @param {string} docSetId
+  /** gets an Epitelete instance given a docSetId
+   * @param docSetId
    */
-  get(docSetId) {
-    this.store.get(docSetId);
+  get(docSetId: string) {
+    return this.store.get(docSetId);
   }
 }
-
-export default BibleStore;

@@ -1,12 +1,13 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-# Changes here should be reflected in `.eslintignore` and `.prettierignore`
+# Changes here should be reflected in `.prettierignore`
 
 # compiled output
 build
 coverage
 dist
-tmp
 out-tsc
+temp
+tmp
 
 # dependencies
 node_modules
@@ -47,6 +48,7 @@ Thumbs.db
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
 
+# vite
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 

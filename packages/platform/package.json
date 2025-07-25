@@ -49,8 +49,8 @@
     "platform-bible-utils": "file:./lib/platform-bible-utils",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "shared": "link:../shared",
-    "shared-react": "link:../shared-react",
+    "shared": "workspace:~",
+    "shared-react": "workspace:~",
     "tailwindcss": "4.1.11",
     "tailwindcss-animate": "1.0.7"
   },

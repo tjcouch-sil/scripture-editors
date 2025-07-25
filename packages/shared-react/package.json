@@ -10,11 +10,12 @@
   "license": "MIT",
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "!dist/package.json",
     "src",
     "!src/**/*.test.ts",
     "!src/**/*.test.tsx"
@@ -25,7 +26,7 @@
     "react-dom": ">=18.3.1"
   },
   "dependencies": {
-    "@eten-tech-foundation/scripture-utilities": "workspace:*",
+    "@eten-tech-foundation/scripture-utilities": "workspace:~",
     "@floating-ui/dom": "^1.7.3",
     "@lexical/react": "^0.33.1",
     "@lexical/utils": "^0.33.1",
@@ -38,7 +39,7 @@
     "@types/react-dom": "^18.3.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "shared": "link:../shared"
+    "shared": "workspace:~"
   },
   "repository": {
     "type": "git",

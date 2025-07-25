@@ -60,7 +60,7 @@ export function NodeSelectionMenu(props: NodeSelectionMenuProps) {
       },
       COMMAND_PRIORITY_HIGH,
     );
-  }, [editor, isControlled, localQuery, onClose]);
+  }, [editor, isControlled, localQuery, menuOpenKey, onClose]);
 
   return (
     <Menu.Root

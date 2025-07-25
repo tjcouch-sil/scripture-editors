@@ -1,6 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-
-import { UpdateListener } from "lexical/LexicalEditor";
+import { UpdateListener } from "lexical";
 import { useOnChange } from "./useOnChange";
 
 export const OnChangePlugin = ({ onChange }: { onChange: UpdateListener }) => {
