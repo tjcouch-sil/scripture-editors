@@ -2,7 +2,7 @@
   "name": "perf-react",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "{projectRoot}/src",
-  "projectType": "application",
+  "projectType": "library",
   "tags": [],
   "targets": {
     "build": {
@@ -10,7 +10,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/{projectRoot}"
+        "outputPath": "{projectRoot}/dist"
       },
       "configurations": {
         "development": {

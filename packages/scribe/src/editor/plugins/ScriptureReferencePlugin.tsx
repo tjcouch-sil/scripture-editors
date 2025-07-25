@@ -151,9 +151,13 @@ function $findAndSetChapterAndVerse(
   const verse = verseNode?.getNumber();
   // For verse ranges this returns the first number.
   const selectedVerseNum = parseInt(verse ?? "0", 10);
+  // Check if the requested verse is within the current verse range
+  const isVerseInCurrentRange = verse
+    ? isVerseInRange(verseNum, verse)
+    : verseNum === selectedVerseNum;
   hasSelectionChangedRef.current = !!(
     (chapterNode && selectedChapterNum !== chapterNum) ||
-    selectedVerseNum !== verseNum
+    !isVerseInCurrentRange
   );
   if (hasSelectionChangedRef.current) {
     const scrRef: ScriptureReference = {

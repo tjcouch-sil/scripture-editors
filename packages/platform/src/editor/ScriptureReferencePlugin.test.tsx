@@ -86,7 +86,7 @@ describe("ScriptureReferencePlugin", () => {
       expect(mockOnScrRefChange).toHaveBeenCalled();
     });
 
-    it("should move the cursor into both verses of range", async () => {
+    it("should move the cursor into the start of range", async () => {
       const { editor, setScrRef } = await testEnvironment(scrRef, mockOnScrRefChange);
       updateSelection(editor, firstVerseTextNode, 2);
 
@@ -95,6 +95,12 @@ describe("ScriptureReferencePlugin", () => {
       editor.getEditorState().read(() => {
         $expectSelectionToBe(thirdVerseTextNode, 0);
       });
+      expect(mockOnScrRefChange).not.toHaveBeenCalled();
+    });
+
+    it("should move the cursor into the end of range", async () => {
+      const { editor, setScrRef } = await testEnvironment(scrRef, mockOnScrRefChange);
+      updateSelection(editor, firstVerseTextNode, 2);
 
       await setScrRef({ ...scrRef, verseNum: 4 });
 

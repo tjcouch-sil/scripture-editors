@@ -56,6 +56,7 @@ export default function NodesMenu({ trigger, items }: { trigger: string; items?:
             options={items}
             onClose={() => setIsOpen(false)}
             inverse={placement === "top-start"}
+            menuOpenKey={trigger}
           />
         )}
       </FloatingBoxAtCursor>

@@ -11,7 +11,7 @@ export default function OptionChangePlugin({
   setUsj,
 }: {
   options: EditorOptions | undefined;
-  editedUsjRef: React.MutableRefObject<Usj | undefined>;
+  editedUsjRef: React.RefObject<Usj | undefined>;
   usj: Usj | undefined;
   setUsj: (usj: Usj) => void;
 }): null {
