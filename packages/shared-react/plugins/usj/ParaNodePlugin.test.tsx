@@ -1,12 +1,11 @@
 import { ParaNodePlugin } from "./ParaNodePlugin";
-import { baseTestEnvironment } from "./react-test.utils";
+import { baseTestEnvironment, pressEnterAtSelection } from "./react-test.utils";
 import { $getRoot, $createTextNode, TextNode } from "lexical";
 import {
   $createImmutableChapterNode,
   $isImmutableChapterNode,
 } from "shared/nodes/usj/ImmutableChapterNode";
 import { $createParaNode, $isParaNode } from "shared/nodes/usj/ParaNode";
-import { pressEnterAtSelection } from "shared/nodes/usj/test.utils";
 
 let firstVerseTextNode: TextNode;
 

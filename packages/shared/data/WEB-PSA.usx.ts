@@ -36,6 +36,10 @@ export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
     <verse number="6" style="v" sid="PSA 1:6" />For Yahweh knows the way of the righteous,</para>
   <para style="q2" vid="PSA 1:6">but the way of the wicked shall perish.<verse eid="PSA 1:6" /></para>
   <chapter eid="PSA 1" />
+</usx>
+`;
+
+/*
   <chapter number="2" style="c" sid="PSA 2" />
   <para style="q1">
     <verse number="1" style="v" sid="PSA 2:1" />Why do the nations rage,</para>
@@ -8492,3 +8496,4 @@ export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
   <chapter eid="PSA 150" />
 </usx>
 `;
+*/
