@@ -3,5 +3,10 @@
   "compilerOptions": {
     "moduleResolution": "Node"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ]
 }

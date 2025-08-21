@@ -1,4 +1,4 @@
-import { indexesFromUsjJsonPath, usjJsonPathFromIndexes } from "./jsonpath-indexes";
+import { indexesFromUsjJsonPath, usjJsonPathFromIndexes } from "./jsonpath-indexes.js";
 
 describe("USJ JSONPath Indexes", () => {
   it("should convert indexes from JSONPath", () => {

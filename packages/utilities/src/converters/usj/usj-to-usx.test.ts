@@ -9,9 +9,9 @@ import {
   usxGen1v1ImpliedPara,
   usxGen1v1ImpliedParaEmpty,
   usxGen1v1Nonstandard,
-} from "./converter-test.data";
-import { usjToUsxString } from "./usj-to-usx";
-import { usxStringToUsj } from "./usx-to-usj";
+} from "./converter-test.data.js";
+import { usjToUsxString } from "./usj-to-usx.js";
+import { usxStringToUsj } from "./usx-to-usj.js";
 
 const SELF_CLOSING_ELEMENT_WHITESPACE = /(?!")\s+(?=\/>)/g;
 const INTER_ELEMENT_WHITESPACE = /(?!>)\s{2,}(?=<)/g;

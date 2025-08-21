@@ -4,13 +4,28 @@
   "files": [],
   "references": [
     {
+      "path": "./packages/perf-react"
+    },
+    {
+      "path": "./packages/perf-vanilla"
+    },
+    {
       "path": "./packages/platform"
+    },
+    {
+      "path": "./packages/scribe"
     },
     {
       "path": "./packages/shared-react"
     },
     {
       "path": "./packages/shared"
+    },
+    {
+      "path": "./packages/utilities"
+    },
+    {
+      "path": "./tools/usfm-markers"
     }
   ]
 }

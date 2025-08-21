@@ -5,8 +5,8 @@
  */
 
 import { DOMImplementation, Document, Element, Text } from "@xmldom/xmldom";
-import { MarkerContent, MarkerObject, Usj } from "./usj.model";
-import { USX_TYPE, USX_VERSION } from "./usx.model";
+import { MarkerContent, MarkerObject, Usj } from "./usj.model.js";
+import { USX_TYPE, USX_VERSION } from "./usx.model.js";
 
 let chapterEid: string | undefined;
 let verseEid: string | undefined;

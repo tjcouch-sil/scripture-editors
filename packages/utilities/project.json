@@ -5,16 +5,6 @@
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "{projectRoot}/dist",
-        "main": "{projectRoot}/src/index.ts",
-        "tsConfig": "{projectRoot}/tsconfig.lib.json",
-        "assets": ["{projectRoot}/*.md"]
-      }
-    },
     "devpub": {
       "executor": "nx:run-commands",
       "defaultConfiguration": "production",
@@ -22,8 +12,6 @@
         "command": "yalc push",
         "cwd": "{projectRoot}"
       }
-    },
-    "test": {},
-    "lint": {}
+    }
   }
 }
