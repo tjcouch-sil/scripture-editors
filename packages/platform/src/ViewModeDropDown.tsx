@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { viewModeToViewNames, ViewMode } from "shared-react/views/view-mode.model";
+import { viewModeToViewNames, ViewMode } from "shared-react";
 import DropDown, { DropDownItem } from "./editor/toolbar/DropDown";
 
 function viewModeToClassName(viewMode: string): string {

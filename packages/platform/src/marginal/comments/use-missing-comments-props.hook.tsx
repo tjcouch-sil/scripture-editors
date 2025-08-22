@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
-import { typedMarkNodeName } from "shared/nodes/features/TypedMarkNode";
+import { LoggerBasic, typedMarkNodeName } from "shared";
 import { CommentStore, Comments } from "./commenting";
 import { EditorProps } from "../../editor/Editor";
 

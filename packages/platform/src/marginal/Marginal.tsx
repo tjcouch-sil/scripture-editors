@@ -14,8 +14,8 @@ import {
   useState,
   ReactElement,
 } from "react";
-import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
+import { Op, OpsSource } from "shared-react";
+import { LoggerBasic } from "shared";
 
 /** Forward reference for the editor. */
 export type MarginalRef = EditorRef & {

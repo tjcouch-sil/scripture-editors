@@ -1,5 +1,5 @@
 import { PropsWithChildren, forwardRef, ReactElement } from "react";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
+import { LoggerBasic } from "shared";
 import Editor, { EditorRef, EditorProps } from "./editor/Editor";
 
 /**

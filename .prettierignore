@@ -8,7 +8,6 @@ pnpm-lock.yaml
 
 # compiled output
 build
-coverage
 dist
 out-tsc
 temp

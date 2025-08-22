@@ -1,15 +1,13 @@
 import { MarkerObject } from "@eten-tech-foundation/scripture-utilities";
 import { SerializedEditorState } from "lexical";
-import { typedMarkNodeName } from "shared/nodes/features/TypedMarkNode";
-import { SerializedParaNode } from "shared/nodes/usj/ParaNode";
-import { SerializedNoteNode } from "shared/nodes/usj/NoteNode";
+import { SerializedNoteNode, SerializedParaNode, typedMarkNodeName } from "shared";
 import {
   defaultNoteCallers,
+  getViewOptions,
   immutableNoteCallerNodeName,
   SerializedImmutableNoteCallerNode,
-} from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { UNFORMATTED_VIEW_MODE } from "shared-react/views/view-mode.model";
-import { getViewOptions } from "shared-react/views/view-options.utils";
+  UNFORMATTED_VIEW_MODE,
+} from "shared-react";
 // Reaching inside only for tests.
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
@@ -34,13 +32,14 @@ import {
   usjWithUnknownItems,
 } from "../../../../utilities/src/converters/usj/converter-test.data";
 import { serializeEditorState, reset, initialize } from "./usj-editor.adaptor";
+import { MockInstance } from "vitest";
 
 describe("USJ Editor Adaptor", () => {
-  let consoleWarnSpy: jest.SpyInstance;
+  let consoleWarnSpy: MockInstance;
 
   beforeEach(() => {
     // Spy on console methods before each test and provide mock implementations
-    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
 
   afterEach(() => {
@@ -127,7 +126,7 @@ describe("USJ Editor Adaptor", () => {
   });
 
   it("should call `addMissingComments` if it's set", () => {
-    const mockAddMissingComments = jest.fn();
+    const mockAddMissingComments = vi.fn();
     const nodeOptions = { [typedMarkNodeName]: { addMissingComments: mockAddMissingComments } };
     initialize(nodeOptions, console);
 
