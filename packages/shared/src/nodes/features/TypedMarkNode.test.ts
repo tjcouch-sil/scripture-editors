@@ -1,5 +1,5 @@
-import { createBasicTestEnvironment } from "../usj/test.utils";
-import { $createTypedMarkNode, TypedMarkNode } from "./TypedMarkNode";
+import { createBasicTestEnvironment } from "../usj/test.utils.js";
+import { $createTypedMarkNode, TypedMarkNode } from "./TypedMarkNode.js";
 
 const testType1 = "testType1";
 const testType2 = "testType2";

@@ -1,10 +1,10 @@
 /* eslint-disable no-debugger */
 import { $addUpdateTag, LexicalEditor, LexicalNode } from "lexical";
 import { mergeRegister } from "@lexical/utils";
-import { registerCursorInsertion } from "./insertionHandlers";
-import { registerCursorRemoval } from "./removalHandlers";
+import { registerCursorInsertion } from "./insertionHandlers/index.js";
+import { registerCursorRemoval } from "./removalHandlers/index.js";
 
-export { CURSOR_PLACEHOLDER_CHAR } from "./utils/constants";
+export { CURSOR_PLACEHOLDER_CHAR } from "./utils/constants.js";
 
 export function registerCursorHandlers(
   editor: LexicalEditor,

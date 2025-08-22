@@ -3,35 +3,35 @@ import { $applyNodeReplacement, ElementNode, SerializedElementNode } from "lexic
 export type SerializedWrapperNode = SerializedElementNode;
 
 export class WrapperNode extends ElementNode {
-  static getType(): string {
+  static override getType(): string {
     return "wrapper";
   }
 
-  static clone(node: WrapperNode): WrapperNode {
+  static override clone(node: WrapperNode): WrapperNode {
     return new WrapperNode(node.__key);
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return true;
   }
 
-  createDOM(): HTMLSpanElement {
+  override createDOM(): HTMLSpanElement {
     // Define the DOM element here
     const dom = document.createElement("span");
     return dom;
   }
 
-  static importJSON(serializedNode: SerializedWrapperNode): WrapperNode {
+  static override importJSON(serializedNode: SerializedWrapperNode): WrapperNode {
     return $createWrapperNode().updateFromJSON(serializedNode);
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportJSON(): SerializedWrapperNode {
+  override exportJSON(): SerializedWrapperNode {
     return {
       ...super.exportJSON(),
       type: "wrapper",

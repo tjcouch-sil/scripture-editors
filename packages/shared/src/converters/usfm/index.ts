@@ -1,1 +1,1 @@
-export * from "./emptyUsfmNodes";
+export * from "./emptyUsfmNodes.js";

@@ -1,8 +1,8 @@
-import { Content } from "./ContentElement";
-import { ExistingGraft, Graft, NewGraft } from "./Graft";
-import Hook from "./Hook";
-import { Atts, UsfmSubtype, XSubtype } from "./common";
-import { Props, getPerfProps } from "./utils";
+import { Content } from "./ContentElement.js";
+import { ExistingGraft, Graft, NewGraft } from "./Graft.js";
+import Hook from "./Hook.js";
+import { Atts, UsfmSubtype, XSubtype } from "./common.js";
+import { Props, getPerfProps } from "./utils.js";
 
 export type Block = Paragraph | BlockGraft | Row | Node | Lookup;
 

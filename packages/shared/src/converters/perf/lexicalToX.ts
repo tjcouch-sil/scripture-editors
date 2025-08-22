@@ -1,5 +1,5 @@
 import { SerializedLexicalNode } from "lexical";
-import { isTruthy } from "./utils";
+import { isTruthy } from "./utils.js";
 
 type BaseMetadata = { relativePath: (string | number)[] };
 type OptionalMetadata = { [key: string]: unknown };

@@ -1,10 +1,10 @@
-import { transformLexicalStateToPerf } from "../../converters/perf/lexicalToPerf";
-import { SerializedUsfmElementNode } from "../../nodes/UsfmElementNode";
-import { HistoryMergeListener } from "../History";
-import { $getOperations } from "../History/operations";
-import { getOperationBuilder } from "./operationBuilder";
-import { getPathBuilder } from "./pathBuilder";
-import { getLexicalState } from "../../contentManager";
+import { transformLexicalStateToPerf } from "../../converters/perf/lexicalToPerf/index.js";
+import { SerializedUsfmElementNode } from "../../nodes/UsfmElementNode.js";
+import { HistoryMergeListener } from "../History/index.js";
+import { $getOperations } from "../History/operations/index.js";
+import { getOperationBuilder } from "./operationBuilder.js";
+import { getPathBuilder } from "./pathBuilder.js";
+import { getLexicalState } from "../../contentManager/index.js";
 import { applyPatch } from "open-patcher";
 
 import {
@@ -21,17 +21,17 @@ import {
   TextNode,
   UNDO_COMMAND,
 } from "lexical";
-import { Operation } from "open-patcher/dist/types";
-import { HistoryStateEntry } from "../History/HistoryManager";
+import { Operation } from "open-patcher/dist/types.js";
+import { HistoryStateEntry } from "../History/HistoryManager.js";
 
-import { deepEqual, getPerfKindFromNode } from "./utils";
-import { getNodePath } from "../History/operations/defaults";
-import { exportNodeToJSON } from "../../localLexical/exportNodeToJSON";
+import { deepEqual, getPerfKindFromNode } from "./utils.js";
+import { getNodePath } from "../History/operations/defaults.js";
+import { exportNodeToJSON } from "../../localLexical/exportNodeToJSON.js";
 import { getDiff } from "json-difference";
-import { PerfKind } from "./types";
-import { OperationType } from "../History/operations/index.d";
-import { FlatDocument as PerfDocument } from "./Types/Document";
-import { transformPerfNodeToSerializedLexicalNode } from "../../converters/perf/perfToLexical";
+import { PerfKind } from "./types.js";
+import { OperationType } from "../History/operations/index.js";
+import { FlatDocument as PerfDocument } from "./Types/Document.js";
+import { transformPerfNodeToSerializedLexicalNode } from "../../converters/perf/perfToLexical/index.js";
 
 const DEFAULT_ROUNDTRIP_EXCEPTIONS = ["direction"];
 
@@ -107,7 +107,7 @@ export const getPerfHistoryUpdater: (
         editorState.read(() => {
           extraData.extendedOperations.forEach((operation, index) => {
             // Skip remove operations
-            if (operation.operationType === "remove") return;
+            if (operation.operationType === "remove") return undefined;
 
             // Convert the current lexical node to a Serialized Element Node
             const editorLexicalNode = exportNodeToJSON<SerializedUsfmElementNode>(
@@ -159,6 +159,8 @@ export const getPerfHistoryUpdater: (
               );
               return true;
             }
+
+            return undefined;
           });
         });
         // Check the roundtrip of the patched document (should remove this in production)

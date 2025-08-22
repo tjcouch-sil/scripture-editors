@@ -1,11 +1,11 @@
-import { FlatDocument } from "../../plugins/PerfOperations/Types/Document";
-import { usfm2perf } from "../../converters/perf/usfmToPerf";
-import { transformPerfNodeToSerializedLexicalNode } from "../../converters/perf/perfToLexical";
-import { PerfKind } from "../../plugins/PerfOperations/types";
+import { FlatDocument } from "../../plugins/PerfOperations/Types/Document.js";
+import { usfm2perf } from "../../converters/perf/usfmToPerf.js";
+import { transformPerfNodeToSerializedLexicalNode } from "../../converters/perf/perfToLexical/index.js";
+import { PerfKind } from "../../plugins/PerfOperations/types.js";
 import { SerializedElementNode } from "lexical";
-import { Marker, MarkerType } from "./usfmTypes";
-import { CURSOR_PLACEHOLDER_CHAR } from "../../plugins/CursorHandler";
-import { ScriptureReference } from "../get-marker-action.model";
+import { Marker, MarkerType } from "./usfmTypes.js";
+import { CURSOR_PLACEHOLDER_CHAR } from "../../plugins/CursorHandler/index.js";
+import { ScriptureReference } from "../get-marker-action.model.js";
 
 //For now only markers that are allowed to be under \p marker
 export const createLexicalPerfNodeFromUsfm = (usfm: string, kind: "inline" | "block") => {

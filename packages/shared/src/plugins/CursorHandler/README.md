@@ -7,7 +7,7 @@ The CursorHandler is a plugin for Lexical Editor that manages cursor behavior an
 To use the CursorHandler in your project, import the necessary functions and constants:
 
 ```ts
-import { registerCursorHandlers } from "shared/plugins/CursorHandler";
+import { registerCursorHandlers } from "shared";
 ```
 
 ## Configuration

@@ -1,17 +1,17 @@
 import { addClassNamesToElement } from "@lexical/utils";
 import { $applyNodeReplacement, EditorConfig, LexicalNode, NodeKey } from "lexical";
-import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode";
+import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode.js";
 
 const DEFAULT_TAG = "span";
 
 export type SerializedDivisionMarkNode = SerializedUsfmElementNode;
 
 export class DivisionMarkNode extends UsfmElementNode {
-  static getType(): string {
+  static override getType(): string {
     return "divisionmark";
   }
 
-  static clone(node: DivisionMarkNode): DivisionMarkNode {
+  static override clone(node: DivisionMarkNode): DivisionMarkNode {
     return new DivisionMarkNode(node.__attributes, node.__tag, node.__key);
   }
 
@@ -19,20 +19,20 @@ export class DivisionMarkNode extends UsfmElementNode {
     super(attributes, undefined, tag, key);
   }
 
-  static importJSON(serializedNode: SerializedDivisionMarkNode) {
+  static override importJSON(serializedNode: SerializedDivisionMarkNode) {
     const { attributes, tag } = serializedNode;
     return $createDivisionMarkNode(attributes, tag ?? DEFAULT_TAG).updateFromJSON(serializedNode);
   }
 
-  canBeEmpty(): boolean {
+  override canBeEmpty(): boolean {
     return false;
   }
 
-  canInsertTextAfter(): boolean {
+  override canInsertTextAfter(): boolean {
     return true;
   }
 
-  createDOM(config: EditorConfig): HTMLSpanElement {
+  override createDOM(config: EditorConfig): HTMLSpanElement {
     const element = document.createElement(this.getTag() ?? DEFAULT_TAG);
     const attributes = this.getAttributes();
 
@@ -43,11 +43,11 @@ export class DivisionMarkNode extends UsfmElementNode {
     return element;
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return true;
   }
 
-  exportJSON(): SerializedDivisionMarkNode {
+  override exportJSON(): SerializedDivisionMarkNode {
     return {
       ...super.exportJSON(),
       type: "divisionmark",
@@ -55,7 +55,7 @@ export class DivisionMarkNode extends UsfmElementNode {
     };
   }
 
-  updateDOM(_prevNode: DivisionMarkNode, element: HTMLElement): boolean {
+  override updateDOM(_prevNode: DivisionMarkNode, element: HTMLElement): boolean {
     const newNumber = element.innerText;
     if (!this.__attributes["perf-atts-number"]) return false;
     this.__attributes["perf-atts-number"] = newNumber;

@@ -6,8 +6,8 @@ import {
   LexicalNode,
   TextNode,
 } from "lexical";
-import { CURSOR_PLACEHOLDER_CHAR } from "./constants";
-import { CursorData, CursorPosition } from "./CursorSelectionContext";
+import { CURSOR_PLACEHOLDER_CHAR } from "./constants.js";
+import { CursorData, CursorPosition } from "./CursorSelectionContext.js";
 
 export function $createCursorPlaceholderNode() {
   return $createTextNode(CURSOR_PLACEHOLDER_CHAR);

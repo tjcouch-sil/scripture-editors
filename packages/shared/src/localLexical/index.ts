@@ -1,1 +1,1 @@
-export * from "./exportNodeToJSON";
+export * from "./exportNodeToJSON.js";

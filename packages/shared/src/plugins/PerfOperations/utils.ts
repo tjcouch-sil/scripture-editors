@@ -3,7 +3,7 @@
  * @module
  */
 import { ElementNode, LexicalNode } from "lexical";
-import { PerfKind } from "./types";
+import { PerfKind } from "./types.js";
 
 /**
  * Function to determine the perf node kind based on the node.

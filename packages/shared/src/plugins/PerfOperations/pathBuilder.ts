@@ -1,7 +1,7 @@
 import { LexicalNode } from "lexical";
-import { getPerfKindFromNode } from "./utils";
-import { PerfKind } from "./types";
-import { UsfmElementNode } from "../../nodes/UsfmElementNode";
+import { getPerfKindFromNode } from "./utils.js";
+import { PerfKind } from "./types.js";
+import { UsfmElementNode } from "../../nodes/UsfmElementNode.js";
 
 export const getPathBuilder = (MainSequenceId: string) => (node: UsfmElementNode | LexicalNode) => {
   const pathArray: Array<string | number> = [];

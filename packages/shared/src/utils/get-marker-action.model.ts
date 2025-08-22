@@ -1,6 +1,6 @@
 import { SerializedVerseRef } from "@sillsdev/scripture";
 import { LexicalEditor } from "lexical";
-import { Marker } from "./usfm/usfmTypes";
+import { Marker } from "./usfm/usfmTypes.js";
 
 export type ScriptureReference = SerializedVerseRef;
 

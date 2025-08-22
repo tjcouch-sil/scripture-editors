@@ -14,11 +14,12 @@ import {
   Spread,
   isHTMLElement,
 } from "lexical";
-import { CHAPTER_CLASS_NAME, UnknownAttributes } from "./node-constants";
-import { getVisibleOpenMarkerText } from "./node.utils";
+import { CHAPTER_CLASS_NAME, UnknownAttributes } from "./node-constants.js";
+import { getVisibleOpenMarkerText } from "./node.utils.js";
 
-export const CHAPTER_MARKER = "c";
 export const IMMUTABLE_CHAPTER_VERSION = 1;
+
+const CHAPTER_MARKER = "c";
 const IMMUTABLE_CHAPTER_TAG_NAME = "span";
 
 type ChapterMarker = typeof CHAPTER_MARKER;
@@ -64,11 +65,11 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "immutable-chapter";
   }
 
-  static clone(node: ImmutableChapterNode): ImmutableChapterNode {
+  static override clone(node: ImmutableChapterNode): ImmutableChapterNode {
     const { __number, __showMarker, __sid, __altnumber, __pubnumber, __unknownAttributes, __key } =
       node;
     return new ImmutableChapterNode(
@@ -82,7 +83,7 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     );
   }
 
-  static importJSON(serializedNode: SerializedImmutableChapterNode): ImmutableChapterNode {
+  static override importJSON(serializedNode: SerializedImmutableChapterNode): ImmutableChapterNode {
     const { number, showMarker, sid, altnumber, pubnumber, unknownAttributes } = serializedNode;
     return $createImmutableChapterNode(
       number,
@@ -94,7 +95,7 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     ).updateFromJSON(serializedNode);
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       span: (node: HTMLElement) => {
         if (!isImmutableChapterElement(node)) return null;
@@ -107,7 +108,7 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     };
   }
 
-  updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedImmutableChapterNode>): this {
+  override updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedImmutableChapterNode>): this {
     return super.updateFromJSON(serializedNode).setMarker(serializedNode.marker);
   }
 
@@ -200,7 +201,7 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement(IMMUTABLE_CHAPTER_TAG_NAME);
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(CHAPTER_CLASS_NAME, `usfm_${this.__marker}`);
@@ -208,13 +209,13 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -225,13 +226,13 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
     return { element };
   }
 
-  decorate(): string {
+  override decorate(): string {
     return this.getShowMarker()
       ? getVisibleOpenMarkerText(this.getMarker(), this.getNumber())
       : this.getNumber();
   }
 
-  exportJSON(): SerializedImmutableChapterNode {
+  override exportJSON(): SerializedImmutableChapterNode {
     return {
       type: this.getType(),
       marker: this.getMarker(),
@@ -247,11 +248,11 @@ export class ImmutableChapterNode extends DecoratorNode<void> {
 
   // Mutation
 
-  isInline(): false {
+  override isInline(): false {
     return false;
   }
 
-  isKeyboardSelectable(): false {
+  override isKeyboardSelectable(): false {
     return false;
   }
 }

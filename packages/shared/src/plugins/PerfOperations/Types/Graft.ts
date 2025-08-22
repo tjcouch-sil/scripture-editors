@@ -1,4 +1,4 @@
-import Sequence from "./Sequence";
+import Sequence from "./Sequence.js";
 
 type GraftType = "graft";
 

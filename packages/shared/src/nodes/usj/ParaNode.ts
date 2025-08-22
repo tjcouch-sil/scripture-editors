@@ -16,7 +16,7 @@ import {
   Spread,
   isHTMLElement,
 } from "lexical";
-import { PARA_MARKER_DEFAULT, UnknownAttributes } from "./node-constants";
+import { PARA_MARKER_DEFAULT, UnknownAttributes } from "./node-constants.js";
 
 /** @see https://docs.usfm.bible/usfm/3.1/para/index.html */
 const VALID_PARA_MARKERS = [
@@ -171,21 +171,21 @@ export class ParaNode extends ParagraphNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "para";
   }
 
-  static clone(node: ParaNode): ParaNode {
+  static override clone(node: ParaNode): ParaNode {
     const { __marker, __unknownAttributes, __key } = node;
     return new ParaNode(__marker, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedParaNode): ParaNode {
+  static override importJSON(serializedNode: SerializedParaNode): ParaNode {
     const { marker, unknownAttributes } = serializedNode;
     return $createParaNode(marker, unknownAttributes).updateFromJSON(serializedNode);
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       p: () => ({
         conversion: $convertParaElement,
@@ -225,7 +225,7 @@ export class ParaNode extends ParagraphNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     // Define the DOM element here
     const dom = document.createElement("p");
     dom.setAttribute("data-marker", this.__marker);
@@ -233,7 +233,7 @@ export class ParaNode extends ParagraphNode {
     return dom;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -243,7 +243,7 @@ export class ParaNode extends ParagraphNode {
     return { element };
   }
 
-  exportJSON(): SerializedParaNode {
+  override exportJSON(): SerializedParaNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -255,7 +255,10 @@ export class ParaNode extends ParagraphNode {
 
   // Mutation
 
-  insertNewAfter(rangeSelection: RangeSelection, restoreSelection: boolean): ParagraphNode {
+  override insertNewAfter(
+    rangeSelection: RangeSelection,
+    restoreSelection: boolean,
+  ): ParagraphNode {
     const newElement = $createParaNode(this.getMarker());
     newElement.setTextFormat(rangeSelection.format);
     newElement.setTextStyle(rangeSelection.style);

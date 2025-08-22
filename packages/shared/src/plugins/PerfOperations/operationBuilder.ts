@@ -1,23 +1,23 @@
-import { getPerfKindFromNode } from "./utils";
-import { exportNodeToJSON } from "../../localLexical/exportNodeToJSON";
+import { getPerfKindFromNode } from "./utils.js";
+import { exportNodeToJSON } from "../../localLexical/exportNodeToJSON.js";
 
-import { Mapper } from "../History/operations/defaults";
-import { $isUsfmElementNode } from "../../nodes/UsfmElementNode";
+import { Mapper } from "../History/operations/defaults.js";
+import { $isUsfmElementNode } from "../../nodes/UsfmElementNode.js";
 import {
   OperationAdd,
   OperationRemove,
   OperationReplace,
   OperationType,
   Path,
-} from "../History/operations/index.d";
-import { PerfKind } from "./types";
+} from "../History/operations/index.js";
+import { PerfKind } from "./types.js";
 
-import Epitelete from "./epitelete";
-import Sequence from "./Types/Sequence";
-import Block from "./Types/Block";
-import ContentElement from "./Types/ContentElement";
-import { FlatDocument as PerfDocument } from "./Types/Document";
-import transformLexicalStateToPerf from "../../converters/perf/lexicalToPerf";
+import Epitelete from "epitelete";
+import Sequence from "./Types/Sequence.js";
+import Block from "./Types/Block.js";
+import ContentElement from "./Types/ContentElement.js";
+import { FlatDocument as PerfDocument } from "./Types/Document.js";
+import transformLexicalStateToPerf from "../../converters/perf/lexicalToPerf/index.js";
 import { SerializedElementNode } from "lexical";
 
 const epi = new Epitelete({ docSetId: "bible" });

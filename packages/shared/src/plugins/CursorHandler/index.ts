@@ -1,1 +1,1 @@
-export { registerCursorHandlers, CURSOR_PLACEHOLDER_CHAR } from "./core";
+export { registerCursorHandlers, CURSOR_PLACEHOLDER_CHAR } from "./core/index.js";

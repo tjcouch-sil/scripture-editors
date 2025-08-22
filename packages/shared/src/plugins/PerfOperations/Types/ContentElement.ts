@@ -1,7 +1,7 @@
-import Hook from "./Hook";
-import { Atts, NameSpacedSubtype, XSubtype } from "./common";
-import { ChapterVerse, Props, getPerfProps } from "./utils";
-import { Graft } from "./Graft";
+import Hook from "./Hook.js";
+import { Atts, NameSpacedSubtype, XSubtype } from "./common.js";
+import { ChapterVerse, Props, getPerfProps } from "./utils.js";
+import { Graft } from "./Graft.js";
 
 export type ContentElement = ContentElementGraft | Mark | Wrapper | StartMilestone | EndMilestone;
 

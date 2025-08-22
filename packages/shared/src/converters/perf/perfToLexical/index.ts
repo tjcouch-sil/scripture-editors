@@ -1,11 +1,16 @@
-import { NodeBuildSource, convertBlock, convertContentElement, convertSequence } from "../perfToX";
-import { FlatDocument, PerfDocument } from "../../../plugins/PerfOperations/Types/Document";
-import { PerfKind } from "../../../plugins/PerfOperations/types";
-import Sequence from "../../../plugins/PerfOperations/Types/Sequence";
-import Block from "../../../plugins/PerfOperations/Types/Block";
-import ContentElement from "../../../plugins/PerfOperations/Types/ContentElement";
-import { PerfMap, mapPerf } from "../perfMapper";
-import { PerfLexicalNode, createPerfToLexicalMap } from "./perfToLexicalMap";
+import {
+  NodeBuildSource,
+  convertBlock,
+  convertContentElement,
+  convertSequence,
+} from "../perfToX.js";
+import { FlatDocument, PerfDocument } from "../../../plugins/PerfOperations/Types/Document.js";
+import { PerfKind } from "../../../plugins/PerfOperations/types.js";
+import Sequence from "../../../plugins/PerfOperations/Types/Sequence.js";
+import Block from "../../../plugins/PerfOperations/Types/Block.js";
+import ContentElement from "../../../plugins/PerfOperations/Types/ContentElement.js";
+import { PerfMap, mapPerf } from "../perfMapper.js";
+import { PerfLexicalNode, createPerfToLexicalMap } from "./perfToLexicalMap.js";
 import { SerializedEditorState, SerializedLexicalNode } from "lexical";
 
 export const transformPerfDocumentToSerializedLexicalState = (

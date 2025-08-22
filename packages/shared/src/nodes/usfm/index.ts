@@ -1,1 +1,1 @@
-export * from "./UsfmElementNode";
+export * from "./UsfmElementNode.js";

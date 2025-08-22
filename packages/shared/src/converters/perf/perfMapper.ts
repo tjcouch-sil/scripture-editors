@@ -1,8 +1,8 @@
-import { NodeBuildSource, SubtypeKey, TypeKey } from "./perfToX";
-import { PerfKind } from "../../plugins/PerfOperations/types";
-import Sequence from "../../plugins/PerfOperations/Types/Sequence";
-import Block from "../../plugins/PerfOperations/Types/Block";
-import ContentElement from "../../plugins/PerfOperations/Types/ContentElement";
+import { NodeBuildSource, SubtypeKey, TypeKey } from "./perfToX.js";
+import { PerfKind } from "../../plugins/PerfOperations/types.js";
+import Sequence from "../../plugins/PerfOperations/Types/Sequence.js";
+import Block from "../../plugins/PerfOperations/Types/Block.js";
+import ContentElement from "../../plugins/PerfOperations/Types/ContentElement.js";
 
 type TypeKeyMap<K> = K extends Sequence["type"]
   ? PerfKind.Sequence

@@ -14,7 +14,7 @@ import {
   Spread,
   isHTMLElement,
 } from "lexical";
-import { UnknownAttributes } from "./node-constants";
+import { UnknownAttributes } from "./node-constants.js";
 
 /** @see https://docs.usfm.bible/usfm/3.1/char/notes/footnote/index.html */
 const VALID_CHAR_FOOTNOTE_MARKERS = [
@@ -125,21 +125,21 @@ export class CharNode extends ElementNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "char";
   }
 
-  static clone(node: CharNode): CharNode {
+  static override clone(node: CharNode): CharNode {
     const { __marker, __unknownAttributes, __key } = node;
     return new CharNode(__marker, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedCharNode): CharNode {
+  static override importJSON(serializedNode: SerializedCharNode): CharNode {
     const { marker, unknownAttributes } = serializedNode;
     return $createCharNode(marker, unknownAttributes).updateFromJSON(serializedNode);
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       span: (node: HTMLElement) => {
         if (!isCharElement(node)) return null;
@@ -188,20 +188,20 @@ export class CharNode extends ElementNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("span");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(this.__type, `usfm_${this.__marker}`);
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -211,7 +211,7 @@ export class CharNode extends ElementNode {
     return { element };
   }
 
-  exportJSON(): SerializedCharNode {
+  override exportJSON(): SerializedCharNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -223,11 +223,11 @@ export class CharNode extends ElementNode {
 
   // Mutation
 
-  canBeEmpty(): false {
+  override canBeEmpty(): false {
     return false;
   }
 
-  isInline(): true {
+  override isInline(): true {
     return true;
   }
 }

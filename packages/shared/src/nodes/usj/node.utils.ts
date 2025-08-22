@@ -13,28 +13,28 @@ import {
   SerializedTextNode,
   TextNode,
 } from "lexical";
-import { charIdState } from "../collab/delta.state";
-import { $isUnknownNode, UnknownNode } from "../features/UnknownNode";
-import { $isBookNode, BookNode } from "./BookNode";
+import { charIdState } from "../collab/delta.state.js";
+import { $isUnknownNode, UnknownNode } from "../features/UnknownNode.js";
+import { $isBookNode, BookNode } from "./BookNode.js";
 import {
   $isChapterNode,
   ChapterNode,
   isSerializedChapterNode,
   SerializedChapterNode,
-} from "./ChapterNode";
-import { $isCharNode, CharNode, isSerializedCharNode } from "./CharNode";
+} from "./ChapterNode.js";
+import { $isCharNode, CharNode, isSerializedCharNode } from "./CharNode.js";
 import {
   $isImmutableChapterNode,
   ImmutableChapterNode,
   isSerializedImmutableChapterNode,
   SerializedImmutableChapterNode,
-} from "./ImmutableChapterNode";
-import { $isImpliedParaNode, ImpliedParaNode } from "./ImpliedParaNode";
-import { $isMilestoneNode, MilestoneNode } from "./MilestoneNode";
-import { $isNoteNode, NoteNode } from "./NoteNode";
-import { $isParaNode, ParaNode } from "./ParaNode";
-import { $isVerseNode, VerseNode } from "./VerseNode";
-import { NBSP, UnknownAttributes } from "./node-constants";
+} from "./ImmutableChapterNode.js";
+import { $isImpliedParaNode, ImpliedParaNode } from "./ImpliedParaNode.js";
+import { $isMilestoneNode, MilestoneNode } from "./MilestoneNode.js";
+import { $isNoteNode, NoteNode } from "./NoteNode.js";
+import { $isParaNode, ParaNode } from "./ParaNode.js";
+import { $isVerseNode, VerseNode } from "./VerseNode.js";
+import { NBSP, UnknownAttributes } from "./node-constants.js";
 
 export type NodesWithMarker =
   | BookNode
@@ -128,7 +128,7 @@ export function $findNextChapter(nodes: LexicalNode[], isCurrentChapterAtFirstNo
  * @returns the chapter node if found, `undefined` otherwise.
  */
 export function $findThisChapter(node: LexicalNode | null | undefined) {
-  if (!node) return;
+  if (!node) return undefined;
 
   // is this node a chapter
   if ($isSomeChapterNode(node)) return node;
@@ -139,6 +139,8 @@ export function $findThisChapter(node: LexicalNode | null | undefined) {
     previousSibling = previousSibling.getPreviousSibling();
   }
   if (previousSibling && $isSomeChapterNode(previousSibling)) return previousSibling;
+
+  return undefined;
 }
 
 /**
@@ -465,12 +467,14 @@ export function removeUndefinedProperties<T>(obj: T): T {
  * @returns The start node of the selection or `undefined` if no selection is provided.
  */
 export function getSelectionStartNode(selection: BaseSelection | null): LexicalNode | undefined {
-  if (!selection) return;
+  if (!selection) return undefined;
 
   const nodes = selection.getNodes();
   if (nodes.length > 0) {
     return selection.isBackward() ? nodes[nodes.length - 1] : nodes[0];
   }
+
+  return undefined;
 }
 
 /**

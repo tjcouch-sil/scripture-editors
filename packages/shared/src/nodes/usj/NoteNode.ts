@@ -14,7 +14,7 @@ import {
   SerializedLexicalNode,
   Spread,
 } from "lexical";
-import { UnknownAttributes } from "./node-constants";
+import { UnknownAttributes } from "./node-constants.js";
 
 /** @see https://docs.usfm.bible/usfm/3.1/note/index.html */
 const VALID_NOTE_MARKERS = [
@@ -60,23 +60,23 @@ export class NoteNode extends ElementNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "note";
   }
 
-  static clone(node: NoteNode): NoteNode {
+  static override clone(node: NoteNode): NoteNode {
     const { __marker, __caller, __category, __unknownAttributes, __key } = node;
     return new NoteNode(__marker, __caller, __category, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedNoteNode): NoteNode {
+  static override importJSON(serializedNode: SerializedNoteNode): NoteNode {
     const { marker, caller, category, unknownAttributes } = serializedNode;
     return $createNoteNode(marker, caller, category, unknownAttributes).updateFromJSON(
       serializedNode,
     );
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       span: (node: HTMLElement) => {
         if (!isNoteElement(node)) return null;
@@ -146,7 +146,7 @@ export class NoteNode extends ElementNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("span");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(this.__type, `usfm_${this.__marker}`);
@@ -154,13 +154,13 @@ export class NoteNode extends ElementNode {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -171,7 +171,7 @@ export class NoteNode extends ElementNode {
     return { element };
   }
 
-  exportJSON(): SerializedNoteNode {
+  override exportJSON(): SerializedNoteNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -185,11 +185,11 @@ export class NoteNode extends ElementNode {
 
   // Mutation
 
-  canBeEmpty(): false {
+  override canBeEmpty(): false {
     return false;
   }
 
-  isInline(): true {
+  override isInline(): true {
     return true;
   }
 }

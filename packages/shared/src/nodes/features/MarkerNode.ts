@@ -1,6 +1,6 @@
 /** Marker node used when displaying USFM */
 
-import { closingMarkerText, openingMarkerText } from "../usj/node.utils";
+import { closingMarkerText, openingMarkerText } from "../usj/node.utils.js";
 import {
   $applyNodeReplacement,
   EditorConfig,
@@ -33,15 +33,15 @@ export class MarkerNode extends TextNode {
     this.__isOpening = isOpening;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "marker";
   }
 
-  static clone(node: MarkerNode): MarkerNode {
+  static override clone(node: MarkerNode): MarkerNode {
     return new MarkerNode(node.__marker, node.__isOpening, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedMarkerNode): MarkerNode {
+  static override importJSON(serializedNode: SerializedMarkerNode): MarkerNode {
     const { marker, isOpening } = serializedNode;
     return $createMarkerNode(marker, isOpening).updateFromJSON(serializedNode);
   }
@@ -72,14 +72,14 @@ export class MarkerNode extends TextNode {
     return self.__isOpening;
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  override createDOM(config: EditorConfig): HTMLElement {
     const dom = super.createDOM(config);
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(this.__type, this.__isOpening ? "opening" : "closing");
     return dom;
   }
 
-  exportJSON(): SerializedMarkerNode {
+  override exportJSON(): SerializedMarkerNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),

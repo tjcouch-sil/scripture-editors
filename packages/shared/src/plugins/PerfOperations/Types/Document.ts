@@ -1,6 +1,6 @@
-import Hooks from "./Hook";
-import Sequence from "./Sequence";
-import { ChapterVerse, SemVer } from "./utils";
+import Hooks from "./Hook.js";
+import Sequence from "./Sequence.js";
+import { ChapterVerse, SemVer } from "./utils.js";
 
 export type PerfDocument = FlatDocument | NestedDocument;
 

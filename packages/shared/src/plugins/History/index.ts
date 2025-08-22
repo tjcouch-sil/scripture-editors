@@ -6,7 +6,7 @@
 import type { EditorState, LexicalEditor, LexicalNode, NodeKey, UpdateListener } from "lexical";
 
 import { mergeRegister } from "@lexical/utils";
-import { debounce } from "../../utils";
+import { debounce } from "../../utils/index.js";
 import {
   $isRangeSelection,
   $isRootNode,
@@ -18,8 +18,13 @@ import {
   UNDO_COMMAND,
   createCommand,
 } from "lexical";
-import { HistoryState, HistoryStateEntry, LexicalHistoryManager } from "./HistoryManager";
-import { DirtyNodes } from "./DirtyNodes";
+import { HistoryState, HistoryStateEntry, LexicalHistoryManager } from "./HistoryManager.js";
+import { DirtyNodes } from "./DirtyNodes.js";
+
+export * from "./operations/index.js";
+
+export * from "./DirtyNodes.js";
+export * from "./HistoryManager.js";
 
 export const PUSH_COMMAND = createCommand("PUSH_COMMAND");
 

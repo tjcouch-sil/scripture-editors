@@ -11,7 +11,7 @@ import {
   SerializedLexicalNode,
   Spread,
 } from "lexical";
-import { UnknownAttributes } from "./node-constants";
+import { UnknownAttributes } from "./node-constants.js";
 
 export const BOOK_MARKER = "id";
 export const BOOK_VERSION = 1;
@@ -38,16 +38,16 @@ export class BookNode extends ElementNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "book";
   }
 
-  static clone(node: BookNode): BookNode {
+  static override clone(node: BookNode): BookNode {
     const { __code, __unknownAttributes, __key } = node;
     return new BookNode(__code, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedBookNode): BookNode {
+  static override importJSON(serializedNode: SerializedBookNode): BookNode {
     const { code, unknownAttributes } = serializedNode;
     return $createBookNode(code, unknownAttributes).updateFromJSON(serializedNode);
   }
@@ -56,7 +56,7 @@ export class BookNode extends ElementNode {
     return isValidBookCode(code);
   }
 
-  updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedBookNode>): this {
+  override updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedBookNode>): this {
     return super.updateFromJSON(serializedNode).setMarker(serializedNode.marker);
   }
 
@@ -101,7 +101,7 @@ export class BookNode extends ElementNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("p");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(this.__type, `usfm_${this.__marker}`);
@@ -109,13 +109,13 @@ export class BookNode extends ElementNode {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportJSON(): SerializedBookNode {
+  override exportJSON(): SerializedBookNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),

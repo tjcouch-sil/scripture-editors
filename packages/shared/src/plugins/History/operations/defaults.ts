@@ -1,5 +1,6 @@
 import { ElementNode, LexicalNode } from "lexical";
-import { Operation, OperationType, Path } from "./index.d";
+import { Path } from "./index.js";
+import { OperationType, Operation } from "./types.js";
 
 export type MapperArgs = {
   node: LexicalNode;

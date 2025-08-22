@@ -1,7 +1,7 @@
-import Block from "./Block";
-import ContentElement from "./ContentElement";
-import Sequence from "./Sequence";
-import { Atts, isAtts } from "./common";
+import Block from "./Block.js";
+import ContentElement from "./ContentElement.js";
+import Sequence from "./Sequence.js";
+import { Atts, isAtts } from "./common.js";
 
 export type NumberString = `${number}`;
 

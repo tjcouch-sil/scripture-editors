@@ -1,4 +1,4 @@
-import { usjBaseNodes } from ".";
+import { usjBaseNodes } from "./index.js";
 import {
   $createPoint,
   $createRangeSelection,
@@ -115,7 +115,7 @@ export function $expectSelectionToBe(
   endNode ??= startNode;
 
   const selection = $getSelection();
-  if (!$isRangeSelection(selection)) fail("Selection is not a range selection");
+  if (!$isRangeSelection(selection)) throw new Error("Selection is not a range selection");
   const selectionStart = selection.isBackward() ? selection.focus : selection.anchor;
   const selectionEnd = selection.isBackward() ? selection.anchor : selection.focus;
   expect(selectionStart).toEqual({

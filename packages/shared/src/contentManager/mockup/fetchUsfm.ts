@@ -1,4 +1,4 @@
-import { serverMap } from "./server";
+import { serverMap } from "./server.js";
 
 /** a mockup function for fetching usfm */
 export function fetchUsfm({

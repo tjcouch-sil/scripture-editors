@@ -10,12 +10,12 @@ import {
   RangeSelection,
   SerializedLexicalNode,
 } from "lexical";
-import { MarkerAction, ScriptureReference } from "../get-marker-action.model";
-import { $createNodeFromSerializedNode } from "../../converters/usfm/emptyUsfmNodes";
-import { CURSOR_PLACEHOLDER_CHAR } from "../../plugins/CursorHandler/core/utils/constants";
-import { $isTypedMarkNode } from "../../nodes/features/TypedMarkNode";
-import { usfmToLexicalAdapter } from "./usfmToLexicalPerf";
-import { Marker } from "./usfmTypes";
+import { MarkerAction, ScriptureReference } from "../get-marker-action.model.js";
+import { $createNodeFromSerializedNode } from "../../converters/usfm/emptyUsfmNodes.js";
+import { CURSOR_PLACEHOLDER_CHAR } from "../../plugins/CursorHandler/core/utils/constants.js";
+import { $isTypedMarkNode } from "../../nodes/features/TypedMarkNode.js";
+import { usfmToLexicalAdapter } from "./usfmToLexicalPerf.js";
+import { Marker } from "./usfmTypes.js";
 
 export const markerActions: {
   [marker: string]: {

@@ -1,18 +1,21 @@
-import { MetadataBuilder, NodeBuilderArgs, convertLexicalStateNode } from "../lexicalToX";
-import { PerfKind } from "../../../plugins/PerfOperations/types";
+import { MetadataBuilder, NodeBuilderArgs, convertLexicalStateNode } from "../lexicalToX.js";
+import { PerfKind } from "../../../plugins/PerfOperations/types.js";
 import { SerializedElementNode, SerializedTextNode } from "lexical";
-import { FlatDocument as PerfDocument } from "../../../plugins/PerfOperations/Types/Document";
-import Sequence from "../../../plugins/PerfOperations/Types/Sequence";
-import Block, { getBlockIfValid, isBlockGraft } from "../../../plugins/PerfOperations/Types/Block";
+import { FlatDocument as PerfDocument } from "../../../plugins/PerfOperations/Types/Document.js";
+import Sequence from "../../../plugins/PerfOperations/Types/Sequence.js";
+import Block, {
+  getBlockIfValid,
+  isBlockGraft,
+} from "../../../plugins/PerfOperations/Types/Block.js";
 import ContentElement, {
   Content,
   getContentElementifValid,
   isContentElementGraft,
   isDivisionMark,
-} from "../../../plugins/PerfOperations/Types/ContentElement";
-import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode";
-import { Props, isChapterVerse } from "../../../plugins/PerfOperations/Types/utils";
-import { getPerfElementPropsfromAttributes } from "../utils";
+} from "../../../plugins/PerfOperations/Types/ContentElement.js";
+import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode.js";
+import { Props, isChapterVerse } from "../../../plugins/PerfOperations/Types/utils.js";
+import { getPerfElementPropsfromAttributes } from "../utils.js";
 
 type ResultingPerf = Pick<PerfDocument, "sequences"> & {
   result?: Sequence | Block | ContentElement | SubtypedSequence;

@@ -1,5 +1,6 @@
-import { $createImmutableChapterNode } from "./ImmutableChapterNode";
+import { $createImmutableChapterNode } from "./ImmutableChapterNode.js";
 import {
+  $isSomeChapterNode,
   getNextVerse,
   getUnknownAttributes,
   isValidNumberedMarker,
@@ -7,9 +8,9 @@ import {
   parseNumberFromMarkerText,
   removeNodeAndAfter,
   removeNodesBeforeNode,
-} from "./node.utils";
-import { $createParaNode } from "./ParaNode";
-import { createBasicTestEnvironment } from "./test.utils";
+} from "./node.utils.js";
+import { $createParaNode } from "./ParaNode.js";
+import { createBasicTestEnvironment } from "./test.utils.js";
 import { MarkerObject } from "@eten-tech-foundation/scripture-utilities";
 import { $getRoot, NodeKey, $getNodeByKey } from "lexical";
 
@@ -79,7 +80,7 @@ describe("Editor Node Utilities", () => {
       editor.getEditorState().read(() => {
         const children = $getRoot().getChildren();
         const c2 = $getNodeByKey(c2NodeKey) ?? undefined;
-        if (!c2) fail("chapter should be defined");
+        if (!$isSomeChapterNode(c2)) throw new Error("chapter should be defined");
 
         removeNodeAndAfter(children, c2);
 

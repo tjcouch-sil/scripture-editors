@@ -10,7 +10,7 @@ import {
   SerializedLexicalNode,
   Spread,
 } from "lexical";
-import { CHAPTER_CLASS_NAME, UnknownAttributes } from "./node-constants";
+import { CHAPTER_CLASS_NAME, UnknownAttributes } from "./node-constants.js";
 
 export const CHAPTER_MARKER = "c";
 export const CHAPTER_VERSION = 1;
@@ -53,23 +53,23 @@ export class ChapterNode extends ElementNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "chapter";
   }
 
-  static clone(node: ChapterNode): ChapterNode {
+  static override clone(node: ChapterNode): ChapterNode {
     const { __number, __sid, __altnumber, __pubnumber, __unknownAttributes, __key } = node;
     return new ChapterNode(__number, __sid, __altnumber, __pubnumber, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedChapterNode): ChapterNode {
+  static override importJSON(serializedNode: SerializedChapterNode): ChapterNode {
     const { number, sid, altnumber, pubnumber, unknownAttributes } = serializedNode;
     return $createChapterNode(number, sid, altnumber, pubnumber, unknownAttributes).updateFromJSON(
       serializedNode,
     );
   }
 
-  updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedChapterNode>): this {
+  override updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedChapterNode>): this {
     return super.updateFromJSON(serializedNode).setMarker(serializedNode.marker);
   }
 
@@ -149,7 +149,7 @@ export class ChapterNode extends ElementNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("p");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(CHAPTER_CLASS_NAME, `usfm_${this.__marker}`);
@@ -157,13 +157,13 @@ export class ChapterNode extends ElementNode {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportJSON(): SerializedChapterNode {
+  override exportJSON(): SerializedChapterNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),

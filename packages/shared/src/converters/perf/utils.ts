@@ -1,8 +1,8 @@
-import Block from "../../plugins/PerfOperations/Types/Block";
-import ContentElement from "../../plugins/PerfOperations/Types/ContentElement";
-import Sequence from "../../plugins/PerfOperations/Types/Sequence";
-import { Atts } from "../../plugins/PerfOperations/Types/common";
-import { PerfProps } from "../../plugins/PerfOperations/Types/utils";
+import Block from "../../plugins/PerfOperations/Types/Block.js";
+import ContentElement from "../../plugins/PerfOperations/Types/ContentElement.js";
+import Sequence from "../../plugins/PerfOperations/Types/Sequence.js";
+import { Atts } from "../../plugins/PerfOperations/Types/common.js";
+import { PerfProps } from "../../plugins/PerfOperations/Types/utils.js";
 
 export const DATA_PREFIX = "perf";
 

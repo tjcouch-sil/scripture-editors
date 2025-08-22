@@ -1,1 +1,1 @@
-export * from "./contentToLexicalNode";
+export * from "./contentToLexicalNode.js";

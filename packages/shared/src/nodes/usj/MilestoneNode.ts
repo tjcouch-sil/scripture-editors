@@ -8,7 +8,7 @@ import {
   SerializedLexicalNode,
   Spread,
 } from "lexical";
-import { UnknownAttributes } from "./node-constants";
+import { UnknownAttributes } from "./node-constants.js";
 
 export const STARTING_MS_COMMENT_MARKER = "zmsc-s";
 export const ENDING_MS_COMMENT_MARKER = "zmsc-e";
@@ -72,16 +72,16 @@ export class MilestoneNode extends DecoratorNode<void> {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "ms";
   }
 
-  static clone(node: MilestoneNode): MilestoneNode {
+  static override clone(node: MilestoneNode): MilestoneNode {
     const { __marker, __sid, __eid, __unknownAttributes, __key } = node;
     return new MilestoneNode(__marker, __sid, __eid, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedMilestoneNode): MilestoneNode {
+  static override importJSON(serializedNode: SerializedMilestoneNode): MilestoneNode {
     const { marker, sid, eid, unknownAttributes } = serializedNode;
     return $createMilestoneNode(marker, sid, eid, unknownAttributes);
   }
@@ -144,24 +144,24 @@ export class MilestoneNode extends DecoratorNode<void> {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("span");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(this.__type, `usfm_${this.__marker}`);
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  decorate(): string {
+  override decorate(): string {
     return "";
   }
 
-  exportJSON(): SerializedMilestoneNode {
+  override exportJSON(): SerializedMilestoneNode {
     return {
       type: this.getType(),
       marker: this.getMarker(),
@@ -174,7 +174,7 @@ export class MilestoneNode extends DecoratorNode<void> {
 
   // Mutation
 
-  isKeyboardSelectable(): false {
+  override isKeyboardSelectable(): false {
     return false;
   }
 }

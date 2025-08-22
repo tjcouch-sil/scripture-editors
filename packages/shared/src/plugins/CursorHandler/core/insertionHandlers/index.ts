@@ -14,11 +14,11 @@ import {
   $getCursorSelectionContext,
   CursorData,
   CursorPosition,
-} from "../utils/CursorSelectionContext";
-import { $insertCursorPlaceholder, $removeCursorPlaceholder } from "../utils";
-import { CharSelectionOffset, CursorMovementDirection } from "../utils/constants";
-import { $handleNoSibling } from "./noSibling";
-import { $handleSiblingNode } from "./sibling";
+} from "../utils/CursorSelectionContext.js";
+import { $insertCursorPlaceholder, $removeCursorPlaceholder } from "../utils/index.js";
+import { CharSelectionOffset, CursorMovementDirection } from "../utils/constants.js";
+import { $handleNoSibling } from "./noSibling.js";
+import { $handleSiblingNode } from "./sibling.js";
 
 export function registerCursorInsertion(
   editor: LexicalEditor,

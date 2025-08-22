@@ -1,4 +1,4 @@
-import { INVALID_CLASS_NAME, ZWSP } from "../usj/node-constants";
+import { INVALID_CLASS_NAME, ZWSP } from "../usj/node-constants.js";
 import {
   $applyNodeReplacement,
   DecoratorNode,
@@ -31,22 +31,24 @@ export class ImmutableUnmatchedNode extends DecoratorNode<void> {
     this.__marker = marker;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "unmatched";
   }
 
-  static clone(node: ImmutableUnmatchedNode): ImmutableUnmatchedNode {
+  static override clone(node: ImmutableUnmatchedNode): ImmutableUnmatchedNode {
     const { __marker, __key } = node;
     return new ImmutableUnmatchedNode(__marker, __key);
   }
 
-  static importJSON(serializedNode: SerializedImmutableUnmatchedNode): ImmutableUnmatchedNode {
+  static override importJSON(
+    serializedNode: SerializedImmutableUnmatchedNode,
+  ): ImmutableUnmatchedNode {
     const { marker } = serializedNode;
     const node = $createImmutableUnmatchedNode(marker);
     return node;
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       [UNMATCHED_TAG_NAME]: (node: HTMLElement) => {
         if (!isUnmatchedElement(node)) return null;
@@ -72,7 +74,7 @@ export class ImmutableUnmatchedNode extends DecoratorNode<void> {
     return self.__marker;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement(UNMATCHED_TAG_NAME);
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(INVALID_CLASS_NAME);
@@ -83,13 +85,13 @@ export class ImmutableUnmatchedNode extends DecoratorNode<void> {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -99,11 +101,11 @@ export class ImmutableUnmatchedNode extends DecoratorNode<void> {
     return { element };
   }
 
-  decorate(): string {
+  override decorate(): string {
     return `\\${this.getMarker()}${ZWSP}`;
   }
 
-  exportJSON(): SerializedImmutableUnmatchedNode {
+  override exportJSON(): SerializedImmutableUnmatchedNode {
     return {
       type: this.getType(),
       marker: this.getMarker(),
@@ -113,7 +115,7 @@ export class ImmutableUnmatchedNode extends DecoratorNode<void> {
 
   // Mutation
 
-  isKeyboardSelectable(): false {
+  override isKeyboardSelectable(): false {
     return false;
   }
 }

@@ -91,7 +91,7 @@ export class UsfmElementNode extends ElementNode {
     return writable;
   }
 
-  exportJSON(): SerializedUsfmElementNode {
+  override exportJSON(): SerializedUsfmElementNode {
     const attributes = this.getAttributes();
     const nonUiAttributes: Attributes = Object.keys(attributes).reduce((acc: Attributes, key) => {
       if (!key.startsWith("data-ui-")) {
@@ -109,11 +109,11 @@ export class UsfmElementNode extends ElementNode {
     };
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return this.__props?.isInline ?? false;
   }
 
-  updateDOM(_: UsfmElementNode, element: HTMLElement): boolean {
+  override updateDOM(_: UsfmElementNode, element: HTMLElement): boolean {
     const elementAttributes = element.attributes;
     const nodeAttributes = this.getAttributes();
     if (Object.keys(elementAttributes).length !== Object.keys(nodeAttributes).length) return true;

@@ -1,7 +1,7 @@
-import Block from "./Types/Block";
-import ContentElement from "./Types/ContentElement";
-import PerfDocument from "./Types/Document";
-import Sequence from "./Types/Sequence";
+import Block from "./Types/Block.js";
+import ContentElement from "./Types/ContentElement.js";
+import PerfDocument from "./Types/Document.js";
+import Sequence from "./Types/Sequence.js";
 
 export const enum PerfKind {
   Sequence = "sequence",

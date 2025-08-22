@@ -1,11 +1,11 @@
 import { SerializedElementNode, SerializedTextNode } from "lexical";
-import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode";
-import { FlatDocument as PerfDocument } from "../../../plugins/PerfOperations/Types/Document";
-import { PerfKind } from "../../../plugins/PerfOperations/types";
-import { PerfMap } from "../perfMapper";
-import { DATA_PREFIX, getAttributesFromPerfElementProps, getPerfProps } from "../utils";
-import { transformPerfNodeToSerializedLexicalNode } from ".";
-import { getTagFromPerfSubtype } from "../utils";
+import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode.js";
+import { FlatDocument as PerfDocument } from "../../../plugins/PerfOperations/Types/Document.js";
+import { PerfKind } from "../../../plugins/PerfOperations/types.js";
+import { PerfMap } from "../perfMapper.js";
+import { DATA_PREFIX, getAttributesFromPerfElementProps, getPerfProps } from "../utils.js";
+import { transformPerfNodeToSerializedLexicalNode } from "./index.js";
+import { getTagFromPerfSubtype } from "../utils.js";
 
 export type PerfLexicalNode =
   | SerializedTextNode

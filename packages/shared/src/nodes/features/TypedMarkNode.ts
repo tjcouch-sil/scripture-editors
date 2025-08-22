@@ -51,11 +51,11 @@ export class TypedMarkNode extends ElementNode {
     this.__typedIDs = typedIds || {};
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "typed-mark";
   }
 
-  static clone(node: TypedMarkNode): TypedMarkNode {
+  static override clone(node: TypedMarkNode): TypedMarkNode {
     const __typedIDs = JSON.parse(JSON.stringify(node.__typedIDs));
     return new TypedMarkNode(__typedIDs, node.__key);
   }
@@ -64,16 +64,16 @@ export class TypedMarkNode extends ElementNode {
     return reservedTypes.includes(type);
   }
 
-  static importJSON(serializedNode: SerializedTypedMarkNode): TypedMarkNode {
+  static override importJSON(serializedNode: SerializedTypedMarkNode): TypedMarkNode {
     const { typedIDs } = serializedNode;
     return $createTypedMarkNode(typedIDs).updateFromJSON(serializedNode);
   }
 
-  static importDOM(): null {
+  static override importDOM(): null {
     return null;
   }
 
-  exportJSON(): SerializedTypedMarkNode {
+  override exportJSON(): SerializedTypedMarkNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -82,7 +82,7 @@ export class TypedMarkNode extends ElementNode {
     };
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  override createDOM(config: EditorConfig): HTMLElement {
     const element = document.createElement("mark");
     for (const [type, ids] of Object.entries(this.__typedIDs)) {
       addClassNamesToElement(element, getTypedClassName(config.theme.typedMark, type));
@@ -93,7 +93,7 @@ export class TypedMarkNode extends ElementNode {
     return element;
   }
 
-  updateDOM(prevNode: TypedMarkNode, element: HTMLElement, config: EditorConfig): boolean {
+  override updateDOM(prevNode: TypedMarkNode, element: HTMLElement, config: EditorConfig): boolean {
     for (const [type, nextIDs] of Object.entries(this.__typedIDs)) {
       const prevIDs = prevNode.__typedIDs[type];
       const prevIDsCount = prevIDs.length;
@@ -164,29 +164,29 @@ export class TypedMarkNode extends ElementNode {
     return Object.values(this.getTypedIDs()).every((ids) => ids === undefined || ids.length === 0);
   }
 
-  insertNewAfter(_selection: RangeSelection, restoreSelection = true): null | ElementNode {
+  override insertNewAfter(_selection: RangeSelection, restoreSelection = true): null | ElementNode {
     const node = $createTypedMarkNode(this.__typedIDs);
     this.insertAfter(node, restoreSelection);
     return node;
   }
 
-  canInsertTextBefore(): false {
+  override canInsertTextBefore(): false {
     return false;
   }
 
-  canInsertTextAfter(): false {
+  override canInsertTextAfter(): false {
     return false;
   }
 
-  canBeEmpty(): false {
+  override canBeEmpty(): false {
     return false;
   }
 
-  isInline(): true {
+  override isInline(): true {
     return true;
   }
 
-  extractWithChild(
+  override extractWithChild(
     _child: LexicalNode,
     selection: BaseSelection,
     destination: "clone" | "html",
@@ -209,7 +209,7 @@ export class TypedMarkNode extends ElementNode {
     );
   }
 
-  excludeFromCopy(destination: "clone" | "html"): boolean {
+  override excludeFromCopy(destination: "clone" | "html"): boolean {
     return destination !== "clone";
   }
 }

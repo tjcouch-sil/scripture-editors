@@ -4,8 +4,8 @@ import {
   USJ_TYPE,
   USJ_VERSION,
 } from "@eten-tech-foundation/scripture-utilities";
-import { EditorAdaptor } from "../../adaptors/editor-adaptor.model";
-import { isSerializedImpliedParaNode } from "../../nodes/usj/ImpliedParaNode";
+import { EditorAdaptor } from "../../adaptors/editor-adaptor.model.js";
+import { isSerializedImpliedParaNode } from "../../nodes/usj/ImpliedParaNode.js";
 
 export function createLexicalUsjNode(
   content: MarkerContent[],

@@ -1,6 +1,6 @@
-export { default as getMarker } from "./getMarker";
-export * from "./getUsfmMarkerAction";
-export { usfmMarkers } from "./usfmMarkers";
-export * from "./usfmMarkersOverwrites";
-export * from "./usfmToLexicalPerf";
-export * from "./usfmTypes";
+export { default as getMarker } from "./getMarker.js";
+export * from "./getUsfmMarkerAction.js";
+export { usfmMarkers } from "./usfmMarkers.js";
+export * from "./usfmMarkersOverwrites.js";
+export * from "./usfmToLexicalPerf.js";
+export * from "./usfmTypes.js";

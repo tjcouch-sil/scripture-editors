@@ -7,7 +7,7 @@ import {
   NodeKey,
   RangeSelection,
 } from "lexical";
-import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode";
+import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode.js";
 
 const DEFAULT_TAG = "p";
 
@@ -18,20 +18,20 @@ export class UsfmParagraphNode extends UsfmElementNode {
     super(attributes, undefined, tag, key);
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "usfmparagraph";
   }
 
-  static clone(node: UsfmParagraphNode): UsfmParagraphNode {
+  static override clone(node: UsfmParagraphNode): UsfmParagraphNode {
     return new UsfmParagraphNode(node.__attributes, node.__tag, node.__key);
   }
 
-  static importJSON(serializedNode: SerializedUsfmParagraphNode): UsfmParagraphNode {
+  static override importJSON(serializedNode: SerializedUsfmParagraphNode): UsfmParagraphNode {
     const { attributes, tag } = serializedNode;
     return $createUsfmParagraphNode(attributes, tag ?? DEFAULT_TAG).updateFromJSON(serializedNode);
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  override createDOM(config: EditorConfig): HTMLElement {
     const attributes = this.getAttributes() ?? {};
     const element = document.createElement(this.getTag() ?? DEFAULT_TAG);
     Object.keys(attributes).forEach((attKey) => {
@@ -42,11 +42,11 @@ export class UsfmParagraphNode extends UsfmElementNode {
     return element;
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return false;
   }
 
-  exportJSON(): SerializedUsfmParagraphNode {
+  override exportJSON(): SerializedUsfmParagraphNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -54,11 +54,11 @@ export class UsfmParagraphNode extends UsfmElementNode {
     };
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     return false;
   }
 
-  insertNewAfter(_: RangeSelection, restoreSelection: boolean): UsfmParagraphNode {
+  override insertNewAfter(_: RangeSelection, restoreSelection: boolean): UsfmParagraphNode {
     const newElement = $createUsfmParagraphNode(this.getAttributes(), this.getTag());
     const direction = this.getDirection();
     newElement.setDirection(direction);
@@ -66,7 +66,7 @@ export class UsfmParagraphNode extends UsfmElementNode {
     return newElement;
   }
 
-  collapseAtStart(): boolean {
+  override collapseAtStart(): boolean {
     const children = this.getChildren();
     // If we have an empty (trimmed) first paragraph and try and remove it,
     // delete the paragraph as long as we have another sibling to go to

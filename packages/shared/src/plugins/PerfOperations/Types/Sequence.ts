@@ -1,6 +1,6 @@
-import Block from "./Block";
-import { Hooks } from "./Hook";
-import { Props } from "./utils";
+import Block from "./Block.js";
+import { Hooks } from "./Hook.js";
+import { Props } from "./utils.js";
 
 export type SequenceType =
   | "main"

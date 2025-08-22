@@ -11,7 +11,7 @@ import {
   NodeProps,
   SerializedUsfmElementNode,
   UsfmElementNode,
-} from "./UsfmElementNode";
+} from "./UsfmElementNode.js";
 import { addClassNamesToElement } from "@lexical/utils";
 
 const DEFAULT_TAG = "span";
@@ -23,19 +23,19 @@ export class GraftNode extends UsfmElementNode {
     super(attributes, props, tag, key);
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "graft";
   }
 
-  static clone(node: GraftNode): GraftNode {
+  static override clone(node: GraftNode): GraftNode {
     return new GraftNode(node.__attributes, node.__props, node.__tag, node.__key);
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return this.getProps()?.isInline ?? false;
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  override createDOM(config: EditorConfig): HTMLElement {
     const element = document.createElement(this.getTag() ?? DEFAULT_TAG);
     const attributes = this.getAttributes() ?? {};
     Object.keys(attributes).forEach((attKey) => {
@@ -45,7 +45,7 @@ export class GraftNode extends UsfmElementNode {
     return element;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
 
     if (element && isHTMLElement(element)) {
@@ -73,12 +73,12 @@ export class GraftNode extends UsfmElementNode {
     };
   }
 
-  static importJSON(serializedNode: SerializedGraftNode): GraftNode {
+  static override importJSON(serializedNode: SerializedGraftNode): GraftNode {
     const { attributes, props, tag } = serializedNode;
     return $createGraftNode(attributes, props, tag ?? DEFAULT_TAG).updateFromJSON(serializedNode);
   }
 
-  exportJSON(): SerializedGraftNode {
+  override exportJSON(): SerializedGraftNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -86,7 +86,7 @@ export class GraftNode extends UsfmElementNode {
     };
   }
 
-  isShadowRoot(): boolean {
+  override isShadowRoot(): boolean {
     return true;
   }
 }

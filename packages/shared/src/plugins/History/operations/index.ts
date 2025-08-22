@@ -1,8 +1,12 @@
 import { $getNodeByKey } from "lexical";
 import type { EditorState, NodeKey } from "lexical";
-import { buildOperation, getNodePath } from "./defaults";
-import type { Mapper, PathBuilder } from "./defaults";
-import { Operation, OperationType } from "./index.d";
+import { buildOperation, getNodePath } from "./defaults.js";
+import type { Mapper, PathBuilder } from "./defaults.js";
+import { Operation, OperationType } from "./types.js";
+
+export * from "./types.js";
+
+export type Path = Array<string | number>;
 
 type StateHistory = {
   editorState: EditorState;
@@ -136,4 +140,6 @@ export const $getOperation = ({
       });
     });
   }
+
+  return undefined;
 };

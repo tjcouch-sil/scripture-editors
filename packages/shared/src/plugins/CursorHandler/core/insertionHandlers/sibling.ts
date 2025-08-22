@@ -1,12 +1,12 @@
 import type { ElementNode, LexicalNode, TextNode } from "lexical";
 import { $isElementNode, $isTextNode } from "lexical";
-import { CursorData, CursorPosition } from "../utils/CursorSelectionContext";
+import { CursorData, CursorPosition } from "../utils/CursorSelectionContext.js";
 import {
   $createCursorPlaceholderNode,
   $findDescendantEligibleForPlaceholder,
   $insertCursorPlaceholder,
-} from "../utils";
-import { CharSelectionOffset } from "../utils/constants";
+} from "../utils/index.js";
+import { CharSelectionOffset } from "../utils/constants.js";
 
 export function $handleSiblingNode(
   siblingNode: LexicalNode,

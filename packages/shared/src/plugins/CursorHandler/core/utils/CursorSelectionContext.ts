@@ -1,5 +1,5 @@
 import { $isTextNode, $isRangeSelection, BaseSelection, TextNode, RangeSelection } from "lexical";
-import { CURSOR_PLACEHOLDER_CHAR, CursorMovementDirection } from "./constants";
+import { CURSOR_PLACEHOLDER_CHAR, CursorMovementDirection } from "./constants.js";
 
 export enum CursorPosition {
   Start,

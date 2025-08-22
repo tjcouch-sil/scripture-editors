@@ -1,4 +1,4 @@
-import { handleSubtypeNS } from "./utils";
+import { handleSubtypeNS } from "./utils.js";
 
 describe("Converter Utils:handleSubtypeNS", () => {
   it("should create subtype data", () => {

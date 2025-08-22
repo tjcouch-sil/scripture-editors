@@ -8,22 +8,22 @@ import {
   SerializedLexicalNode,
   SerializedParagraphNode,
 } from "lexical";
-import { PARA_MARKER_DEFAULT } from "./node-constants";
+import { PARA_MARKER_DEFAULT } from "./node-constants.js";
 
 export const IMPLIED_PARA_VERSION = 1;
 
 export type SerializedImpliedParaNode = SerializedParagraphNode;
 
 export class ImpliedParaNode extends ParagraphNode {
-  static getType(): string {
+  static override getType(): string {
     return "implied-para";
   }
 
-  static clone(node: ImpliedParaNode): ImpliedParaNode {
+  static override clone(node: ImpliedParaNode): ImpliedParaNode {
     return new ImpliedParaNode(node.__key);
   }
 
-  static importJSON(serializedNode: SerializedImpliedParaNode): ImpliedParaNode {
+  static override importJSON(serializedNode: SerializedImpliedParaNode): ImpliedParaNode {
     return $createImpliedParaNode().updateFromJSON(serializedNode);
   }
 
@@ -31,7 +31,7 @@ export class ImpliedParaNode extends ParagraphNode {
     return PARA_MARKER_DEFAULT;
   }
 
-  exportJSON(): SerializedImpliedParaNode {
+  override exportJSON(): SerializedImpliedParaNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -41,7 +41,10 @@ export class ImpliedParaNode extends ParagraphNode {
 
   // Mutation
 
-  insertNewAfter(rangeSelection: RangeSelection, restoreSelection: boolean): ParagraphNode {
+  override insertNewAfter(
+    rangeSelection: RangeSelection,
+    restoreSelection: boolean,
+  ): ParagraphNode {
     const newElement = $createImpliedParaNode();
     newElement.setTextFormat(rangeSelection.format);
     newElement.setTextStyle(rangeSelection.style);

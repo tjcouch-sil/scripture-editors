@@ -1,2 +1,2 @@
-export * from "./perf";
-export * from "./usfm";
+export * from "./perf/index.js";
+export * from "./usfm/index.js";

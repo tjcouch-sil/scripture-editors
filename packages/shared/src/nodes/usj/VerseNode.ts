@@ -11,7 +11,7 @@ import {
   Spread,
   TextNode,
 } from "lexical";
-import { UnknownAttributes, VERSE_CLASS_NAME } from "./node-constants";
+import { UnknownAttributes, VERSE_CLASS_NAME } from "./node-constants.js";
 
 export const VERSE_MARKER = "v";
 export const VERSE_VERSION = 1;
@@ -55,11 +55,11 @@ export class VerseNode extends TextNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "verse";
   }
 
-  static clone(node: VerseNode): VerseNode {
+  static override clone(node: VerseNode): VerseNode {
     const { __number, __text, __sid, __altnumber, __pubnumber, __unknownAttributes, __key } = node;
     return new VerseNode(
       __number,
@@ -72,7 +72,7 @@ export class VerseNode extends TextNode {
     );
   }
 
-  static importJSON(serializedNode: SerializedVerseNode): VerseNode {
+  static override importJSON(serializedNode: SerializedVerseNode): VerseNode {
     const { number, text, sid, altnumber, pubnumber, unknownAttributes } = serializedNode;
     return $createVerseNode(
       number,
@@ -84,7 +84,7 @@ export class VerseNode extends TextNode {
     ).updateFromJSON(serializedNode);
   }
 
-  updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedVerseNode>): this {
+  override updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedVerseNode>): this {
     return super.updateFromJSON(serializedNode).setMarker(serializedNode.marker);
   }
 
@@ -164,7 +164,7 @@ export class VerseNode extends TextNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(config: EditorConfig): HTMLElement {
+  override createDOM(config: EditorConfig): HTMLElement {
     const dom = super.createDOM(config);
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(VERSE_CLASS_NAME, `usfm_${this.__marker}`);
@@ -172,7 +172,7 @@ export class VerseNode extends TextNode {
     return dom;
   }
 
-  exportJSON(): SerializedVerseNode {
+  override exportJSON(): SerializedVerseNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),

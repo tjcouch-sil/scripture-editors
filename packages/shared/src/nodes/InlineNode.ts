@@ -1,5 +1,5 @@
 import { $applyNodeReplacement, EditorConfig, NodeKey } from "lexical";
-import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode";
+import { Attributes, SerializedUsfmElementNode, UsfmElementNode } from "./UsfmElementNode.js";
 import { addClassNamesToElement } from "@lexical/utils";
 
 export type SerializedInlineNode = SerializedUsfmElementNode;
@@ -9,19 +9,19 @@ export class InlineNode extends UsfmElementNode {
     super(attributes, undefined, "span", key);
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "inline";
   }
 
-  static clone(node: InlineNode): InlineNode {
+  static override clone(node: InlineNode): InlineNode {
     return new InlineNode(node.__attributes, node.__key);
   }
 
-  isInline(): boolean {
+  override isInline(): boolean {
     return true;
   }
 
-  createDOM(config: EditorConfig): HTMLSpanElement {
+  override createDOM(config: EditorConfig): HTMLSpanElement {
     const element = document.createElement("span");
     const attributes = this.getAttributes() ?? {};
     Object.keys(attributes).forEach((attKey) => {
@@ -31,12 +31,12 @@ export class InlineNode extends UsfmElementNode {
     return element;
   }
 
-  static importJSON(serializedNode: SerializedInlineNode): InlineNode {
+  static override importJSON(serializedNode: SerializedInlineNode): InlineNode {
     const { attributes } = serializedNode;
     return $createInlineNode(attributes).updateFromJSON(serializedNode);
   }
 
-  exportJSON(): SerializedInlineNode {
+  override exportJSON(): SerializedInlineNode {
     return {
       ...super.exportJSON(),
       type: "inline",
@@ -44,7 +44,7 @@ export class InlineNode extends UsfmElementNode {
     };
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;

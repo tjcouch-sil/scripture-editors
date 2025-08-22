@@ -1,6 +1,6 @@
 /** Generated file using `nx generate markers-data` with 'https://raw.githubusercontent.com/ubsicap/usfm/refs/heads/master/sty/usfm.sty' */
 
-import { CategoryType, MarkerType, Marker } from "./usfmTypes";
+import { CategoryType, MarkerType, Marker } from "./usfmTypes.js";
 
 export const usfmMarkers: Record<string, Marker> = {
   id: {

@@ -7,9 +7,9 @@ import {
   LexicalEditor,
   TextNode,
 } from "lexical";
-import { $getCursorSelectionContext, CursorPosition } from "../utils/CursorSelectionContext";
-import { CURSOR_PLACEHOLDER_CHAR } from "../utils/constants";
-import { $removeCursorPlaceholder } from "../utils";
+import { $getCursorSelectionContext, CursorPosition } from "../utils/CursorSelectionContext.js";
+import { CURSOR_PLACEHOLDER_CHAR } from "../utils/constants.js";
+import { $removeCursorPlaceholder } from "../utils/index.js";
 
 export function registerCursorRemoval(
   editor: LexicalEditor,
@@ -28,9 +28,9 @@ export function registerCursorRemoval(
         const editorSate = editor.getEditorState();
         editorSate.read(() => {
           const selection = $getSelection();
-          if (!selection) return false;
+          if (!selection) return;
           const selectionData = $getCursorSelectionContext(selection);
-          if (!selectionData) return false;
+          if (!selectionData) return;
 
           const node = selectionData.node;
           const textContent = node.getTextContent();

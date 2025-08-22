@@ -1,4 +1,4 @@
-import { UnknownAttributes } from "../usj/node-constants";
+import { UnknownAttributes } from "../usj/node-constants.js";
 import {
   $applyNodeReplacement,
   DOMConversionMap,
@@ -36,21 +36,21 @@ export class UnknownNode extends ElementNode {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "unknown";
   }
 
-  static clone(node: UnknownNode): UnknownNode {
+  static override clone(node: UnknownNode): UnknownNode {
     const { __tag, __marker, __unknownAttributes, __key } = node;
     return new UnknownNode(__tag, __marker, __unknownAttributes, __key);
   }
 
-  static importJSON(serializedNode: SerializedUnknownNode): UnknownNode {
+  static override importJSON(serializedNode: SerializedUnknownNode): UnknownNode {
     const { tag, marker, unknownAttributes } = serializedNode;
     return $createUnknownNode(tag, marker, unknownAttributes).updateFromJSON(serializedNode);
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       [UNKNOWN_TAG_NAME]: (node: HTMLElement) => {
         if (!isUnknownElement(node)) return null;
@@ -100,23 +100,23 @@ export class UnknownNode extends ElementNode {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement(UNKNOWN_TAG_NAME);
     dom.style.display = "none";
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its DOM element replacing with a
     // new copy from createDOM.
     return false;
   }
 
-  exportDOM(): DOMExportOutput {
+  override exportDOM(): DOMExportOutput {
     return { element: null };
   }
 
-  exportJSON(): SerializedUnknownNode {
+  override exportJSON(): SerializedUnknownNode {
     return {
       ...super.exportJSON(),
       type: this.getType(),
@@ -129,19 +129,19 @@ export class UnknownNode extends ElementNode {
 
   // Mutation
 
-  canBeEmpty(): true {
+  override canBeEmpty(): true {
     return true;
   }
 
-  isInline(): true {
+  override isInline(): true {
     return true;
   }
 
-  extractWithChild(): false {
+  override extractWithChild(): false {
     return false;
   }
 
-  excludeFromCopy(destination: "clone" | "html"): boolean {
+  override excludeFromCopy(destination: "clone" | "html"): boolean {
     return destination !== "clone";
   }
 }

@@ -1,8 +1,8 @@
-import perfDocument from "../../../../data/tit.perf";
-import lexicalState from "../../../../data/tit.lexical";
-import transformLexicalStateToPerf from ".";
-import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode";
-import { PerfKind } from "../../../plugins/PerfOperations/types";
+import perfDocument from "../../../data/tit.perf.js";
+import lexicalState from "../../../data/tit.lexical.js";
+import transformLexicalStateToPerf from "./index.js";
+import { SerializedUsfmElementNode } from "../../../nodes/UsfmElementNode.js";
+import { PerfKind } from "../../../plugins/PerfOperations/types.js";
 
 describe("Testing Perf To Lexical", () => {
   it("should roundtrip perf to lexical and back", () => {

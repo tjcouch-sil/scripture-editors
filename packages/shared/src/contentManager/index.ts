@@ -1,7 +1,9 @@
-import { usfm2perf } from "../converters/perf/usfmToPerf";
-import transformPerfDocumentToSerializedLexicalState from "../converters/perf/perfToLexical";
-import Epitelete from "../plugins/PerfOperations/epitelete";
-import { FlatDocument as PerfDocument } from "../plugins/PerfOperations/Types/Document";
+import { usfm2perf } from "../converters/perf/usfmToPerf.js";
+import transformPerfDocumentToSerializedLexicalState from "../converters/perf/perfToLexical/index.js";
+import { FlatDocument as PerfDocument } from "../plugins/PerfOperations/Types/Document.js";
+import Epitelete from "epitelete";
+
+export * from "./mockup/index.js";
 
 const readOptions = { readPipeline: "stripAlignmentPipeline" };
 const writeOptions = { writePipeline: "mergeAlignmentPipeline", ...readOptions };
@@ -15,6 +17,9 @@ export class BookStore extends Epitelete {
   }
   sideload(bookCode: string, perfDocument: PerfDocument): Promise<PerfDocument> {
     return this.sideloadPerf(bookCode, perfDocument, readOptions);
+  }
+  override readUsfm(bookCode: string): Promise<string> {
+    return super.readUsfm(bookCode, readOptions);
   }
 }
 

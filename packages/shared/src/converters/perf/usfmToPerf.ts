@@ -1,10 +1,10 @@
 import { Proskomma } from "proskomma-core";
 /** uses proskomma to convert USFM to PERF
- * @param {string} usfm the usfm formatted content
- * @param { Object } selectors an object to declare id selectors for this document
+ * @param usfm The usfm formatted content
+ * @param selectors An object to declare id selectors for this document
  */
 export const usfm2perf = (
-  usfm,
+  usfm: string,
   {
     serverName = "server_unknown",
     organizationId = "organization_unknown",

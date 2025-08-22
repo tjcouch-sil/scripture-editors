@@ -1,2 +1,2 @@
-export * from "./fetchUsfm";
-export * from "./server";
+export * from "./fetchUsfm.js";
+export * from "./server.js";

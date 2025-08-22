@@ -1,4 +1,4 @@
-import { CategoryType, Marker, MarkerType } from "./usfmTypes";
+import { CategoryType, Marker, MarkerType } from "./usfmTypes.js";
 
 export type MarkerOverwrite = Partial<
   Omit<Marker, "children"> & {

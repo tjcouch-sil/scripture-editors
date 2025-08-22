@@ -1,5 +1,5 @@
 import { $getNodeByKey, $getSelection, LexicalEditor, NodeKey } from "lexical";
-import { GraftNode } from "../../nodes/GraftNode";
+import { GraftNode } from "../../nodes/GraftNode.js";
 import { $findMatchingParent } from "@lexical/utils";
 
 export function registerFocusableGrafts(

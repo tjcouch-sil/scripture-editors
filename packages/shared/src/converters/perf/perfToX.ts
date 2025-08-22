@@ -1,12 +1,12 @@
-import Block, { BlockTypeMap } from "../../plugins/PerfOperations/Types/Block";
+import Block, { BlockTypeMap } from "../../plugins/PerfOperations/Types/Block.js";
 import ContentElement, {
   Content,
   ContentElementTypeMap,
-} from "../../plugins/PerfOperations/Types/ContentElement";
-import { FlatDocument as PerfDocument } from "../../plugins/PerfOperations/Types/Document";
-import Sequence from "../../plugins/PerfOperations/Types/Sequence";
-import { PerfKind } from "../../plugins/PerfOperations/types";
-import { pushToArray } from "./utils";
+} from "../../plugins/PerfOperations/Types/ContentElement.js";
+import { FlatDocument as PerfDocument } from "../../plugins/PerfOperations/Types/Document.js";
+import Sequence from "../../plugins/PerfOperations/Types/Sequence.js";
+import { PerfKind } from "../../plugins/PerfOperations/types.js";
+import { pushToArray } from "./utils.js";
 
 export type TypeKey = NonNullable<
   Sequence["type"] | Block["type"] | ContentElement["type"] | "text"

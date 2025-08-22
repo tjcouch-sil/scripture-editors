@@ -1,6 +1,6 @@
-import { usfmMarkers } from "./usfmMarkers";
-import usfmMarkersOverwrites from "./usfmMarkersOverwrites";
-import { Marker, CategoryType } from "./usfmTypes";
+import { usfmMarkers } from "./usfmMarkers.js";
+import usfmMarkersOverwrites from "./usfmMarkersOverwrites.js";
+import { Marker, CategoryType } from "./usfmTypes.js";
 
 //NOTE: We can make this reusable if we agree on a common usfmMarkers object for all editors and use the overwrites objects as a parameter for this function.
 function getMarker(marker: string): Marker | undefined {
