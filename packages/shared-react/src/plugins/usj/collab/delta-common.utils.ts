@@ -6,18 +6,19 @@ import { ElementNode, LexicalNode } from "lexical";
 import {
   ImmutableUnmatchedNode,
   $isImmutableUnmatchedNode,
-} from "shared/nodes/features/ImmutableUnmatchedNode";
-import { $isBookNode, BookNode } from "shared/nodes/usj/BookNode";
-import { MilestoneNode, $isMilestoneNode } from "shared/nodes/usj/MilestoneNode";
-import {
-  SomeChapterNode,
+  $isBookNode,
+  $isMilestoneNode,
+  $isNoteNode,
   $isSomeChapterNode,
   $isSomeParaNode,
+  BookNode,
+  MilestoneNode,
+  NoteNode,
+  SomeChapterNode,
   SomeParaNode,
-} from "shared/nodes/usj/node.utils";
-import { NoteNode, $isNoteNode } from "shared/nodes/usj/NoteNode";
+} from "shared";
 
-export { Op } from "quill-delta";
+export type { Op } from "quill-delta";
 
 export type EmbedNode =
   | SomeChapterNode

@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { OptionItem } from "./types";
+import type { OptionItem } from "./types";
 
 type State = {
   menuItems: OptionItem[];

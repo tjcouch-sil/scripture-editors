@@ -1,5 +1,5 @@
 import { LexicalEditor, $getSelection, $isRangeSelection, $isTextNode } from "lexical";
-import { SuggestionsTextMatch } from "shared/plugins/Typeahead";
+import { SuggestionsTextMatch } from "shared";
 import { OptionItem } from "../NodesMenu/Menu";
 
 export function executeSelectedItem(

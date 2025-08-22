@@ -19,7 +19,7 @@ import {
   LexicalNode,
 } from "lexical";
 import { ReactNode } from "react";
-import { segmentState } from "shared/nodes/collab/delta.state";
+import { segmentState } from "shared";
 
 export async function baseTestEnvironment(
   $initialEditorState?: () => void,

@@ -1,5 +1,4 @@
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
-import { getUsfmMarkerAction } from "shared/utils/usfm/getUsfmMarkerAction";
+import { getUsfmMarkerAction, ScriptureReference } from "shared";
 import useUsfmMakersForMenu from "../PerfNodesItems/useUsfmMarkersForMenu";
 import TypeaheadPlugin from "../Typeahead/TypeaheadPlugin";
 

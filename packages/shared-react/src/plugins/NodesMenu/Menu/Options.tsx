@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { useMenuContext } from "./MenuContext";
 import { MenuOption } from "./Option";
-import { OptionItem } from "./types";
+import type { OptionItem } from "./types";
 
 type OptionElement = ReactElement<React.ComponentProps<typeof MenuOption>, typeof MenuOption>;
 

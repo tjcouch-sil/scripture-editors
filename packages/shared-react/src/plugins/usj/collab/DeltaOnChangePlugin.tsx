@@ -17,7 +17,7 @@ import Delta, { Op } from "quill-delta";
 import { useLayoutEffect } from "react";
 
 /** Adapted from the LexicalOnChangePlugin to include collaborative editing operations. */
-export function OnChangePlugin({
+export function DeltaOnChangePlugin({
   ignoreHistoryMergeTagChange = true,
   ignoreSelectionChange = false,
   onChange,

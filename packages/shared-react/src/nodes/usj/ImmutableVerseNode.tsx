@@ -15,8 +15,7 @@ import {
   isHTMLElement,
 } from "lexical";
 import { ReactElement } from "react";
-import { UnknownAttributes, VERSE_CLASS_NAME, ZWSP } from "shared/nodes/usj/node-constants";
-import { getVisibleOpenMarkerText } from "shared/nodes/usj/node.utils";
+import { getVisibleOpenMarkerText, UnknownAttributes, VERSE_CLASS_NAME, ZWSP } from "shared";
 
 export const VERSE_MARKER = "v";
 export const IMMUTABLE_VERSE_VERSION = 1;
@@ -64,11 +63,11 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     this.__unknownAttributes = unknownAttributes;
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "immutable-verse";
   }
 
-  static clone(node: ImmutableVerseNode): ImmutableVerseNode {
+  static override clone(node: ImmutableVerseNode): ImmutableVerseNode {
     const { __number, __showMarker, __sid, __altnumber, __pubnumber, __unknownAttributes, __key } =
       node;
     return new ImmutableVerseNode(
@@ -82,7 +81,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     );
   }
 
-  static importJSON(serializedNode: SerializedImmutableVerseNode): ImmutableVerseNode {
+  static override importJSON(serializedNode: SerializedImmutableVerseNode): ImmutableVerseNode {
     const { number, showMarker, sid, altnumber, pubnumber, unknownAttributes } = serializedNode;
     const node = $createImmutableVerseNode(
       number,
@@ -95,7 +94,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     return node;
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       span: (node: HTMLElement) => {
         if (!isVerseElement(node)) return null;
@@ -108,7 +107,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     };
   }
 
-  updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedImmutableVerseNode>): this {
+  override updateFromJSON(serializedNode: LexicalUpdateJSON<SerializedImmutableVerseNode>): this {
     return super.updateFromJSON(serializedNode).setMarker(serializedNode.marker);
   }
 
@@ -201,7 +200,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     return self.__unknownAttributes;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("span");
     dom.setAttribute("data-marker", this.__marker);
     dom.classList.add(VERSE_CLASS_NAME, `usfm_${this.__marker}`);
@@ -209,13 +208,13 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     return dom;
   }
 
-  updateDOM(): boolean {
+  override updateDOM(): boolean {
     // Returning false tells Lexical that this node does not need its
     // DOM element replacing with a new copy from createDOM.
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.setAttribute("data-marker", this.getMarker());
@@ -226,7 +225,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     return { element };
   }
 
-  decorate(): ReactElement {
+  override decorate(): ReactElement {
     return (
       <span>
         {this.getShowMarker()
@@ -237,7 +236,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
     );
   }
 
-  exportJSON(): SerializedImmutableVerseNode {
+  override exportJSON(): SerializedImmutableVerseNode {
     return {
       type: this.getType(),
       marker: this.getMarker(),
@@ -253,7 +252,7 @@ export class ImmutableVerseNode extends DecoratorNode<ReactElement> {
 
   // Mutation
 
-  isKeyboardSelectable(): false {
+  override isKeyboardSelectable(): false {
     return false;
   }
 }

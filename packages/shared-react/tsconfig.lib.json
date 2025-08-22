@@ -38,6 +38,7 @@
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
+    "src/**/react-test.utils.tsx",
     "eslint.config.js",
     "eslint.config.cjs",
     "eslint.config.mjs"

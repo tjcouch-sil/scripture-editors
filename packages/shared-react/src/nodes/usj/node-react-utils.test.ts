@@ -1,3 +1,6 @@
+// Reaching inside only for tests.
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { createBasicTestEnvironment } from "../../../../shared/src/nodes/usj/test.utils";
 import { ImmutableVerseNode, $createImmutableVerseNode } from "./ImmutableVerseNode";
 import {
   $findVerseInNode,
@@ -6,15 +9,16 @@ import {
   $findThisVerse,
 } from "./node-react.utils";
 import { $createTextNode, $getNodeByKey, $getRoot, NodeKey } from "lexical";
-import { TypedMarkNode, $createTypedMarkNode } from "shared/nodes/features/TypedMarkNode";
-import { $createBookNode } from "shared/nodes/usj/BookNode";
 import {
+  $createParaNode,
+  $createVerseNode,
+  $createBookNode,
+  ParaNode,
+  TypedMarkNode,
+  $createTypedMarkNode,
   ImmutableChapterNode,
   $createImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import { $createParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
-import { createBasicTestEnvironment } from "shared/nodes/usj/test.utils";
-import { $createVerseNode } from "shared/nodes/usj/VerseNode";
+} from "shared";
 
 describe("Editor Node Utilities", () => {
   describe("$findVerseInNode()", () => {

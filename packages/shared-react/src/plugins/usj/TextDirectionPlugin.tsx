@@ -9,7 +9,7 @@ import {
   LexicalEditor,
 } from "lexical";
 import { useEffect } from "react";
-import { getNodeElementTagName } from "shared/nodes/usj/node.utils";
+import { getNodeElementTagName } from "shared";
 
 export function TextDirectionPlugin({ textDirection }: { textDirection: TextDirection }): null {
   const [editor] = useLexicalComposerContext();

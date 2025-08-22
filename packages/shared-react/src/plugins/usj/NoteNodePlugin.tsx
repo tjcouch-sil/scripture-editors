@@ -22,10 +22,15 @@ import {
   TextNode,
 } from "lexical";
 import { useEffect, useRef } from "react";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
-import { $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { $findFirstAncestorNoteNode, getNoteCallerPreviewText } from "shared/nodes/usj/node.utils";
+import {
+  $findFirstAncestorNoteNode,
+  $isCharNode,
+  $isNoteNode,
+  CharNode,
+  getNoteCallerPreviewText,
+  LoggerBasic,
+  NoteNode,
+} from "shared";
 
 export interface CounterStyleRuleLike {
   name: string;

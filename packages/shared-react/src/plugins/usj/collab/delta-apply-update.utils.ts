@@ -40,33 +40,44 @@ import {
   TextNode,
 } from "lexical";
 import { AttributeMap, Op } from "quill-delta";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
-import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
-import { $createMarkerNode, MarkerNode } from "shared/nodes/features/MarkerNode";
-import { $isUnknownNode, UnknownNode } from "shared/nodes/features/UnknownNode";
-import { $createBookNode, $isBookNode, BOOK_MARKER, BookNode } from "shared/nodes/usj/BookNode";
-import { $createChapterNode } from "shared/nodes/usj/ChapterNode";
-import { $createCharNode, $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
 import {
+  $createBookNode,
+  $createChapterNode,
+  $createCharNode,
+  $createImmutableChapterNode,
   $createImpliedParaNode,
-  $isImpliedParaNode,
-  ImpliedParaNode,
-} from "shared/nodes/usj/ImpliedParaNode";
-import { $createMilestoneNode, $isMilestoneNode } from "shared/nodes/usj/MilestoneNode";
-import {
+  $createMarkerNode,
+  $createMilestoneNode,
+  $createNoteNode,
+  $createParaNode,
+  $createVerseNode,
   $hasSameCharAttributes,
+  $isBookNode,
+  $isCharNode,
+  $isImpliedParaNode,
+  $isMilestoneNode,
+  $isNoteNode,
+  $isParaNode,
   $isSomeChapterNode,
   $isSomeParaNode,
+  $isUnknownNode,
+  BOOK_MARKER,
+  BookNode,
+  charIdState,
+  CharNode,
   getEditableCallerText,
   getNoteCallerPreviewText,
   getUnknownAttributes,
   getVisibleOpenMarkerText,
+  ImpliedParaNode,
+  LoggerBasic,
+  MarkerNode,
+  NoteNode,
+  ParaNode,
+  segmentState,
   SomeChapterNode,
-} from "shared/nodes/usj/node.utils";
-import { $createNoteNode, $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { $createParaNode, $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
-import { $createVerseNode } from "shared/nodes/usj/VerseNode";
+  UnknownNode,
+} from "shared";
 
 type AttributeMapWithPara = AttributeMap & {
   para: OTParaAttribute;
@@ -419,51 +430,52 @@ function $wrapInNestedCharNodes(
   // Create new CharNode(s) with the attributes, supporting nested char arrays
   const segment = typeof attributes.segment === "string" ? attributes.segment : undefined;
   const newCharNode = $createNestedChars(attributes.char, textNode, segment);
-  if ($isCharNode(newCharNode)) {
-    // Copy original text formatting to CharNode's unknownAttributes
-    const textFormatAttributes: Record<string, string> = {};
-    TEXT_FORMAT_TYPES.forEach((format) => {
-      if (textNode.hasFormat(format)) {
-        textFormatAttributes[format] = "true";
-      }
-    });
-
-    // Convert attributes to string values for unknownAttributes
-    const stringifiedAttributes: Record<string, string> = {};
-    Object.entries(attributes).forEach(([key, value]) => {
-      if (key === "segment" || key === "char") return;
-
-      if (typeof value === "string") {
-        stringifiedAttributes[key] = value;
-      } else if (value === true) {
-        stringifiedAttributes[key] = "true";
-      } else if (value === false) {
-        stringifiedAttributes[key] = "false";
-      }
-      // Skip other types that can't be serialized to string
-    });
-
-    // Combine all attributes for the CharNode
-    const combinedUnknownAttributes = {
-      ...(newCharNode.getUnknownAttributes() ?? {}),
-      ...textFormatAttributes,
-      ...stringifiedAttributes,
-    };
-
-    if (Object.keys(combinedUnknownAttributes).length > 0) {
-      newCharNode.setUnknownAttributes(combinedUnknownAttributes);
-    }
-
-    $applyTextAttributes(attributes, textNode);
-    return newCharNode;
-  } else {
+  if (!$isCharNode(newCharNode)) {
     logger?.error(
       `Failed to create CharNode for text transformation. Style: ${
         Array.isArray(attributes.char) ? attributes.char[0].style : attributes.char?.style
       }. Falling back to standard text attributes.`,
     );
     $applyTextAttributes(attributes, textNode);
+    return undefined;
   }
+
+  // Copy original text formatting to CharNode's unknownAttributes
+  const textFormatAttributes: Record<string, string> = {};
+  TEXT_FORMAT_TYPES.forEach((format) => {
+    if (textNode.hasFormat(format)) {
+      textFormatAttributes[format] = "true";
+    }
+  });
+
+  // Convert attributes to string values for unknownAttributes
+  const stringifiedAttributes: Record<string, string> = {};
+  Object.entries(attributes).forEach(([key, value]) => {
+    if (key === "segment" || key === "char") return;
+
+    if (typeof value === "string") {
+      stringifiedAttributes[key] = value;
+    } else if (value === true) {
+      stringifiedAttributes[key] = "true";
+    } else if (value === false) {
+      stringifiedAttributes[key] = "false";
+    }
+    // Skip other types that can't be serialized to string
+  });
+
+  // Combine all attributes for the CharNode
+  const combinedUnknownAttributes = {
+    ...(newCharNode.getUnknownAttributes() ?? {}),
+    ...textFormatAttributes,
+    ...stringifiedAttributes,
+  };
+
+  if (Object.keys(combinedUnknownAttributes).length > 0) {
+    newCharNode.setUnknownAttributes(combinedUnknownAttributes);
+  }
+
+  $applyTextAttributes(attributes, textNode);
+  return newCharNode;
 }
 
 // Apply attributes to the given embed node
@@ -1371,7 +1383,8 @@ function $handleNewline(
   if (hasParaAttributes(attributes)) {
     _newBlockNode = $createPara(attributes.para);
   } else if (hasBookAttributes(attributes)) {
-    _newBlockNode = $createBook(attributes.book);
+    const attributesWithBook: AttributeMapWithBook = attributes;
+    _newBlockNode = $createBook(attributesWithBook.book);
   }
   _newBlockNode ??= $createImpliedParaNode();
   const newBlockNode = _newBlockNode;

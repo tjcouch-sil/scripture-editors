@@ -13,16 +13,26 @@ import {
 import { $dfs, DFSNode } from "@lexical/utils";
 import { $getRoot, $getState, $isTextNode, EditorState, LexicalNode, TextNode } from "lexical";
 import Delta, { Op } from "quill-delta";
-import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
-import { $isBookNode, BOOK_MARKER, BookNode } from "shared/nodes/usj/BookNode";
-import { CHAPTER_MARKER } from "shared/nodes/usj/ChapterNode";
-import { $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $isImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
-import { $isMilestoneNode, MilestoneNode } from "shared/nodes/usj/MilestoneNode";
-import { $isSomeChapterNode, SomeChapterNode } from "shared/nodes/usj/node.utils";
-import { $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
-import { VERSE_MARKER } from "shared/nodes/usj/VerseNode";
+import {
+  $isBookNode,
+  $isCharNode,
+  $isImpliedParaNode,
+  $isMilestoneNode,
+  $isNoteNode,
+  $isParaNode,
+  $isSomeChapterNode,
+  BOOK_MARKER,
+  BookNode,
+  CHAPTER_MARKER,
+  charIdState,
+  CharNode,
+  MilestoneNode,
+  NoteNode,
+  ParaNode,
+  segmentState,
+  SomeChapterNode,
+  VERSE_MARKER,
+} from "shared";
 
 type OpenNote = {
   children: LexicalNode[];

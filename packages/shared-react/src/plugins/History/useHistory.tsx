@@ -3,12 +3,11 @@
  * Original source: https://github.com/facebook/lexical
  */
 
-import type { HistoryMergeListener } from "shared/plugins/History";
 import type { LexicalEditor } from "lexical";
+import type { HistoryMergeListener } from "shared";
 
-import { createEmptyHistoryState, registerHistory } from "shared/plugins/History";
 import { useEffect, useMemo } from "react";
-import { HistoryState } from "shared/plugins/History/HistoryManager";
+import { createEmptyHistoryState, HistoryState, registerHistory } from "shared";
 
 export function useHistory(
   editor: LexicalEditor,

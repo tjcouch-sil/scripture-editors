@@ -2,9 +2,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { deepEqual } from "fast-equals";
 import { $getState, LexicalEditor } from "lexical";
 import { useEffect } from "react";
-import { charIdState } from "shared/nodes/collab/delta.state";
-import { $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $hasSameCharAttributes } from "shared/nodes/usj/node.utils";
+import { $hasSameCharAttributes, $isCharNode, charIdState, CharNode } from "shared";
 
 /** Combine adjacent CharNodes with the same attributes. */
 export function CharNodePlugin(): null {

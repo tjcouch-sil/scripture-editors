@@ -1,8 +1,7 @@
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
-import { getUsfmMarkerAction } from "shared/utils/usfm/getUsfmMarkerAction";
+import { getUsfmMarkerAction, ScriptureReference } from "shared";
 import UsfmNodesMenuPlugin from "./UsfmNodesMenuPlugin";
 
-export default function PerfNodesMenuPlugin({
+export function PerfNodesMenuPlugin({
   trigger,
   scriptureReference,
   contextMarker,

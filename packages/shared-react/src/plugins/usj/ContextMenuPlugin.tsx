@@ -8,7 +8,7 @@ import { LexicalContextMenuPlugin, MenuOption } from "@lexical/react/LexicalCont
 import { type LexicalNode, COPY_COMMAND, CUT_COMMAND } from "lexical";
 import { ReactElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as ReactDOM from "react-dom";
-import { isImmutableChapterElement } from "shared/nodes/usj/ImmutableChapterNode";
+import { isImmutableChapterElement } from "shared";
 
 function ContextMenuItem({
   index,

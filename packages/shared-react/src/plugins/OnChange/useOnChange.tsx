@@ -4,7 +4,7 @@
 
 import type { LexicalEditor, UpdateListener } from "lexical";
 
-import { registerOnChange } from "./";
+import { registerOnChange } from ".";
 import { useEffect } from "react";
 
 export function useOnChange(editor: LexicalEditor, onChange: UpdateListener): void {

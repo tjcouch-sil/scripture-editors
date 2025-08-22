@@ -13,21 +13,19 @@ import {
   LexicalNode,
   SerializedLexicalNode,
 } from "lexical";
-import { $isTypedMarkNode } from "shared/nodes/features/TypedMarkNode";
-import { NBSP } from "shared/nodes/usj/node-constants";
 import {
   $isNodeWithMarker,
+  $isParaNode,
   $isSomeChapterNode,
-  isVerseInRange,
-  NodesWithMarker,
-} from "shared/nodes/usj/node.utils";
-import { $isParaNode } from "shared/nodes/usj/ParaNode";
-import {
+  $isTypedMarkNode,
   $isVerseNode,
   isSerializedVerseNode,
+  isVerseInRange,
+  NBSP,
+  NodesWithMarker,
   SerializedVerseNode,
   VerseNode,
-} from "shared/nodes/usj/VerseNode";
+} from "shared";
 
 /** Caller count is in an object so it can be manipulated by passing the object. */
 export type CallerData = {

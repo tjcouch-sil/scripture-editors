@@ -20,14 +20,15 @@ import {
   SELECTION_CHANGE_COMMAND,
 } from "lexical";
 import { useEffect, useMemo, useState } from "react";
-import { EXTERNAL_USJ_MUTATION_TAG } from "shared/nodes/usj/node-constants";
 import {
   $findThisChapter,
   $getCommonAncestorCompatible,
+  EXTERNAL_USJ_MUTATION_TAG,
+  GetMarkerAction,
   getNextVerse,
-} from "shared/nodes/usj/node.utils";
-import { VerseNode } from "shared/nodes/usj/VerseNode";
-import { GetMarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
+  ScriptureReference,
+  VerseNode,
+} from "shared";
 
 type NodeKeysByChapter = { [chapter: string]: NodeKey[] };
 type ChapterByNodeKey = { [nodeKey: string]: string };

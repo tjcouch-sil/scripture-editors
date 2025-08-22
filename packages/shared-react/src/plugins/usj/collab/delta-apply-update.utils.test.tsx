@@ -6,8 +6,8 @@ import {
 import { $createImmutableVerseNode } from "../../../nodes/usj/ImmutableVerseNode";
 import { $isSomeVerseNode } from "../../../nodes/usj/node-react.utils";
 import { UsjNodeOptions } from "../../../nodes/usj/usj-node-options.model";
-import { CharNodePlugin } from "../../../plugins/usj/CharNodePlugin";
-import { baseTestEnvironment } from "../../../plugins/usj/react-test.utils";
+import { CharNodePlugin } from "../CharNodePlugin";
+import { baseTestEnvironment } from "../react-test.utils";
 import { getDefaultViewOptions, ViewOptions } from "../../../views/view-options.utils";
 import { $applyUpdate } from "./delta-apply-update.utils";
 import { LF } from "./delta-common.utils";
@@ -21,15 +21,24 @@ import {
   LexicalEditor,
 } from "lexical";
 import Delta, { Op } from "quill-delta";
-import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
-import { $createBookNode, $isBookNode } from "shared/nodes/usj/BookNode";
-import { $isCharNode, $createCharNode } from "shared/nodes/usj/CharNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $createImpliedParaNode, $isImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
-import { $isMilestoneNode } from "shared/nodes/usj/MilestoneNode";
-import { $isSomeChapterNode } from "shared/nodes/usj/node.utils";
-import { $createNoteNode, $isNoteNode } from "shared/nodes/usj/NoteNode";
-import { $createParaNode, $isParaNode } from "shared/nodes/usj/ParaNode";
+import {
+  $createBookNode,
+  $createCharNode,
+  $createImmutableChapterNode,
+  $createImpliedParaNode,
+  $createNoteNode,
+  $createParaNode,
+  $isBookNode,
+  $isCharNode,
+  $isImpliedParaNode,
+  $isMilestoneNode,
+  $isNoteNode,
+  $isParaNode,
+  $isSomeChapterNode,
+  charIdState,
+  segmentState,
+} from "shared";
+import { MockInstance } from "vitest";
 
 const defaultViewOptions = getDefaultViewOptions();
 
@@ -40,15 +49,15 @@ const defaultViewOptions = getDefaultViewOptions();
  */
 
 describe("Delta Utils $applyUpdate", () => {
-  let consoleDebugSpy: jest.SpyInstance;
-  let consoleErrorSpy: jest.SpyInstance;
-  let consoleWarnSpy: jest.SpyInstance;
+  let consoleDebugSpy: MockInstance;
+  let consoleErrorSpy: MockInstance;
+  let consoleWarnSpy: MockInstance;
 
   beforeEach(() => {
     // Spy on console methods before each test and provide mock implementations
-    consoleDebugSpy = jest.spyOn(console, "debug").mockImplementation(() => undefined);
-    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => undefined);
-    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    consoleDebugSpy = vi.spyOn(console, "debug").mockImplementation(() => undefined);
+    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
   });
 
   afterEach(() => {

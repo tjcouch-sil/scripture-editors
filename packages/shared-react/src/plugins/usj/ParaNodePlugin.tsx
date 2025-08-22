@@ -2,7 +2,7 @@ import { $removeLeadingSpace, wasNodeCreated } from "../../nodes/usj/node-react.
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getNodeByKey, LexicalEditor } from "lexical";
 import { useEffect } from "react";
-import { $isParaNode, ParaNode } from "shared/nodes/usj/ParaNode";
+import { $isParaNode, ParaNode } from "shared";
 
 export function ParaNodePlugin(): null {
   const [editor] = useLexicalComposerContext();

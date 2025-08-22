@@ -1,8 +1,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isElementNode, LexicalNode } from "lexical";
 import { useEffect } from "react";
-import { $isUsfmElementNode, UsfmElementNode } from "shared/nodes/UsfmElementNode";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
+import { $isUsfmElementNode, ScriptureReference, UsfmElementNode } from "shared";
 
 //TODO: move plugin functions to vanilla javascript plugin
 const getNodeDepth = (node: LexicalNode) => {
@@ -100,7 +99,7 @@ export function $getCurrentVerseNode(selectedNode: LexicalNode) {
   return verseNode ?? null;
 }
 
-export default function ScriptureReferencePlugin({
+export function ScriptureReferencePlugin({
   book,
   onChangeReference,
 }: {

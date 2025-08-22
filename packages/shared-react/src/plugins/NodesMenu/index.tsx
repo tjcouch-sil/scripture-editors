@@ -5,6 +5,10 @@ import FloatingBoxAtCursor from "../FloatingBox/FloatingBoxAtCursor";
 import { NodeSelectionMenu } from "./NodeSelectionMenu";
 import { OptionItem } from "./Menu";
 
+export * from "./Menu";
+export * from "./LexicalMenuNavigation";
+export * from "./NodeSelectionMenu";
+
 export default function NodesMenu({ trigger, items }: { trigger: string; items?: OptionItem[] }) {
   const [editor] = useLexicalComposerContext();
   const [isOpen, setIsOpen] = useState(false);

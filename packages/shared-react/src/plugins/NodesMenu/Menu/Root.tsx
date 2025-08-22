@@ -1,7 +1,7 @@
 import React from "react";
 import { MenuContext } from "./MenuContext";
 import { useMenuCore } from "./useMenuCore";
-import { OptionItem } from "./types";
+import type { OptionItem } from "./types";
 
 type MenuRootProps = {
   children: React.ReactNode;

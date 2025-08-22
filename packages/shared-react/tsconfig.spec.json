@@ -27,9 +27,13 @@
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
+    "src/**/react-test.utils.tsx",
     "src/**/*.d.ts"
   ],
   "references": [
+    {
+      "path": "../shared"
+    },
     {
       "path": "./tsconfig.lib.json"
     }

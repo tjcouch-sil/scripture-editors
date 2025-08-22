@@ -16,7 +16,7 @@ import {
   TextNode,
 } from "lexical";
 import { AnnotationRange, SelectionRange, UsjLocation } from "./selection.model";
-import { $isTypedMarkNode } from "shared/nodes/features/TypedMarkNode";
+import { $isTypedMarkNode } from "shared";
 
 /**
  * Find the text node that contains the location offset. Check if the offset fits within the current

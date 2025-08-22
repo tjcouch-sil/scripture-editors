@@ -1,10 +1,6 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useCallback, useEffect, useState } from "react";
-import {
-  registerTypeAheadListener,
-  SuggestionsTextMatch,
-  TriggerFn,
-} from "shared/plugins/Typeahead";
+import { registerTypeAheadListener, SuggestionsTextMatch, TriggerFn } from "shared";
 
 export type TypeaheadData = {
   match: SuggestionsTextMatch;

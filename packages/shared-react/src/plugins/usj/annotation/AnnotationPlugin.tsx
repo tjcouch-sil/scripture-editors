@@ -4,16 +4,16 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { mergeRegister, registerNestedElementResolver } from "@lexical/utils";
 import { $getNodeByKey, LexicalEditor, NodeKey } from "lexical";
 import { forwardRef, useEffect, useImperativeHandle, useMemo } from "react";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 import {
   $createTypedMarkNode,
   $isTypedMarkNode,
   $unwrapTypedMarkNode,
   $wrapSelectionInTypedMarkNode,
-  TypedMarkNode,
+  ANNOTATION_CHANGE_TAG,
+  LoggerBasic,
   TypedIDs,
-} from "shared/nodes/features/TypedMarkNode";
-import { ANNOTATION_CHANGE_TAG } from "shared/nodes/usj/node-constants";
+  TypedMarkNode,
+} from "shared";
 
 /** Forward reference for annotations. */
 export type AnnotationRef = {

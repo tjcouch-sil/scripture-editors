@@ -13,14 +13,17 @@ export default function useCursorCoords({
   useEffect(() => {
     if (!isOpen || !floatingBoxRef.current) {
       cleanup();
-      return;
+      return undefined;
     }
 
     const domRange = window.getSelection()?.getRangeAt(0);
-    if (domRange) {
-      updatePosition(domRange, floatingBoxRef.current);
-      return cleanup;
+    if (!domRange) {
+      cleanup();
+      return undefined;
     }
+
+    updatePosition(domRange, floatingBoxRef.current);
+    return cleanup;
   }, [cleanup, isOpen, floatingBoxRef, updatePosition]);
 
   return { coords, placement };

@@ -9,7 +9,7 @@ import {
   sutUpdate,
   typeTextAtSelection,
 } from "../react-test.utils";
-import { OnChangePlugin } from "./DeltaOnChangePlugin";
+import { DeltaOnChangePlugin } from "./DeltaOnChangePlugin";
 import {
   $createTextNode,
   $getRoot,
@@ -21,19 +21,18 @@ import {
   $getState,
 } from "lexical";
 import { Op } from "quill-delta";
-import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
-import { $createBookNode } from "shared/nodes/usj/BookNode";
-import { $createCharNode } from "shared/nodes/usj/CharNode";
 import {
+  $createBookNode,
+  $createCharNode,
   $createImmutableChapterNode,
-  $isImmutableChapterNode,
-  ImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import {
   $createImpliedParaNode,
+  $isImmutableChapterNode,
   $isImpliedParaNode,
+  charIdState,
+  ImmutableChapterNode,
   ImpliedParaNode,
-} from "shared/nodes/usj/ImpliedParaNode";
+  segmentState,
+} from "shared";
 
 let updateOps: Op[];
 
@@ -322,7 +321,11 @@ describe("OnChangePlugin", () => {
 async function testEnvironment($initialEditorState?: () => void) {
   return baseTestEnvironment(
     $initialEditorState,
-    <OnChangePlugin onChange={handleChange} ignoreSelectionChange ignoreHistoryMergeTagChange />,
+    <DeltaOnChangePlugin
+      onChange={handleChange}
+      ignoreSelectionChange
+      ignoreHistoryMergeTagChange
+    />,
   );
 }
 

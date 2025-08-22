@@ -13,14 +13,14 @@ import {
   $createPoint,
   TextNode,
 } from "lexical";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
 import {
+  $createImmutableChapterNode,
   $createImpliedParaNode,
+  $createParaNode,
   $isImpliedParaNode,
   ImpliedParaNode,
-} from "shared/nodes/usj/ImpliedParaNode";
-import { $createParaNode } from "shared/nodes/usj/ParaNode";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
+  ScriptureReference,
+} from "shared";
 
 let firstVerseNode: ImmutableVerseNode;
 let firstVerseTextNode: TextNode;

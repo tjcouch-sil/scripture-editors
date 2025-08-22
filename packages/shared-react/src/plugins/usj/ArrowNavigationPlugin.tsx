@@ -10,13 +10,15 @@ import {
 } from "lexical";
 import { useEffect } from "react";
 import {
+  $getNextNode,
+  $getPreviousNode,
   $isImmutableChapterNode,
+  $isImpliedParaNode,
+  $isNoteNode,
+  $isParaNode,
   ImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import { $isImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
-import { $getNextNode, $getPreviousNode } from "shared/nodes/usj/node.utils";
-import { $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { $isParaNode } from "shared/nodes/usj/ParaNode";
+  NoteNode,
+} from "shared";
 
 /**
  * This plugin handles arrow key navigation in the editor, specifically for moving between chapter

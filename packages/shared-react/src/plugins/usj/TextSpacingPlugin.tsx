@@ -9,10 +9,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { mergeRegister } from "@lexical/utils";
 import { $createTextNode, $isTextNode, LexicalEditor, TextNode } from "lexical";
 import { useEffect } from "react";
-import { $isUnknownNode } from "shared/nodes/features/UnknownNode";
-import { $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $isNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { VerseNode } from "shared/nodes/usj/VerseNode";
+import { $isCharNode, $isNoteNode, $isUnknownNode, CharNode, NoteNode, VerseNode } from "shared";
 
 /** This plugin ensures that there is a space following a text node including before verse nodes. */
 export function TextSpacingPlugin() {

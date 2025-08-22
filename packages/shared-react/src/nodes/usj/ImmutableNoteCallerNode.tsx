@@ -42,22 +42,24 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
     this.__onClick = onClick ?? (() => undefined);
   }
 
-  static getType(): string {
+  static override getType(): string {
     return "immutable-note-caller";
   }
 
-  static clone(node: ImmutableNoteCallerNode): ImmutableNoteCallerNode {
+  static override clone(node: ImmutableNoteCallerNode): ImmutableNoteCallerNode {
     const { __caller, __previewText, __onClick, __key } = node;
     return new ImmutableNoteCallerNode(__caller, __previewText, __onClick, __key);
   }
 
-  static importJSON(serializedNode: SerializedImmutableNoteCallerNode): ImmutableNoteCallerNode {
+  static override importJSON(
+    serializedNode: SerializedImmutableNoteCallerNode,
+  ): ImmutableNoteCallerNode {
     const { caller, previewText, onClick } = serializedNode;
     const node = $createImmutableNoteCallerNode(caller, previewText, onClick);
     return node;
   }
 
-  static importDOM(): DOMConversionMap | null {
+  static override importDOM(): DOMConversionMap | null {
     return {
       span: (node: HTMLElement) => {
         if (!isNoteCallerElement(node)) return null;
@@ -109,7 +111,7 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
     return self.__onClick;
   }
 
-  createDOM(): HTMLElement {
+  override createDOM(): HTMLElement {
     const dom = document.createElement("span");
     dom.classList.add(this.__type);
     dom.setAttribute("data-caller", this.__caller);
@@ -117,13 +119,13 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
     return dom;
   }
 
-  updateDOM(prevNode: ImmutableNoteCallerNode): boolean {
+  override updateDOM(prevNode: ImmutableNoteCallerNode): boolean {
     if (prevNode.__caller !== this.__caller) return true;
 
     return false;
   }
 
-  exportDOM(editor: LexicalEditor): DOMExportOutput {
+  override exportDOM(editor: LexicalEditor): DOMExportOutput {
     const { element } = super.exportDOM(editor);
     if (element && isHTMLElement(element)) {
       element.classList.add(this.getType());
@@ -134,7 +136,7 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
     return { element };
   }
 
-  decorate(): ReactElement {
+  override decorate(): ReactElement {
     const callerId = `${this.__caller}_${this.__previewText}}`.replace(/\s+/g, "").substring(0, 25);
     return (
       <button onClick={this.__onClick} title={this.__previewText} data-caller-id={callerId}>
@@ -146,7 +148,7 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
     );
   }
 
-  exportJSON(): SerializedImmutableNoteCallerNode {
+  override exportJSON(): SerializedImmutableNoteCallerNode {
     return {
       type: this.getType(),
       caller: this.getCaller(),
@@ -158,7 +160,7 @@ export class ImmutableNoteCallerNode extends DecoratorNode<ReactNode> {
 
   // Mutation
 
-  isKeyboardSelectable(): false {
+  override isKeyboardSelectable(): false {
     return false;
   }
 }

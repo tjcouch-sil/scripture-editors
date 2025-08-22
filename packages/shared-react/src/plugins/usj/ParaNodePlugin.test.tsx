@@ -3,9 +3,10 @@ import { baseTestEnvironment, pressEnterAtSelection } from "./react-test.utils";
 import { $getRoot, $createTextNode, TextNode } from "lexical";
 import {
   $createImmutableChapterNode,
+  $createParaNode,
   $isImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import { $createParaNode, $isParaNode } from "shared/nodes/usj/ParaNode";
+  $isParaNode,
+} from "shared";
 
 let firstVerseTextNode: TextNode;
 

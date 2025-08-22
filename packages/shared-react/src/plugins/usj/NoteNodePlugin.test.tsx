@@ -19,13 +19,18 @@ import {
   $isTextNode,
   $getNodeByKey,
 } from "lexical";
-import { $createCharNode, $isCharNode } from "shared/nodes/usj/CharNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { NBSP } from "shared/nodes/usj/node-constants";
-import { $createNoteNode, NoteNode } from "shared/nodes/usj/NoteNode";
-import { $createParaNode } from "shared/nodes/usj/ParaNode";
+import {
+  $createCharNode,
+  $createImmutableChapterNode,
+  $createNoteNode,
+  $createParaNode,
+  $isCharNode,
+  NBSP,
+  NoteNode,
+} from "shared";
+import { MockInstance } from "vitest";
 
-let styleSheetsSpy: jest.SpyInstance;
+let styleSheetsSpy: MockInstance;
 let firstVerseTextNode: TextNode;
 let firstNoteNode: NoteNode;
 let secondNoteNode: NoteNode;
@@ -72,7 +77,7 @@ beforeAll(() => {
     cssRules: [fakeRule],
     rules: [fakeRule],
   };
-  styleSheetsSpy = jest
+  styleSheetsSpy = vi
     .spyOn(document, "styleSheets", "get")
     // Simplify testing.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

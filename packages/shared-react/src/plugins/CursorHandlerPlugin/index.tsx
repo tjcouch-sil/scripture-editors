@@ -1,4 +1,4 @@
-import { registerCursorHandlers } from "shared/plugins/CursorHandler";
+import { registerCursorHandlers } from "shared";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useEffect } from "react";
 import { LexicalNode } from "lexical";

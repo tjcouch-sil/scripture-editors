@@ -2,9 +2,14 @@ import { CharNodePlugin } from "./CharNodePlugin";
 import { baseTestEnvironment } from "./react-test.utils";
 import { act } from "@testing-library/react";
 import { $getRoot, $createTextNode, $isTextNode, $setState } from "lexical";
-import { charIdState } from "shared/nodes/collab/delta.state";
-import { $createCharNode, $isCharNode, CharNode } from "shared/nodes/usj/CharNode";
-import { $createParaNode, $isParaNode } from "shared/nodes/usj/ParaNode";
+import {
+  $createCharNode,
+  $createParaNode,
+  $isCharNode,
+  $isParaNode,
+  charIdState,
+  CharNode,
+} from "shared";
 
 describe("CharNodePlugin", () => {
   it("should load an initialEditorState (sanity check)", async () => {

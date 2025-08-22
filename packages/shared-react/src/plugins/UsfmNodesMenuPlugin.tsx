@@ -1,4 +1,4 @@
-import { GetMarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
+import { GetMarkerAction, ScriptureReference } from "shared";
 import useUsfmMakersForMenu from "./PerfNodesItems/useUsfmMarkersForMenu";
 import NodesMenu from "./NodesMenu";
 

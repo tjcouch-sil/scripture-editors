@@ -1,6 +1,6 @@
 import type { LexicalEditor } from "lexical";
 import { useEffect } from "react";
-import { registerDefaultPerfHandlers } from "shared/plugins/PerfHandlers";
+import { registerDefaultPerfHandlers } from "shared";
 
 export function usePerfHandlers(editor: LexicalEditor): void {
   return useEffect(() => {

@@ -7,15 +7,18 @@ import { baseTestEnvironment } from "../react-test.utils";
 import { LF } from "./delta-common.utils";
 import { getEditorDelta } from "./editor-delta.adaptor";
 import { $setState, $createTextNode, $getRoot } from "lexical";
-import { charIdState, segmentState } from "shared/nodes/collab/delta.state";
-import { $createBookNode } from "shared/nodes/usj/BookNode";
-import { $createCharNode } from "shared/nodes/usj/CharNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $createImpliedParaNode } from "shared/nodes/usj/ImpliedParaNode";
-import { $createMilestoneNode } from "shared/nodes/usj/MilestoneNode";
-import { getEditableCallerText } from "shared/nodes/usj/node.utils";
-import { $createNoteNode } from "shared/nodes/usj/NoteNode";
-import { $createParaNode } from "shared/nodes/usj/ParaNode";
+import {
+  $createBookNode,
+  $createCharNode,
+  $createImmutableChapterNode,
+  $createImpliedParaNode,
+  $createMilestoneNode,
+  $createNoteNode,
+  $createParaNode,
+  charIdState,
+  getEditableCallerText,
+  segmentState,
+} from "shared";
 
 describe("getEditorDelta", () => {
   it("should return an empty array for an empty editor state", async () => {
