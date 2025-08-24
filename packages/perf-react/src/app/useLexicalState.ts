@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { BookStore, getBookHandler } from "shared/contentManager/index";
-import { fetchUsfm } from "shared/contentManager/mockup/fetchUsfm";
+import { BookStore, fetchUsfm, getBookHandler } from "shared";
 
 export function useBibleBook({
   serverName,

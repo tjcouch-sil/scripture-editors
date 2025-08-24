@@ -1,6 +1,9 @@
+// Reaching inside only for app css.
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../shared/src/styles/perf-app.css";
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../shared/src/styles/nodes-menu.css";
 import Editor from "./app/Editor";
-import "shared/styles/perf-app.css";
-import "shared/styles/nodes-menu.css";
 
 function App() {
   return (

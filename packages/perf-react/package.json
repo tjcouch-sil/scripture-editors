@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "vite"
   },
@@ -25,8 +24,6 @@
   },
   "devDependencies": {
     "@types/base-64": "^1.0.2",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "shared": "workspace:~",

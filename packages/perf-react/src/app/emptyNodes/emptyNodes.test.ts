@@ -1,11 +1,11 @@
-import transformLexicalStateToPerf from "shared/converters/perf/lexicalToPerf";
-import { transformPerfNodeToSerializedLexicalNode } from "shared/converters/perf/perfToLexical";
-
 import { SerializedElementNode } from "lexical";
-
-import { PerfKind } from "shared/plugins/PerfOperations/types";
-import Block from "shared/plugins/PerfOperations/Types/Block";
-import ContentElement from "shared/plugins/PerfOperations/Types/ContentElement";
+import {
+  Block,
+  ContentElement,
+  PerfKind,
+  transformLexicalStateToPerf,
+  transformPerfNodeToSerializedLexicalNode,
+} from "shared";
 
 import { emptyFootnote } from "./emptyFootnote";
 import { emptyCrossRefence } from "./emptyCrossReference";

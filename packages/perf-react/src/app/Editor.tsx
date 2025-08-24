@@ -1,16 +1,4 @@
 import { InitialConfigType, LexicalComposer } from "@lexical/react/LexicalComposer";
-import { scriptureNodes } from "shared/nodes";
-import { useBibleBook } from "./useLexicalState";
-import { HistoryPlugin } from "shared-react/plugins/History/HistoryPlugin";
-import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
-import { getPerfHistoryUpdater } from "shared/plugins/PerfOperations/updatePerfHistory";
-import { HistoryMergeListener, createEmptyHistoryState } from "shared/plugins/History";
-import { PerfHandlersPlugin } from "shared-react/plugins/PerfHandlers/PerfHandlersPlugin";
-import { BookStore, getLexicalState } from "shared/contentManager/index";
-import { FlatDocument as PerfDocument } from "shared/plugins/PerfOperations/Types/Document";
-
-import Button from "./Components/Button";
-
 import {
   $getNodeByKey,
   $getSelection,
@@ -19,19 +7,34 @@ import {
   REDO_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
+import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import {
+  BookStore,
+  FlatDocument as PerfDocument,
+  ScriptureReference,
+  getLexicalState,
+  scriptureNodes,
+  createEmptyHistoryState,
+  getPerfHistoryUpdater,
+  getMarker,
+  getUsfmMarkerAction,
+  $getCommonAncestorCompatible,
+  $isUsfmElementNode,
+  HistoryMergeListener,
+} from "shared";
+import {
+  CursorHandlerPlugin,
+  ScriptureReferencePlugin,
+  PerfNodesMenuPlugin,
+  PerfHandlersPlugin,
+  HistoryPlugin,
+} from "shared-react";
+
+import { useBibleBook } from "./useLexicalState";
+import Button from "./Components/Button";
 import ContentEditablePlugin from "./Components/ContentEditablePlugin";
 import { downloadUsfm } from "./downloadUsfm";
 import OnEditorUpdate from "./Components/OnEditorUpdate";
-
-import { $isUsfmElementNode } from "shared/nodes/UsfmElementNode";
-import { $getCommonAncestorCompatible } from "shared/nodes/usj/node.utils";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
-import { getUsfmMarkerAction } from "shared/utils/usfm/getUsfmMarkerAction";
-import ScriptureReferencePlugin from "shared-react/plugins/ScriptureReferencePlugin";
-import getMarker from "shared/utils/usfm/getMarker";
-import PerfNodesMenuPlugin from "shared-react/plugins/PerfNodesMenuPlugin";
-
-import { CursorHandlerPlugin } from "shared-react/plugins/CursorHandlerPlugin";
 
 const theme = {
   // Theme styling goes here
