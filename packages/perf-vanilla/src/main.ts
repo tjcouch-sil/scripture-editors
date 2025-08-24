@@ -1,13 +1,20 @@
-import "shared/styles/perf-app.css";
-import "shared/styles/perf-editor.css";
-import { createEditor } from "lexical";
-import { scriptureNodes } from "shared/nodes";
+// Reaching inside only for app css.
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../shared/src/styles/perf-app.css";
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import "../../shared/src/styles/perf-editor.css";
 import { registerRichText } from "@lexical/rich-text";
-import { getLexicalState, getBookHandler } from "shared/contentManager/index";
-import { fetchUsfm } from "shared/contentManager/mockup/fetchUsfm";
-import { createEmptyHistoryState, registerHistory } from "shared/plugins/History";
-import { getPerfHistoryUpdater } from "shared/plugins/PerfOperations/updatePerfHistory";
-import { registerDefaultPerfHandlers } from "shared/plugins/PerfHandlers";
+import { createEditor } from "lexical";
+import {
+  createEmptyHistoryState,
+  fetchUsfm,
+  getBookHandler,
+  getLexicalState,
+  getPerfHistoryUpdater,
+  registerDefaultPerfHandlers,
+  registerHistory,
+  scriptureNodes,
+} from "shared";
 
 (async () => {
   // Configuration for the editor
