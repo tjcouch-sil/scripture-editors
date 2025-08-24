@@ -16,14 +16,10 @@ import {
   $getCommonAncestorCompatible,
   getNextVerse,
   removeNodesBeforeNode,
-} from "shared/nodes/usj/node.utils";
-import { $isVerseNode, VerseNode } from "shared/nodes/usj/VerseNode";
-import { GetMarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
-import {
-  $isImmutableVerseNode,
-  ImmutableVerseNode,
-} from "shared-react/nodes/usj/ImmutableVerseNode";
-import { $isReactNodeWithMarker } from "shared-react/nodes/usj/node-react.utils";
+} from "shared";
+import { $isVerseNode, VerseNode } from "shared";
+import { GetMarkerAction, ScriptureReference } from "shared";
+import { $isImmutableVerseNode, $isReactNodeWithMarker, ImmutableVerseNode } from "shared-react";
 import UsfmNodesMenuPlugin from "./UsfmNodesMenuPlugin";
 
 type DfsVerseNode = Omit<DFSNode, "node"> & { node: VerseNode | ImmutableVerseNode };

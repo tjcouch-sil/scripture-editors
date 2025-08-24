@@ -1,7 +1,6 @@
 // import { LexicalEditor } from "lexical";
 // import { useMemo } from "react";
-// import { GetMarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
-// import getMarker from "shared/utils/usfm/getMarker";
+// import { GetMarkerAction, ScriptureReference, getMarker } from "shared";
 
 // export default function useModifiedMarkersForMenu({
 //   editor,

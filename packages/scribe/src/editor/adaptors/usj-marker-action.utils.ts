@@ -11,22 +11,25 @@ import {
   RangeSelection,
   TextNode,
 } from "lexical";
-import { $createNodeFromSerializedNode } from "shared/converters/usfm/emptyUsfmNodes";
-import { $isTypedMarkNode } from "shared/nodes/features/TypedMarkNode";
-import { CharNode } from "shared/nodes/usj/CharNode";
-import { $isNoteNode } from "shared/nodes/usj/NoteNode";
-import { getNextVerse } from "shared/nodes/usj/node.utils";
-import { ParaNode } from "shared/nodes/usj/ParaNode";
-import { MarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
-import { Marker } from "shared/utils/usfm/usfmTypes";
-import { createLexicalUsjNode } from "shared/utils/usj/contentToLexicalNode";
-import { GENERATOR_NOTE_CALLER } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
 import {
+  $createNodeFromSerializedNode,
+  $isNoteNode,
+  $isTypedMarkNode,
+  CharNode,
+  createLexicalUsjNode,
+  getNextVerse,
+  Marker,
+  MarkerAction,
+  ParaNode,
+  ScriptureReference,
+} from "shared";
+import {
+  $addTrailingSpace,
   $isSomeVerseNode,
   $removeLeadingSpace,
-  $addTrailingSpace,
-} from "shared-react/nodes/usj/node-react.utils";
-import { ViewOptions } from "shared-react/views/view-options.utils";
+  GENERATOR_NOTE_CALLER,
+  ViewOptions,
+} from "shared-react";
 import usjEditorAdaptor from "./usj-editor.adaptor";
 
 const markerActions: {
@@ -268,7 +271,7 @@ function $getTargetNode(
 ): LexicalNode | undefined {
   // Skip mark nodes and note nodes
   if ($isTypedMarkNode(node) || $isNoteNode(node) || $isNoteNode(node.getParent())) {
-    return;
+    return undefined;
   }
 
   // Handle text nodes
@@ -280,6 +283,7 @@ function $getTargetNode(
   if ($isElementNode(node) && node.isInline()) {
     return node;
   }
+  return undefined;
 }
 
 function handleTextNode(

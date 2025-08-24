@@ -11,12 +11,14 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { EditorState } from "lexical";
 import { useCallback, useEffect } from "react";
-import { ImmutableNoteCallerNode } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { LoadStatePlugin } from "shared-react/plugins/usj/LoadStatePlugin";
-import { NoteNodePlugin } from "shared-react/plugins/usj/NoteNodePlugin";
-import { ViewOptions } from "shared-react/views/view-options.utils";
-import { usjBaseNodes } from "shared/nodes/usj";
+import { usjBaseNodes } from "shared";
+import {
+  ImmutableNoteCallerNode,
+  LoadStatePlugin,
+  NoteNodePlugin,
+  UsjNodeOptions,
+  ViewOptions,
+} from "shared-react";
 
 type NoteEditorProps = {
   /** Scripture data in USJ form */
