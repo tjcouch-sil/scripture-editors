@@ -1,6 +1,7 @@
-@import "./usj-nodes";
-@import "./editor/editor";
-@import "../../shared/src/styles/nodes-menu";
+@import "../../../packages/platform/src/usj-nodes";
+@import "../../../packages/platform/src/editor/editor";
+@import "./app/editor-overrides";
+@import "../../../packages/shared/src/styles/nodes-menu";
 
 @import "https://fonts.googleapis.com/css?family=Reenie+Beanie";
 

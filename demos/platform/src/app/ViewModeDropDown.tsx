@@ -1,6 +1,7 @@
+import DropDown, { DropDownItem } from "./DropDown";
+import { ViewMode } from "@eten-tech-foundation/platform-editor";
 import { ReactElement } from "react";
-import { viewModeToViewNames, ViewMode } from "shared-react";
-import DropDown, { DropDownItem } from "./editor/toolbar/DropDown";
+import { viewModeToViewNames } from "shared-react";
 
 function viewModeToClassName(viewMode: string): string {
   return viewMode in viewModeToViewNames ? viewMode : "";

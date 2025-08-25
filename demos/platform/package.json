@@ -1,0 +1,24 @@
+{
+  "name": "platform",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@eten-tech-foundation/platform-editor": "workspace:~",
+    "@eten-tech-foundation/scripture-utilities": "workspace:~",
+    "@sillsdev/scripture": "^2.0.2"
+  },
+  "devDependencies": {
+    "platform-bible-react": "file:./lib/platform-bible-react",
+    "platform-bible-utils": "file:./lib/platform-bible-utils",
+    "shared": "workspace:~",
+    "shared-react": "workspace:~",
+    "tailwindcss": "4.1.11",
+    "tailwindcss-animate": "1.0.7"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

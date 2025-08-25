@@ -1,26 +1,25 @@
 import AnnotationTypeSelect from "./AnnotationTypeSelect";
-import "./App.css";
-import { EditorOptions } from "./editor/editor.model";
-import { Comments } from "./marginal/comments/commenting";
-import Marginal, { MarginalRef } from "./marginal/Marginal";
 import TextDirectionDropDown from "./TextDirectionDropDown";
 import ViewModeDropDown from "./ViewModeDropDown";
+import {
+  AnnotationRange,
+  Comments,
+  EditorOptions,
+  getDefaultViewMode,
+  getViewOptions,
+  immutableNoteCallerNodeName,
+  Marginal,
+  MarginalRef,
+  TextDirection,
+  UsjNodeOptions,
+  ViewOptions,
+} from "@eten-tech-foundation/platform-editor";
 import { Usj, usxStringToUsj } from "@eten-tech-foundation/scripture-utilities";
 import { SerializedVerseRef } from "@sillsdev/scripture";
 import { BookChapterControl } from "platform-bible-react";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  AnnotationRange,
-  getDefaultViewMode,
-  getViewOptions,
-  immutableNoteCallerNodeName,
-  Op,
-  OpsSource,
-  TextDirection,
-  UsjNodeOptions,
-  ViewOptions,
-} from "shared-react";
 import { WEB_PSA_USX as usx, WEB_PSA_COMMENTS as comments } from "shared";
+import { Op, OpsSource } from "shared-react";
 
 type Annotations = {
   [buttonId: string]: {

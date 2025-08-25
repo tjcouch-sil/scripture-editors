@@ -4,6 +4,9 @@
   "files": [],
   "references": [
     {
+      "path": "./demos/platform"
+    },
+    {
       "path": "./packages/perf-react"
     },
     {
