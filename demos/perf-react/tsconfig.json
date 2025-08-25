@@ -4,7 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../shared"
+      "path": "../../packages/shared-react"
+    },
+    {
+      "path": "../../packages/shared"
     },
     {
       "path": "./tsconfig.app.json"

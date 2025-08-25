@@ -7,10 +7,10 @@
       "path": "./demos/platform"
     },
     {
-      "path": "./packages/perf-react"
+      "path": "./demos/perf-react"
     },
     {
-      "path": "./packages/perf-vanilla"
+      "path": "./demos/perf-vanilla"
     },
     {
       "path": "./packages/platform"

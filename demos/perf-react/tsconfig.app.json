@@ -36,10 +36,10 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../shared-react/tsconfig.lib.json"
+      "path": "../../packages/shared-react/tsconfig.lib.json"
     },
     {
-      "path": "../shared/tsconfig.lib.json"
+      "path": "../../packages/shared/tsconfig.lib.json"
     }
   ]
 }

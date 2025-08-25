@@ -171,38 +171,7 @@ importers:
         specifier: 1.0.0-pre.53
         version: 1.0.0-pre.53
 
-  demos/platform:
-    dependencies:
-      '@eten-tech-foundation/platform-editor':
-        specifier: workspace:~
-        version: link:../../packages/platform
-      '@eten-tech-foundation/scripture-utilities':
-        specifier: workspace:~
-        version: link:../../packages/utilities
-      '@sillsdev/scripture':
-        specifier: ^2.0.2
-        version: 2.0.2
-    devDependencies:
-      platform-bible-react:
-        specifier: file:./lib/platform-bible-react
-        version: file:demos/platform/lib/platform-bible-react(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@4.1.11)
-      platform-bible-utils:
-        specifier: file:./lib/platform-bible-utils
-        version: file:demos/platform/lib/platform-bible-utils
-      shared:
-        specifier: workspace:~
-        version: link:../../packages/shared
-      shared-react:
-        specifier: workspace:~
-        version: link:../../packages/shared-react
-      tailwindcss:
-        specifier: 4.1.11
-        version: 4.1.11
-      tailwindcss-animate:
-        specifier: 1.0.7
-        version: 1.0.7(tailwindcss@4.1.11)
-
-  packages/perf-react:
+  demos/perf-react:
     dependencies:
       '@lexical/headless':
         specifier: ^0.33.1
@@ -246,12 +215,12 @@ importers:
         version: 18.3.1(react@18.3.1)
       shared:
         specifier: workspace:~
-        version: link:../shared
+        version: link:../../packages/shared
       shared-react:
         specifier: workspace:~
-        version: link:../shared-react
+        version: link:../../packages/shared-react
 
-  packages/perf-vanilla:
+  demos/perf-vanilla:
     dependencies:
       '@lexical/rich-text':
         specifier: ^0.33.1
@@ -262,7 +231,38 @@ importers:
     devDependencies:
       shared:
         specifier: workspace:~
-        version: link:../shared
+        version: link:../../packages/shared
+
+  demos/platform:
+    dependencies:
+      '@eten-tech-foundation/platform-editor':
+        specifier: workspace:~
+        version: link:../../packages/platform
+      '@eten-tech-foundation/scripture-utilities':
+        specifier: workspace:~
+        version: link:../../packages/utilities
+      '@sillsdev/scripture':
+        specifier: ^2.0.2
+        version: 2.0.2
+    devDependencies:
+      platform-bible-react:
+        specifier: file:./lib/platform-bible-react
+        version: file:demos/platform/lib/platform-bible-react(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@4.1.11)
+      platform-bible-utils:
+        specifier: file:./lib/platform-bible-utils
+        version: file:demos/platform/lib/platform-bible-utils
+      shared:
+        specifier: workspace:~
+        version: link:../../packages/shared
+      shared-react:
+        specifier: workspace:~
+        version: link:../../packages/shared-react
+      tailwindcss:
+        specifier: 4.1.11
+        version: 4.1.11
+      tailwindcss-animate:
+        specifier: 1.0.7
+        version: 1.0.7(tailwindcss@4.1.11)
 
   packages/platform:
     dependencies:

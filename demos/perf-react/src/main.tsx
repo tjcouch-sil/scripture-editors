@@ -1,6 +1,6 @@
 // Reaching inside only for app css.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../shared/src/styles/perf-editor.css";
+import "../../../packages/shared/src/styles/perf-editor.css";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
