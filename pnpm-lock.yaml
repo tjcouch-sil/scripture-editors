@@ -23,9 +23,6 @@ importers:
       '@lexical/eslint-plugin':
         specifier: ^0.33.1
         version: 0.33.1(eslint@9.32.0(jiti@2.4.2))
-      '@nx/devkit':
-        specifier: 21.3.11
-        version: 21.3.11(nx@21.3.11(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17)))
       '@nx/eslint':
         specifier: 21.3.11
         version: 21.3.11(@babel/traverse@7.28.0)(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(eslint@9.32.0(jiti@2.4.2))(nx@21.3.11(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17)))
@@ -92,9 +89,6 @@ importers:
       ajv:
         specifier: ^8.0.0
         version: 8.17.1
-      axios:
-        specifier: ^1.11.0
-        version: 1.11.0
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -434,10 +428,13 @@ importers:
         version: 0.33.1
 
   tools/usfm-markers:
-    devDependencies:
+    dependencies:
       '@nx/devkit':
         specifier: 21.3.11
         version: 21.3.11(nx@21.3.11(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17)))
+      axios:
+        specifier: ^1.11.0
+        version: 1.11.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1

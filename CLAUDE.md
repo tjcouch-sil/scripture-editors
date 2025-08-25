@@ -74,7 +74,7 @@ This is an Nx monorepo containing multiple scripture editor packages that share 
 - **TypeScript**: Primary development language
 - **Nx**: Monorepo build system and task runner
 - **Vite**: Build tool and development server
-- **Jest**: Testing framework
+- **Vitest**: Testing framework
 
 ### Data Formats
 
@@ -160,7 +160,7 @@ When working with scripture data:
 
 ### Testing Notes
 
-- Tests use Jest with React Testing Library for React components
+- Tests use Vitest with React Testing Library for React components
 - Test files are co-located with source files using `.test.ts` or `.test.tsx` extensions
 - Run tests in watch mode during development: `nx test <package-name> --watch`
 - Use `nx run-many -t test` to run all tests across packages

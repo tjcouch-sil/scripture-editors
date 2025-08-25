@@ -3,6 +3,7 @@
 # prettier-only ignored
 **/tsconfig*.json
 pnpm-lock.yaml
+.nxignore
 
 # items below are copied from `.gitignore`
 

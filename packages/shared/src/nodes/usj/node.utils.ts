@@ -497,7 +497,7 @@ export function getNextVerse(verseNum: number, verse: string | undefined): strin
       : `${parseInt(verseParts[0]) + 1}`;
 
   // Don't increment beyond 'z' or 'Z'.
-  const verseSegment = RegExp(/(\d+)([a-yA-Y]+)/).exec(verse);
+  const verseSegment = RegExp(/^(\d+)([a-yA-Y]{1,3})$/).exec(verse);
   if (!verseSegment) return (parseInt(verse) + 1).toString();
 
   const nextSegmentChar = String.fromCharCode(verseSegment[2].charCodeAt(0) + 1);
