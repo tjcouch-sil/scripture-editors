@@ -1,7 +1,13 @@
 @import "../../../packages/platform/src/usj-nodes";
+@import "../../../packages/platform/src/marginal/comments/ui/Button";
+@import "../../../packages/platform/src/marginal/comments/ui/ContentEditable";
+@import "../../../packages/platform/src/marginal/comments/ui/Modal";
+@import "../../../packages/platform/src/marginal/comments/ui/Placeholder";
+@import "../../../packages/platform/src/marginal/comments/comment-editor.theme";
+@import "../../../packages/platform/src/marginal/comments/CommentPlugin";
 @import "../../../packages/platform/src/editor/editor";
-@import "./app/editor-overrides";
-@import "../../../packages/shared/src/styles/nodes-menu";
+@import "../../../libs/shared/src/styles/nodes-menu";
+@import "./app/app-overrides";
 
 @import "https://fonts.googleapis.com/css?family=Reenie+Beanie";
 

@@ -1,6 +1,19 @@
 /**
- * Copied from https://github.com/facebook/lexical/blob/93cf85e12033b114ad347dcccf508c846a833731/packages/lexical-playground/src/plugins/CommentPlugin/index.css
+ * Modified from https://github.com/facebook/lexical/blob/93cf85e12033b114ad347dcccf508c846a833731/packages/lexical-playground/src/plugins/CommentPlugin/index.css
  */
+
+.comment-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.comment-container .CommentPlugin_CommentsPanel {
+  pointer-events: all;
+}
 
 .CommentPlugin_AddCommentBox {
   display: block;

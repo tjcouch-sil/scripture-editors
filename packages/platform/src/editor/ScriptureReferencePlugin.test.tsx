@@ -1,6 +1,9 @@
 // Reaching inside only for tests.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { $expectSelectionToBe, updateSelection } from "../../../shared/src/nodes/usj/test.utils";
+import {
+  $expectSelectionToBe,
+  updateSelection,
+} from "../../../../libs/shared/src/nodes/usj/test.utils";
 import ScriptureReferencePlugin from "./ScriptureReferencePlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";

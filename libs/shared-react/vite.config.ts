@@ -7,7 +7,7 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: "../../node_modules/.vite/packages/shared-react",
+  cacheDir: "../../node_modules/.vite/libs/shared-react",
   plugins: [
     react(),
     nxViteTsPaths(),

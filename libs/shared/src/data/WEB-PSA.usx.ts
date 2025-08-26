@@ -1,7 +1,7 @@
 // Modified from original:
 //   unknown items (wat:z) added in first para:q1;
 //   custom annotation milestones in first para:q2.
-export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
+export const WEB_PSA_CH1_USX = `<?xml version="1.0" encoding="utf-8"?>
 <usx version="3.0">
   <book code="PSA" style="id">World English Bible (WEB)</book>
   <para style="ide">UTF-8</para>
@@ -39,7 +39,44 @@ export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
 </usx>
 `;
 
-/*
+// Modified from original:
+//   unknown items (wat:z) added in first para:q1;
+//   custom annotation milestones in first para:q2.
+export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
+<usx version="3.0">
+  <book code="PSA" style="id">World English Bible (WEB)</book>
+  <para style="ide">UTF-8</para>
+  <para style="h">Psalms</para>
+  <para style="toc1">The Psalms</para>
+  <para style="toc2">Psalms</para>
+  <para style="toc3">Psalm</para>
+  <para style="mt1">The Psalms</para>
+  <para style="cl">Psalm</para>
+  <chapter number="1" style="c" sid="PSA 1" />
+  <para style="ms1">BOOK 1</para>
+  <para style="q1">
+    <wat style="z" attr-unknown="watAttr">wat content?</wat>
+    <verse number="1" style="v" sid="PSA 1:1" />Blessed is the man who doesn’t walk in the counsel of the wicked,</para>
+  <para style="q2" vid="PSA 1:1">nor <ms style="zmsc-s" sid="lysnx" />stand<ms style="zmsc-s" sid="dftak" /> on <ms style="zmsc-e" eid="lysnx" />the<ms style="zmsc-e" eid="dftak" /> path of sinners,</para>
+  <para style="q2" vid="PSA 1:1">nor sit in the seat of scoffers;<verse eid="PSA 1:1" /></para>
+  <para style="q1">
+    <verse number="2" style="v" sid="PSA 1:2" />but his delight is in Yahweh’s<note caller="+" style="f"><char style="fr" closed="false">1:2 </char><char style="ft" closed="false">“Yahweh” is God’s proper Name, sometimes rendered “LORD” (all caps) in other translations.</char></note> law.</para>
+  <para style="q2" vid="PSA 1:2">On his law he meditates day and night.<verse eid="PSA 1:2" /></para>
+  <para style="q1">
+    <verse number="3" style="v" sid="PSA 1:3" />He will be like a tree planted by the streams of water,</para>
+  <para style="q2" vid="PSA 1:3">that produces its fruit in its season,</para>
+  <para style="q2" vid="PSA 1:3">whose leaf also does not wither.</para>
+  <para style="q2" vid="PSA 1:3">Whatever he does shall prosper.<verse eid="PSA 1:3" /></para>
+  <para style="q1">
+    <verse number="4" style="v" sid="PSA 1:4" />The wicked are not so,</para>
+  <para style="q2" vid="PSA 1:4">but are like the chaff which the wind drives away.<verse eid="PSA 1:4" /></para>
+  <para style="q1">
+    <verse number="5" style="v" sid="PSA 1:5" />Therefore the wicked shall not stand in the judgment,</para>
+  <para style="q2" vid="PSA 1:5">nor sinners in the congregation of the righteous.<verse eid="PSA 1:5" /></para>
+  <para style="q1">
+    <verse number="6" style="v" sid="PSA 1:6" />For Yahweh knows the way of the righteous,</para>
+  <para style="q2" vid="PSA 1:6">but the way of the wicked shall perish.<verse eid="PSA 1:6" /></para>
+  <chapter eid="PSA 1" />
   <chapter number="2" style="c" sid="PSA 2" />
   <para style="q1">
     <verse number="1" style="v" sid="PSA 2:1" />Why do the nations rage,</para>
@@ -8496,4 +8533,3 @@ export const WEB_PSA_USX = `<?xml version="1.0" encoding="utf-8"?>
   <chapter eid="PSA 150" />
 </usx>
 `;
-*/

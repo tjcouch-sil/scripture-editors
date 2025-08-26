@@ -1,6 +1,6 @@
 // Reaching inside only for tests.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { $expectSelectionToBe } from "../../../../shared/src/nodes/usj/test.utils";
+import { $expectSelectionToBe } from "../../../../../libs/shared/src/nodes/usj/test.utils";
 import { ImmutableVerseNode, $createImmutableVerseNode } from "../../nodes/usj/ImmutableVerseNode";
 import { $isSomeVerseNode } from "../../nodes/usj/node-react.utils";
 import { TextSpacingPlugin } from "./TextSpacingPlugin";

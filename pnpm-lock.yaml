@@ -215,10 +215,10 @@ importers:
         version: 18.3.1(react@18.3.1)
       shared:
         specifier: workspace:~
-        version: link:../../packages/shared
+        version: link:../../libs/shared
       shared-react:
         specifier: workspace:~
-        version: link:../../packages/shared-react
+        version: link:../../libs/shared-react
 
   demos/perf-vanilla:
     dependencies:
@@ -231,7 +231,7 @@ importers:
     devDependencies:
       shared:
         specifier: workspace:~
-        version: link:../../packages/shared
+        version: link:../../libs/shared
 
   demos/platform:
     dependencies:
@@ -253,16 +253,87 @@ importers:
         version: file:demos/platform/lib/platform-bible-utils
       shared:
         specifier: workspace:~
-        version: link:../../packages/shared
+        version: link:../../libs/shared
       shared-react:
         specifier: workspace:~
-        version: link:../../packages/shared-react
+        version: link:../../libs/shared-react
       tailwindcss:
         specifier: 4.1.11
         version: 4.1.11
       tailwindcss-animate:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@4.1.11)
+
+  libs/shared:
+    dependencies:
+      '@eten-tech-foundation/scripture-utilities':
+        specifier: workspace:~
+        version: link:../../packages/utilities
+      '@lexical/mark':
+        specifier: ^0.33.1
+        version: 0.33.1
+      '@lexical/utils':
+        specifier: ^0.33.1
+        version: 0.33.1
+      '@sillsdev/scripture':
+        specifier: ^2.0.2
+        version: 2.0.2
+      epitelete:
+        specifier: ^0.2.20
+        version: 0.2.20
+      lexical:
+        specifier: ^0.33.1
+        version: 0.33.1
+      open-patcher:
+        specifier: 1.0.0-beta.1
+        version: 1.0.0-beta.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      json-difference:
+        specifier: ^1.16.1
+        version: 1.16.1
+      proskomma-core:
+        specifier: ^0.11.0
+        version: 0.11.0(@babel/core@7.28.0)
+
+  libs/shared-react:
+    dependencies:
+      '@eten-tech-foundation/scripture-utilities':
+        specifier: workspace:~
+        version: link:../../packages/utilities
+      '@floating-ui/dom':
+        specifier: ^1.7.3
+        version: 1.7.3
+      '@lexical/react':
+        specifier: ^0.33.1
+        version: 0.33.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.27)
+      '@lexical/utils':
+        specifier: ^0.33.1
+        version: 0.33.1
+      fast-equals:
+        specifier: ^5.2.2
+        version: 5.2.2
+      lexical:
+        specifier: ^0.33.1
+        version: 0.33.1
+      quill-delta:
+        specifier: ^5.1.0
+        version: 5.1.0
+      react:
+        specifier: '>=18.3.1'
+        version: 18.3.1
+      react-dom:
+        specifier: '>=18.3.1'
+        version: 18.3.1(react@18.3.1)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      shared:
+        specifier: workspace:~
+        version: link:../shared
 
   packages/platform:
     dependencies:
@@ -308,10 +379,10 @@ importers:
         version: 18.3.1(react@18.3.1)
       shared:
         specifier: workspace:~
-        version: link:../shared
+        version: link:../../libs/shared
       shared-react:
         specifier: workspace:~
-        version: link:../shared-react
+        version: link:../../libs/shared-react
 
   packages/scribe:
     dependencies:
@@ -354,87 +425,16 @@ importers:
         version: 18.3.1(react@18.3.1)
       shared:
         specifier: workspace:~
-        version: link:../shared
+        version: link:../../libs/shared
       shared-react:
         specifier: workspace:~
-        version: link:../shared-react
+        version: link:../../libs/shared-react
       sj-usfm-grammar:
         specifier: ^3.0.8
         version: 3.0.8
       tailwindcss:
         specifier: ^4.1.11
         version: 4.1.11
-
-  packages/shared:
-    dependencies:
-      '@eten-tech-foundation/scripture-utilities':
-        specifier: workspace:~
-        version: link:../utilities
-      '@lexical/mark':
-        specifier: ^0.33.1
-        version: 0.33.1
-      '@lexical/utils':
-        specifier: ^0.33.1
-        version: 0.33.1
-      '@sillsdev/scripture':
-        specifier: ^2.0.2
-        version: 2.0.2
-      epitelete:
-        specifier: ^0.2.20
-        version: 0.2.20
-      lexical:
-        specifier: ^0.33.1
-        version: 0.33.1
-      open-patcher:
-        specifier: 1.0.0-beta.1
-        version: 1.0.0-beta.1
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      json-difference:
-        specifier: ^1.16.1
-        version: 1.16.1
-      proskomma-core:
-        specifier: ^0.11.0
-        version: 0.11.0(@babel/core@7.28.0)
-
-  packages/shared-react:
-    dependencies:
-      '@eten-tech-foundation/scripture-utilities':
-        specifier: workspace:~
-        version: link:../utilities
-      '@floating-ui/dom':
-        specifier: ^1.7.3
-        version: 1.7.3
-      '@lexical/react':
-        specifier: ^0.33.1
-        version: 0.33.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.27)
-      '@lexical/utils':
-        specifier: ^0.33.1
-        version: 0.33.1
-      fast-equals:
-        specifier: ^5.2.2
-        version: 5.2.2
-      lexical:
-        specifier: ^0.33.1
-        version: 0.33.1
-      quill-delta:
-        specifier: ^5.1.0
-        version: 5.1.0
-      react:
-        specifier: '>=18.3.1'
-        version: 18.3.1
-      react-dom:
-        specifier: '>=18.3.1'
-        version: 18.3.1(react@18.3.1)
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      shared:
-        specifier: workspace:~
-        version: link:../shared
 
   packages/utilities:
     dependencies:

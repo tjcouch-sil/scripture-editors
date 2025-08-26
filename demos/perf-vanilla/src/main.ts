@@ -1,8 +1,8 @@
 // Reaching inside only for app css.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../../packages/shared/src/styles/perf-app.css";
+import "../../../libs/shared/src/styles/perf-app.css";
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../../packages/shared/src/styles/perf-editor.css";
+import "../../../libs/shared/src/styles/perf-editor.css";
 import { registerRichText } from "@lexical/rich-text";
 import { createEditor } from "lexical";
 import {

@@ -19,10 +19,10 @@
       "path": "./packages/scribe"
     },
     {
-      "path": "./packages/shared-react"
+      "path": "./libs/shared-react"
     },
     {
-      "path": "./packages/shared"
+      "path": "./libs/shared"
     },
     {
       "path": "./packages/utilities"

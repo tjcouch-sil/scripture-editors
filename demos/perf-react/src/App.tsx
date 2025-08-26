@@ -1,8 +1,8 @@
 // Reaching inside only for app css.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../../packages/shared/src/styles/perf-app.css";
+import "../../../libs/shared/src/styles/perf-app.css";
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../../packages/shared/src/styles/nodes-menu.css";
+import "../../../libs/shared/src/styles/nodes-menu.css";
 import Editor from "./app/Editor";
 
 function App() {

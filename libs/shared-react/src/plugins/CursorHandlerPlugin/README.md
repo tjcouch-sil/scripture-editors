@@ -65,4 +65,4 @@ function Editor() {
 
 ## How It Works
 
-For more detailed information about the underlying CursorHandler functionality, please refer to the README in the `packages/shared/plugins/CursorHandler/` directory.
+For more detailed information about the underlying CursorHandler functionality, please refer to the README in the `libs/shared/plugins/CursorHandler/` directory.

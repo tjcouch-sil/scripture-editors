@@ -1,4 +1,24 @@
-/* Platform Demo image overrides */
+/* Platform Editor Demo image overrides */
+
+/* CommentPlugin.css */
+
+button i.add-comment {
+  background-image: url("../../../../packages/platform/assets/images/icons/chat-left-text.svg");
+}
+
+button i.comments {
+  background-image: url("../../../../packages/platform/assets/images/icons/comments.svg");
+}
+
+button i.send {
+  background-image: url("../../../../packages/platform/assets/images/icons/send.svg");
+}
+
+button.CommentPlugin_CommentsPanel_List_DeleteButton i.delete {
+  background-image: url("../../../../packages/platform/assets/images/icons/trash3.svg");
+}
+
+/* editor.css */
 
 .link-editor div.link-edit {
   background-image: url("../../../../packages/platform/assets/images/icons/pencil-fill.svg");

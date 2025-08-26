@@ -3,7 +3,7 @@ mode: "agent"
 ---
 
 I'm using Lexical React and writing the $applyUpdate method using TDD for applying updates from a ShareDB rich-text document.
-The Lexical nodes used are listed in the const `usjReactNodes` in the `packages/shared-react/nodes/usj/index.ts` file.
+The Lexical nodes used are listed in the const `usjReactNodes` in the `libs/shared-react/nodes/usj/index.ts` file.
 
 SomeParaNodes and BookNodes have their OT length 1 on their close (not their open).
 EmbedNodes have their OT length 1 on their open but don't have any content.

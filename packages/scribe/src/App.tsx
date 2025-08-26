@@ -1,6 +1,6 @@
 // Reaching inside only for app css.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import "../../shared/src/styles/nodes-menu.css";
+import "../../../libs/shared/src/styles/nodes-menu.css";
 import { Usj, USJ_TYPE, USJ_VERSION } from "@eten-tech-foundation/scripture-utilities";
 import { useState, useMemo, SyntheticEvent, useRef, useEffect } from "react";
 import { ScriptureReference } from "shared";

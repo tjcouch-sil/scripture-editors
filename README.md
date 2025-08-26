@@ -40,15 +40,27 @@ NOTE: there is a [known limitation using PNPM with Volta](https://docs.volta.sh/
 
 ## Nx Monorepo Build System
 
-| Source                                 | Package                                                                 |
-| -------------------------------------- | ----------------------------------------------------------------------- |
-| [perf-vanilla](/packages/perf-react)   |                                                                         |
-| [perf-react](/packages/perf-react)     |                                                                         |
-| [platform](/packages/platform)         | [![Github Tag][npm-platform-version-image]][npm-platform-version-url]   |
-| [scribe](/packages/scribe)             | [![Github Tag][npm-scribe-version-image]][npm-scribe-version-url]       |
-| [shared-react](/packages/shared-react) |                                                                         |
-| [shared](/packages/shared)             |                                                                         |
-| [utilities](/packages/utilities)       | [![Github Tag][npm-utilities-version-image]][npm-utilities-version-url] |
+| Source                              | Demo App               |
+| ----------------------------------- | ---------------------- |
+| [perf-vanilla](/demos/perf-vanilla) | `nx dev perf-vanilla`  |
+| [perf-react](/demos/perf-react)     | `nx dev perf-react`    |
+| [platform](/demos/platform)         | `nx dev platform`      |
+| [scribe-editor](/packages/scribe)\* | `nx dev scribe-editor` |
+
+\* This item appears in 2 lists as it has both Demo App and Package in the same source folder.
+
+| Source                                | Package                                                                 |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| [platform-editor](/packages/platform) | [![Github Tag][npm-platform-version-image]][npm-platform-version-url]   |
+| [scribe-editor](/packages/scribe)     | [![Github Tag][npm-scribe-version-image]][npm-scribe-version-url]\*     |
+| [utilities](/packages/utilities)      | [![Github Tag][npm-utilities-version-image]][npm-utilities-version-url] |
+
+\* This package has not yet been published to the new NPM organization. The previous version of `scribe-editor` is here [![Github Tag][npm-bnf-scribe-version-image]][npm-bnf-scribe-version-url].
+
+| Source                             | Library                |
+| ---------------------------------- | ---------------------- |
+| [shared-react](/libs/shared-react) | internal non-published |
+| [shared](/libs/shared)             | internal non-published |
 
 ```mermaid
 ---
@@ -57,14 +69,17 @@ title: Nx Graph
 graph TB
   V(perf-vanilla) --> S(shared)
   R(perf-react) --> S
-  P(platform) --> SR
-  SB(scribe) --> SR
+  SB(scribe-editor) --> SR
+  P(platform) --> PE
+  PE(platform-editor) --> SR
   SR(shared-react) --> S
   R --> SR
-  P --> S
+  P --data-only--> S
+  PE --> S
   SB --> S
   S --> U(utilities)
   P --> U
+  PE --> U
   SB --> U
 ```
 
@@ -192,6 +207,8 @@ If you are using a framework other than React and need to wrap a plain-vanilla J
 [npm-platform-version-url]: https://www.npmjs.com/package/@eten-tech-foundation/platform-editor
 [npm-scribe-version-image]: https://img.shields.io/npm/v/@eten-tech-foundation/scribe-editor
 [npm-scribe-version-url]: https://www.npmjs.com/package/@eten-tech-foundation/scribe-editor
+[npm-bnf-scribe-version-image]: https://img.shields.io/npm/v/@biblionexus-foundation/scribe-editor
+[npm-bnf-scribe-version-url]: https://www.npmjs.com/package/@biblionexus-foundation/scribe-editor
 [npm-utilities-version-image]: https://img.shields.io/npm/v/@eten-tech-foundation/scripture-utilities
 [npm-utilities-version-url]: https://www.npmjs.com/package/@eten-tech-foundation/scripture-utilities
 [github-license]: https://github.com/eten-tech-foundation/scripture-editors/blob/main/LICENSE

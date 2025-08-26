@@ -4,7 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../utilities"
+      "path": "../../packages/utilities"
+    },
+    {
+      "path": "../shared"
     },
     {
       "path": "./tsconfig.lib.json"

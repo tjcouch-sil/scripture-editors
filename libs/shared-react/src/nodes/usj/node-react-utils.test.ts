@@ -1,6 +1,6 @@
 // Reaching inside only for tests.
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { createBasicTestEnvironment } from "../../../../shared/src/nodes/usj/test.utils";
+import { createBasicTestEnvironment } from "../../../../../libs/shared/src/nodes/usj/test.utils";
 import { ImmutableVerseNode, $createImmutableVerseNode } from "./ImmutableVerseNode";
 import {
   $findVerseInNode,

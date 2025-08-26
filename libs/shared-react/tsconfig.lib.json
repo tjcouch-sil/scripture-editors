@@ -45,10 +45,10 @@
   ],
   "references": [
     {
-      "path": "../shared/tsconfig.lib.json"
+      "path": "../../packages/utilities/tsconfig.lib.json"
     },
     {
-      "path": "../utilities/tsconfig.lib.json"
+      "path": "../shared/tsconfig.lib.json"
     }
   ]
 }
