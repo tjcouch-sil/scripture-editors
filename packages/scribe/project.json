@@ -1,68 +1,17 @@
 {
-  "name": "scribe",
+  "name": "@eten-tech-foundation/scribe-editor",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "{projectRoot}/src",
   "projectType": "library",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "{projectRoot}/dist"
-      },
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
-      }
-    },
-    "serve": {
-      "executor": "@nx/vite:dev-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "scribe:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "scribe:build:development",
-          "hmr": true
-        },
-        "production": {
-          "buildTarget": "scribe:build:production",
-          "hmr": false
-        }
-      }
-    },
-    "preview": {
-      "executor": "@nx/vite:preview-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "scribe:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "scribe:build:development"
-        },
-        "production": {
-          "buildTarget": "scribe:build:production"
-        }
-      }
-    },
     "devpub": {
       "executor": "nx:run-commands",
-      "defaultConfiguration": "production",
+      "dependsOn": ["build"],
       "options": {
         "command": "yalc push",
         "cwd": "{projectRoot}"
       }
-    },
-    "typecheck": {},
-    "test": {},
-    "lint": {}
+    }
   }
 }

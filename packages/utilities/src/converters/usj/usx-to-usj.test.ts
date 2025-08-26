@@ -11,8 +11,8 @@ import {
   usxGen1v1ImpliedParaEmpty,
   usxGen1v1Nonstandard,
   usxGen1v1Whitespace,
-} from "./converter-test.data";
-import { usxStringToUsj } from "./usx-to-usj";
+} from "./converter-test.data.js";
+import { usxStringToUsj } from "./usx-to-usj.js";
 
 describe("USX to USJ Converter", () => {
   it("should convert from empty USX to USJ", () => {

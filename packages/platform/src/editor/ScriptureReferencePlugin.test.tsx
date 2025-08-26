@@ -1,3 +1,6 @@
+// Reaching inside only for tests.
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { $expectSelectionToBe, updateSelection } from "../../../shared/src/nodes/usj/test.utils";
 import ScriptureReferencePlugin from "./ScriptureReferencePlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -14,12 +17,8 @@ import {
   LexicalEditor,
 } from "lexical";
 import { useState } from "react";
-import { usjReactNodes } from "shared-react/nodes/usj";
-import { $createImmutableVerseNode } from "shared-react/nodes/usj/ImmutableVerseNode";
-import { $createBookNode } from "shared/nodes/usj/BookNode";
-import { $createImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $createParaNode } from "shared/nodes/usj/ParaNode";
-import { $expectSelectionToBe, updateSelection } from "shared/nodes/usj/test.utils";
+import { $createBookNode, $createImmutableChapterNode, $createParaNode } from "shared";
+import { $createImmutableVerseNode, usjReactNodes } from "shared-react";
 
 let sectionTextNode: TextNode;
 let firstVerseTextNode: TextNode;
@@ -28,7 +27,7 @@ let thirdVerseTextNode: TextNode;
 
 describe("ScriptureReferencePlugin", () => {
   const scrRef = { book: "GEN", chapterNum: 1, verseNum: 1 };
-  const mockOnScrRefChange = jest.fn();
+  const mockOnScrRefChange = vi.fn();
 
   beforeEach(() => {
     mockOnScrRefChange.mockClear();

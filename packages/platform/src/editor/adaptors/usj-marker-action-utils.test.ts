@@ -1,21 +1,20 @@
-import { getUsjMarkerAction } from "./usj-marker-action.utils";
-import { $createTextNode, $getRoot, $isTextNode, TextNode } from "lexical";
-import { usjReactNodes } from "shared-react/nodes/usj";
-import {
-  $createImmutableVerseNode,
-  $isImmutableVerseNode,
-} from "shared-react/nodes/usj/ImmutableVerseNode";
-import { $isCharNode } from "shared/nodes/usj/CharNode";
-import {
-  $createImmutableChapterNode,
-  $isImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import { $createParaNode, $isParaNode } from "shared/nodes/usj/ParaNode";
+// Reaching inside only for tests.
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   $expectSelectionToBe,
   createBasicTestEnvironment,
   updateSelection,
-} from "shared/nodes/usj/test.utils";
+} from "../../../../shared/src/nodes/usj/test.utils";
+import { getUsjMarkerAction } from "./usj-marker-action.utils";
+import { $createTextNode, $getRoot, $isTextNode, TextNode } from "lexical";
+import { $createImmutableVerseNode, $isImmutableVerseNode, usjReactNodes } from "shared-react";
+import {
+  $createImmutableChapterNode,
+  $createParaNode,
+  $isCharNode,
+  $isImmutableChapterNode,
+  $isParaNode,
+} from "shared";
 
 const nodes = usjReactNodes;
 const reference = { book: "GEN", chapterNum: 1, verseNum: 1 };
@@ -54,9 +53,10 @@ describe("USJ Marker Action Utils", () => {
     editor.getEditorState().read(() => {
       const children = $getRoot().getChildren();
       expect(children.length).toBe(5);
-      if (!$isImmutableChapterNode(children[3])) fail("Inserted node is not a chapter");
+      if (!$isImmutableChapterNode(children[3])) throw new Error("Inserted node is not a chapter");
       expect(children[3].getNumber()).toBe("2");
-      if (!$isParaNode(children[4])) fail("Inserted node after inserted chapter is not a ParaNode");
+      if (!$isParaNode(children[4]))
+        throw new Error("Inserted node after inserted chapter is not a ParaNode");
     });
   });
 
@@ -71,12 +71,12 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isImmutableVerseNode(insertedNode)) fail("Inserted node is not a verse");
+        if (!$isImmutableVerseNode(insertedNode)) throw new Error("Inserted node is not a verse");
         expect(insertedNode.getMarker()).toBe("v");
         // Note that renumbering happens in the `UsjNodesMenuPlugin` which isn't in scope here.
         expect(insertedNode.getNumber()).toBe("2");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe("verse text ");
         $expectSelectionToBe(tailTextNode, 0);
       });
@@ -92,12 +92,12 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isImmutableVerseNode(insertedNode)) fail("Inserted node is not a verse");
+        if (!$isImmutableVerseNode(insertedNode)) throw new Error("Inserted node is not a verse");
         expect(insertedNode.getMarker()).toBe("v");
         // Note that renumbering happens in the `UsjNodesMenuPlugin` which isn't in scope here.
         expect(insertedNode.getNumber()).toBe("2");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe("verse text ");
         $expectSelectionToBe(tailTextNode, 0);
       });
@@ -115,11 +115,11 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isCharNode(insertedNode)) fail("Inserted node is not a char");
+        if (!$isCharNode(insertedNode)) throw new Error("Inserted node is not a char");
         expect(insertedNode.getMarker()).toBe("wj");
         expect(insertedNode.getTextContent()).toBe("-");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe("verse text ");
         $expectSelectionToBe(tailTextNode, 0);
       });
@@ -135,11 +135,11 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isCharNode(insertedNode)) fail("Inserted node is not a char");
+        if (!$isCharNode(insertedNode)) throw new Error("Inserted node is not a char");
         expect(insertedNode.getMarker()).toBe("wj");
         expect(insertedNode.getTextContent()).toBe("-");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe(" verse text ");
         $expectSelectionToBe(tailTextNode, 0);
       });
@@ -155,11 +155,12 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second verse text ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isCharNode(insertedNode)) fail("Inserted node is not a char");
+        if (!$isCharNode(insertedNode)) throw new Error("Inserted node is not a char");
         expect(insertedNode.getMarker()).toBe("wj");
         expect(insertedNode.getTextContent()).toBe("-");
         const charTextNode = insertedNode.getChildAtIndex(0);
-        if (!$isTextNode(charTextNode)) fail("Inserted char node does not have a text node");
+        if (!$isTextNode(charTextNode))
+          throw new Error("Inserted char node does not have a text node");
         $expectSelectionToBe(charTextNode, 0);
       });
     });
@@ -176,14 +177,15 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isCharNode(insertedNode)) fail("Inserted node is not a char");
+        if (!$isCharNode(insertedNode)) throw new Error("Inserted node is not a char");
         expect(insertedNode.getMarker()).toBe("wj");
         expect(insertedNode.getTextContent()).toBe("verse");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe(" text ");
         const charTextNode = insertedNode.getChildAtIndex(0);
-        if (!$isTextNode(charTextNode)) fail("Inserted char node does not have a text node");
+        if (!$isTextNode(charTextNode))
+          throw new Error("Inserted char node does not have a text node");
         $expectSelectionToBe(charTextNode);
       });
     });
@@ -198,14 +200,15 @@ describe("USJ Marker Action Utils", () => {
       editor.getEditorState().read(() => {
         expect(secondVerseTextNode.getTextContent()).toBe("second ");
         const insertedNode = secondVerseTextNode.getNextSibling();
-        if (!$isCharNode(insertedNode)) fail("Inserted node is not a char");
+        if (!$isCharNode(insertedNode)) throw new Error("Inserted node is not a char");
         expect(insertedNode.getMarker()).toBe("wj");
         expect(insertedNode.getTextContent()).toBe("verse");
         const tailTextNode = insertedNode.getNextSibling();
-        if (!$isTextNode(tailTextNode)) fail("Tail node is not text");
+        if (!$isTextNode(tailTextNode)) throw new Error("Tail node is not text");
         expect(tailTextNode.getTextContent()).toBe(" text ");
         const charTextNode = insertedNode.getChildAtIndex(0);
-        if (!$isTextNode(charTextNode)) fail("Inserted char node does not have a text node");
+        if (!$isTextNode(charTextNode))
+          throw new Error("Inserted char node does not have a text node");
         $expectSelectionToBe(charTextNode);
       });
     });

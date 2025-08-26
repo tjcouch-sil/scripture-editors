@@ -12,52 +12,49 @@ import {
   SerializedTextNode,
   TextNode,
 } from "lexical";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
 import {
+  BookNode,
+  ChapterNode,
+  CharNode,
   COMMENT_MARK_TYPE,
-  isSerializedTypedMarkNode,
-  SerializedTypedMarkNode,
-  TypedMarkNode,
-} from "shared/nodes/features/TypedMarkNode";
-import {
-  ImmutableUnmatchedNode,
-  SerializedImmutableUnmatchedNode,
-  UNMATCHED_TAG_NAME,
-} from "shared/nodes/features/ImmutableUnmatchedNode";
-import { MarkerNode } from "shared/nodes/features/MarkerNode";
-import { SerializedUnknownNode, UnknownNode } from "shared/nodes/features/UnknownNode";
-import { BookNode, SerializedBookNode } from "shared/nodes/usj/BookNode";
-import { ChapterNode, SerializedChapterNode } from "shared/nodes/usj/ChapterNode";
-import { CharNode, SerializedCharNode } from "shared/nodes/usj/CharNode";
-import {
-  ImmutableChapterNode,
-  SerializedImmutableChapterNode,
-} from "shared/nodes/usj/ImmutableChapterNode";
-import {
-  isSerializedImpliedParaNode,
-  SerializedImpliedParaNode,
-} from "shared/nodes/usj/ImpliedParaNode";
-import {
   ENDING_MS_COMMENT_MARKER,
+  getEditableCallerText,
+  ImmutableChapterNode,
+  ImmutableUnmatchedNode,
+  isSerializedImpliedParaNode,
+  isSerializedTypedMarkNode,
+  LoggerBasic,
+  MarkerNode,
   MILESTONE_VERSION,
   MilestoneNode,
-  STARTING_MS_COMMENT_MARKER,
-  SerializedMilestoneNode,
-} from "shared/nodes/usj/MilestoneNode";
-import { NoteNode, SerializedNoteNode } from "shared/nodes/usj/NoteNode";
-import { NBSP } from "shared/nodes/usj/node-constants";
-import {
-  getEditableCallerText,
+  NBSP,
+  NoteNode,
+  ParaNode,
   parseNumberFromMarkerText,
   removeUndefinedProperties,
-} from "shared/nodes/usj/node.utils";
-import { ParaNode, SerializedParaNode } from "shared/nodes/usj/ParaNode";
-import { SerializedVerseNode, VerseNode } from "shared/nodes/usj/VerseNode";
-import { ImmutableNoteCallerNode } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
+  SerializedBookNode,
+  SerializedChapterNode,
+  SerializedCharNode,
+  SerializedImmutableChapterNode,
+  SerializedImmutableUnmatchedNode,
+  SerializedImpliedParaNode,
+  SerializedMilestoneNode,
+  SerializedNoteNode,
+  SerializedParaNode,
+  SerializedTypedMarkNode,
+  SerializedUnknownNode,
+  SerializedVerseNode,
+  STARTING_MS_COMMENT_MARKER,
+  TypedMarkNode,
+  UnknownNode,
+  UNMATCHED_TAG_NAME,
+  VerseNode,
+} from "shared";
 import {
+  ImmutableNoteCallerNode,
   ImmutableVerseNode,
   SerializedImmutableVerseNode,
-} from "shared-react/nodes/usj/ImmutableVerseNode";
+} from "shared-react";
 
 interface EditorUsjAdaptor {
   initialize: typeof initialize;

@@ -1,8 +1,16 @@
 {
-  "extends": "../../tsconfig.base",
-  "compilerOptions": {
-    "moduleResolution": "Node"
-  },
-  "include": ["."],
-  "exclude": ["node_modules", "jest.config.ts"]
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../utilities"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

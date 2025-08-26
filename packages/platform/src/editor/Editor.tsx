@@ -26,44 +26,42 @@ import React, {
   useState,
   ReactElement,
 } from "react";
-import { usjReactNodes } from "shared-react/nodes/usj";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { ArrowNavigationPlugin } from "shared-react/plugins/usj/ArrowNavigationPlugin";
-import { CharNodePlugin } from "shared-react/plugins/usj/CharNodePlugin";
-import { ClipboardPlugin } from "shared-react/plugins/usj/ClipboardPlugin";
-import { CommandMenuPlugin } from "shared-react/plugins/usj/CommandMenuPlugin";
-import { ContextMenuPlugin } from "shared-react/plugins/usj/ContextMenuPlugin";
-import { EditablePlugin } from "shared-react/plugins/usj/EditablePlugin";
-import { LoadStatePlugin } from "shared-react/plugins/usj/LoadStatePlugin";
-import { NoteNodePlugin } from "shared-react/plugins/usj/NoteNodePlugin";
-import { OnSelectionChangePlugin } from "shared-react/plugins/usj/OnSelectionChangePlugin";
-import { ParaNodePlugin } from "shared-react/plugins/usj/ParaNodePlugin";
-import { TextDirectionPlugin } from "shared-react/plugins/usj/TextDirectionPlugin";
-import { TextSpacingPlugin } from "shared-react/plugins/usj/TextSpacingPlugin";
-import { UsjNodesMenuPlugin } from "shared-react/plugins/usj/UsjNodesMenuPlugin";
 import {
-  AnnotationPlugin,
-  AnnotationRef,
-} from "shared-react/plugins/usj/annotation/AnnotationPlugin";
-import {
-  AnnotationRange,
-  SelectionRange,
-} from "shared-react/plugins/usj/annotation/selection.model";
-import {
+  $applyUpdate,
   $getRangeFromEditor,
   $getRangeFromSelection,
-} from "shared-react/plugins/usj/annotation/selection.utils";
-import { OnChangePlugin } from "shared-react/plugins/usj/collab/DeltaOnChangePlugin";
-import { $applyUpdate } from "shared-react/plugins/usj/collab/delta-apply-update.utils";
-import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
-import { getDefaultViewOptions, getViewClassList } from "shared-react/views/view-options.utils";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
-import { TypedMarkNode } from "shared/nodes/features/TypedMarkNode";
+  AnnotationPlugin,
+  AnnotationRange,
+  AnnotationRef,
+  ArrowNavigationPlugin,
+  CharNodePlugin,
+  ClipboardPlugin,
+  CommandMenuPlugin,
+  ContextMenuPlugin,
+  DeltaOnChangePlugin,
+  EditablePlugin,
+  getDefaultViewOptions,
+  getViewClassList,
+  LoadStatePlugin,
+  NoteNodePlugin,
+  OnSelectionChangePlugin,
+  Op,
+  OpsSource,
+  ParaNodePlugin,
+  SelectionRange,
+  TextDirectionPlugin,
+  TextSpacingPlugin,
+  UsjNodeOptions,
+  UsjNodesMenuPlugin,
+  usjReactNodes,
+} from "shared-react";
 import {
   blackListedChangeTags,
   DELTA_CHANGE_TAG,
+  LoggerBasic,
   SELECTION_CHANGE_TAG,
-} from "shared/nodes/usj/node-constants";
+  TypedMarkNode,
+} from "shared";
 
 /** Forward reference for the editor. */
 export type EditorRef = {
@@ -308,7 +306,7 @@ const Editor = forwardRef(function Editor<TLogger extends LoggerBasic>(
             logger={logger}
           />
           <OnSelectionChangePlugin onChange={onSelectionChange} />
-          <OnChangePlugin
+          <DeltaOnChangePlugin
             onChange={handleChange}
             ignoreSelectionChange
             ignoreHistoryMergeTagChange

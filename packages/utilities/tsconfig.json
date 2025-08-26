@@ -1,9 +1,5 @@
 {
-  "extends": "../../tsconfig.base",
-  "compilerOptions": {
-    "noImplicitOverride": true,
-    "noImplicitReturns": true
-  },
+  "extends": "../../tsconfig.base.json",
   "files": [],
   "include": [],
   "references": [

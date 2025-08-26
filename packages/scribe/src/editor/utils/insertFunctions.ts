@@ -14,11 +14,9 @@ import {
 } from "lexical";
 import { recurseNodes as recurseSerializedNodes } from "../adaptors/editor-usj.adaptor";
 import { recurseNodes as recurseEditorNodes } from "../adaptors/usj-editor.adaptor";
-
-import { $createChapterNode } from "shared/nodes/usj/ChapterNode";
-import { $createVerseNode } from "shared/nodes/usj/VerseNode";
 import { emptyFootnote, Footnote, Char } from "../nodes/emptyFootNote";
 import { $wrapNodeInElement } from "@lexical/utils";
+import { $createChapterNode, $createVerseNode } from "shared";
 
 function moveToEndOfNode(selection: RangeSelection, node: TextNode) {
   const anchorOffset = node.getTextContentSize();

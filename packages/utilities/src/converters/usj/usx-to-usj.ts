@@ -5,8 +5,8 @@
  */
 
 import { DOMParser, Element } from "@xmldom/xmldom";
-import { MarkerContent, MarkerObject, USJ_TYPE, USJ_VERSION, Usj } from "./usj.model";
-import { USX_TYPE } from "./usx.model";
+import { MarkerContent, MarkerObject, USJ_TYPE, USJ_VERSION, Usj } from "./usj.model.js";
+import { USX_TYPE } from "./usx.model.js";
 
 type Action = "append" | "merge" | "ignore";
 type Attribs = { [name: string]: string };

@@ -1,8 +1,8 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useState, useRef, useEffect } from "react";
 import { REDO_COMMAND, UNDO_COMMAND } from "lexical";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
-import { ViewOptions } from "shared-react/views/view-options.utils";
+import { ScriptureReference } from "shared";
+import { ViewOptions } from "shared-react";
 import "./Toolbar.css";
 import { getUsjMarkerAction } from "./adaptors/usj-marker-action.utils";
 import useModal from "@/hooks/useModal";

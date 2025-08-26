@@ -14,9 +14,17 @@
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
     "dist/**/*",
-    "!dist/package.json",
     "src/index.ts",
     "src/editor"
   ],
@@ -40,13 +48,11 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
     "postcss": "^8.5.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "shared": "link:../shared",
-    "shared-react": "link:../shared-react",
+    "shared": "workspace:~",
+    "shared-react": "workspace:~",
     "sj-usfm-grammar": "^3.0.8",
     "tailwindcss": "^4.1.11"
   },

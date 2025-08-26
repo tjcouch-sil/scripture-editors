@@ -1,7 +1,7 @@
 // This file contains utility functions and type definitions for getting usfm markers data.
 // It includes functions to parse marker strings, convert marker styles to CSS styles, and type definitions for various marker properties.
 
-import categoriesMap, { CategoryType } from "./categoriesMap.ts";
+import categoriesMap, { CategoryType } from "./categoriesMap";
 
 export enum TextType {
   ChapterNumber = "ChapterNumber",

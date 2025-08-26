@@ -1,7 +1,6 @@
 import { LexicalEditor } from "lexical";
 import { useMemo } from "react";
-import { GetMarkerAction, ScriptureReference } from "shared/utils/get-marker-action.model";
-import getMarker from "shared/utils/usfm/getMarker";
+import { getMarker, GetMarkerAction, ScriptureReference } from "shared";
 
 // getMarker() takes a marker string and gets its data from a usfm markers map object that is merged with overwrites that fit the PERF editor context.
 // getMarkerAction() returns a function to generate a LexicalNode and insert it in the editor, this lexical node is a custom node made for the PERF editor

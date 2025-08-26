@@ -1,5 +1,5 @@
 import { SerializedTextNode } from "lexical";
-import { SerializedUsfmElementNode } from "shared/nodes/UsfmElementNode";
+import { SerializedUsfmElementNode } from "shared";
 
 export const createEmptyDivisionMark = (
   type: "verses" | "chapter",

@@ -16,9 +16,7 @@ import {
   UNDO_COMMAND,
 } from "lexical";
 import { forwardRef, useCallback, useEffect, useState, ReactElement } from "react";
-import { $isBookNode } from "shared/nodes/usj/BookNode";
-import { $isImmutableChapterNode } from "shared/nodes/usj/ImmutableChapterNode";
-import { $isParaNode } from "shared/nodes/usj/ParaNode";
+import { $isBookNode, $isImmutableChapterNode, $isParaNode } from "shared";
 import BlockFormatDropDown from "./BlockFormatDropDown";
 
 function Divider(): ReactElement {

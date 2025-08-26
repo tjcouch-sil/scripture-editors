@@ -1,18 +1,21 @@
+/// <reference types='vitest' />
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import * as path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   root: __dirname,
-  cacheDir: "../../node_modules/.vite/packages/scribe",
+  cacheDir: "../../node_modules/.vite/packages/scribe-editor",
   plugins: [
     react(),
     nxViteTsPaths(),
     dts({
+      entryRoot: "src",
       rollupTypes: true,
+      tsconfigPath: path.join(__dirname, "tsconfig.lib.json"),
       exclude: ["src/App.tsx", "src/main.tsx"],
       aliasesExclude: ["@eten-tech-foundation/scripture-utilities"],
     }),
@@ -23,20 +26,41 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true,
+    outDir: "./dist",
+    emptyOutDir: true,
+    reportCompressedSize: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
     lib: {
-      entry: path.resolve(__dirname, "src", "index.ts"),
-      formats: ["es"],
+      // Could also be a dictionary or array of multiple entry points.
+      entry: "src/index.ts",
+      name: "@eten-tech-foundation/platform-editor",
       fileName: "index",
+      // Change this to the formats you want to support.
+      // Don't forget to update your package.json as well.
+      formats: ["es" as const],
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "react/jsx-runtime"],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
         },
       },
+    },
+  },
+  test: {
+    watch: false,
+    globals: true,
+    environment: "jsdom",
+    include: ["{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    reporters: ["default"],
+    passWithNoTests: true,
+    coverage: {
+      reportsDirectory: "./test-output/vitest/coverage",
+      provider: "v8" as const,
     },
   },
 });

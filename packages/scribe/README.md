@@ -34,13 +34,16 @@ npm install @eten-tech-foundation/scribe-editor
 
 ```typescript
 import { useState, useMemo, SyntheticEvent, useRef, useEffect } from "react";
-import { Usj, USJ_TYPE, USJ_VERSION } from "@eten-tech-foundation/scripture-utilities";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { immutableNoteCallerNodeName } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { getViewOptions, getDefaultViewMode } from "shared-react/views/view-options.utils";
-import { SelectionRange } from "shared-react/plugins/usj/annotation/selection.model";
 import Editor, { EditorRef } from "@eten-tech-foundation/scribe-editor";
+import { Usj, USJ_TYPE, USJ_VERSION } from "@eten-tech-foundation/scripture-utilities";
+import {
+  ScriptureReference,
+  SelectionRange,
+  UsjNodeOptions,
+  getViewOptions,
+  getDefaultViewMode,
+  immutableNoteCallerNodeName,
+} from "shared";
 
 const defaultUsj: Usj = {
   type: USJ_TYPE,

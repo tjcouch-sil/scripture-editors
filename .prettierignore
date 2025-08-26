@@ -1,17 +1,18 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
-# Please keep this file in sync with `.eslintignore`
 
-# generated files
+# prettier-only ignored
+**/tsconfig*.json
 pnpm-lock.yaml
+.nxignore
 
 # items below are copied from `.gitignore`
 
 # compiled output
 build
-coverage
 dist
+out-tsc
+temp
 tmp
-/out-tsc
 
 # dependencies
 node_modules
@@ -48,4 +49,12 @@ Thumbs.db
 
 # NX
 .nx/cache
-**/tsconfig*.json
+.nx/workspace-data
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md
+
+# vite
+vite.config.*.timestamp*
+vitest.config.*.timestamp*
+
+.env

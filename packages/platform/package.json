@@ -14,16 +14,24 @@
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
-    "dist/**/*",
-    "!dist/package.json",
+    "dist",
     "src/index.ts",
-    "src/editor"
+    "src/Editorial.tsx",
+    "src/editor",
+    "src/marginal"
   ],
   "scripts": {
     "dev": "vite",
-    "dev:test": "cross-env NODE_ENV=testing vite",
-    "files:smash": "cd scripts && python3 ./consolidate_files.py",
     "prepublish": "cd ../.. && nx build platform"
   },
   "peerDependencies": {
@@ -32,6 +40,7 @@
   },
   "dependencies": {
     "@eten-tech-foundation/scripture-utilities": "workspace:~",
+    "@floating-ui/dom": "^1.7.3",
     "@lexical/react": "^0.33.1",
     "@lexical/selection": "^0.33.1",
     "@lexical/text": "^0.33.1",
@@ -43,14 +52,12 @@
     "yjs": "^13.6.27"
   },
   "devDependencies": {
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
     "platform-bible-react": "file:./lib/platform-bible-react",
     "platform-bible-utils": "file:./lib/platform-bible-utils",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "shared": "link:../shared",
-    "shared-react": "link:../shared-react",
+    "shared": "workspace:~",
+    "shared-react": "workspace:~",
     "tailwindcss": "4.1.11",
     "tailwindcss-animate": "1.0.7"
   },

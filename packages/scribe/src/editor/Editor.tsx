@@ -16,23 +16,25 @@ import {
   useState,
   ReactElement,
 } from "react";
-import { usjReactNodes } from "shared-react/nodes/usj";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { ClipboardPlugin } from "shared-react/plugins/usj/ClipboardPlugin";
-import { ContextMenuPlugin } from "shared-react/plugins/usj/ContextMenuPlugin";
-import { LoadStatePlugin } from "shared-react/plugins/usj/LoadStatePlugin";
-import { NoteNodePlugin } from "shared-react/plugins/usj/NoteNodePlugin";
-import { ArrowNavigationPlugin } from "shared-react/plugins/usj/ArrowNavigationPlugin";
-import { CommandMenuPlugin } from "shared-react/plugins/usj/CommandMenuPlugin";
-import { OnSelectionChangePlugin } from "shared-react/plugins/usj/OnSelectionChangePlugin";
-import { ParaNodePlugin } from "shared-react/plugins/usj/ParaNodePlugin";
-import { TextDirectionPlugin } from "shared-react/plugins/usj/TextDirectionPlugin";
-import { TextSpacingPlugin } from "shared-react/plugins/usj/TextSpacingPlugin";
-import { SelectionRange } from "shared-react/plugins/usj/annotation/selection.model";
-import { $getRangeFromEditor } from "shared-react/plugins/usj/annotation/selection.utils";
-import { getViewClassList, ViewOptions } from "shared-react/views/view-options.utils";
-import { blackListedChangeTags } from "shared/nodes/usj/node-constants";
-import { ScriptureReference } from "shared/utils/get-marker-action.model";
+import { ScriptureReference, blackListedChangeTags } from "shared";
+import {
+  $getRangeFromEditor,
+  ArrowNavigationPlugin,
+  ClipboardPlugin,
+  CommandMenuPlugin,
+  ContextMenuPlugin,
+  getViewClassList,
+  LoadStatePlugin,
+  NoteNodePlugin,
+  OnSelectionChangePlugin,
+  ParaNodePlugin,
+  SelectionRange,
+  TextDirectionPlugin,
+  TextSpacingPlugin,
+  UsjNodeOptions,
+  usjReactNodes,
+  ViewOptions,
+} from "shared-react";
 import editorUsjAdaptor from "./adaptors/editor-usj.adaptor";
 import usjEditorAdaptor from "./adaptors/usj-editor.adaptor";
 import { getUsjMarkerAction } from "./adaptors/usj-marker-action.utils";

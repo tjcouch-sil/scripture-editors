@@ -48,9 +48,9 @@ import {
   $unwrapTypedMarkNode,
   $wrapSelectionInTypedMarkNode,
   COMMENT_MARK_TYPE,
+  LoggerBasic,
   TypedMarkNode,
-} from "shared/nodes/features/TypedMarkNode";
-import { LoggerBasic } from "shared/adaptors/logger-basic.model";
+} from "shared";
 import {
   Comment,
   Comments,
@@ -286,6 +286,7 @@ function CommentInputBox({
         body.removeChild(container);
       };
     }
+    return () => undefined;
   }, [selectionState.container, updateLocation]);
 
   useEffect(() => {
@@ -721,6 +722,7 @@ export default function CommentPlugin<TLogger extends LoggerBasic>({
       const provider = providerFactory("comments", yjsDocMap);
       return commentStore.registerCollaboration(provider);
     }
+    return () => undefined;
   }, [commentStore, providerFactory, yjsDocMap]);
 
   const cancelAddComment = useCallback(() => {

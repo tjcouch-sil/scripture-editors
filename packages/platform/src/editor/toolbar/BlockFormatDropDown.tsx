@@ -1,7 +1,7 @@
 import { $setBlocksType } from "@lexical/selection";
 import { $getSelection, $isRangeSelection, LexicalEditor } from "lexical";
 import { ReactElement } from "react";
-import { $createParaNode } from "shared/nodes/usj/ParaNode";
+import { $createParaNode } from "shared";
 import DropDown, { DropDownItem } from "./DropDown";
 
 type BlockMarkerToBlockNames = typeof blockMarkerToBlockNames;

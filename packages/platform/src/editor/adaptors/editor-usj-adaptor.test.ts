@@ -1,5 +1,7 @@
 // Reaching inside only for tests.
 // eslint-disable-next-line @nx/enforce-module-boundaries
+import { createBasicTestEnvironment } from "../../../../shared/src/nodes/usj/test.utils";
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   CHAPTER_1_INDEX,
   VERSE_2_EDITABLE_INDEX,
@@ -26,13 +28,16 @@ import usjEditorAdaptor from "./usj-editor.adaptor";
 import { MarkerObject } from "@eten-tech-foundation/scripture-utilities";
 import { deepEqual } from "fast-equals";
 import { SerializedTextNode } from "lexical";
-import { usjReactNodes } from "shared-react/nodes/usj";
-import { TypedMarkNode } from "shared/nodes/features/TypedMarkNode";
-import { CHAPTER_MARKER, SerializedChapterNode } from "shared/nodes/usj/ChapterNode";
-import { SerializedParaNode } from "shared/nodes/usj/ParaNode";
-import { SerializedVerseNode, VERSE_MARKER } from "shared/nodes/usj/VerseNode";
-import { getVisibleOpenMarkerText } from "shared/nodes/usj/node.utils";
-import { createBasicTestEnvironment } from "shared/nodes/usj/test.utils";
+import { usjReactNodes } from "shared-react";
+import {
+  CHAPTER_MARKER,
+  getVisibleOpenMarkerText,
+  SerializedChapterNode,
+  SerializedParaNode,
+  SerializedVerseNode,
+  TypedMarkNode,
+  VERSE_MARKER,
+} from "shared";
 
 const nodes = [TypedMarkNode, ...usjReactNodes];
 const { editor } = createBasicTestEnvironment(nodes);

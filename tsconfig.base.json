@@ -1,32 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-    "esModuleInterop": true,
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
     "forceConsistentCasingInFileNames": true,
-
-    /* Bundler mode */
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
+    "importHelpers": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "declaration": true,
-
-    /* Linting */
-    "strict": true,
-    "allowJs": true,
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Workspace */
-    "baseUrl": "./packages/",
-    "paths": {
-      "@eten-tech-foundation/scripture-utilities": ["./utilities/src"]
-    }
-  },
-  "include": ["packages"]
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2023",
+    "customConditions": ["development"]
+  }
 }

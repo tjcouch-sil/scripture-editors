@@ -1,5 +1,5 @@
 import type { SerializedEditorState } from "lexical";
-import { MarkerContent, Usj } from "./usj.model";
+import { MarkerContent, Usj } from "./usj.model.js";
 
 const NBSP = "\u00A0";
 const IDEOGRAPHIC_SPACE = "\u3000";

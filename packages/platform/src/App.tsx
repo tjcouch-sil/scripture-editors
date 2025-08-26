@@ -9,18 +9,18 @@ import { Usj, usxStringToUsj } from "@eten-tech-foundation/scripture-utilities";
 import { SerializedVerseRef } from "@sillsdev/scripture";
 import { BookChapterControl } from "platform-bible-react";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { immutableNoteCallerNodeName } from "shared-react/nodes/usj/ImmutableNoteCallerNode";
-import { UsjNodeOptions } from "shared-react/nodes/usj/usj-node-options.model";
-import { AnnotationRange } from "shared-react/plugins/usj/annotation/selection.model";
-import { Op, OpsSource } from "shared-react/plugins/usj/collab/delta-common.utils";
-import { TextDirection } from "shared-react/plugins/usj/text-direction.model";
 import {
+  AnnotationRange,
   getDefaultViewMode,
   getViewOptions,
+  immutableNoteCallerNodeName,
+  Op,
+  OpsSource,
+  TextDirection,
+  UsjNodeOptions,
   ViewOptions,
-} from "shared-react/views/view-options.utils";
-import { WEB_PSA_USX as usx } from "shared/data/WEB-PSA.usx";
-import { WEB_PSA_COMMENTS as comments } from "shared/data/WEB_PSA.comments";
+} from "shared-react";
+import { WEB_PSA_USX as usx, WEB_PSA_COMMENTS as comments } from "shared";
 
 type Annotations = {
   [buttonId: string]: {
@@ -82,7 +82,7 @@ export default function App() {
   const [isReadonly, setIsReadonly] = useState(false);
   const [hasSpellCheck, setHasSpellCheck] = useState(false);
   const [textDirection, setTextDirection] = useState<TextDirection>("ltr");
-  const [viewMode, setViewMode] = useState(getDefaultViewMode);
+  const [viewMode, setViewMode] = useState<string>(getDefaultViewMode);
   const [debug, setDebug] = useState(true);
   const [scrRef, setScrRef] = useState(defaultScrRef);
   const [annotations, setAnnotations] = useState(defaultAnnotations);
@@ -129,9 +129,8 @@ export default function App() {
       const annotation = _annotations[buttonId];
       const type = annotation.types[annotationType];
       const annotationId = type.id;
-      type.isSet
-        ? marginalRef.current?.removeAnnotation(annotationType, annotationId)
-        : marginalRef.current?.addAnnotation(annotation.selection, annotationType, annotationId);
+      if (type.isSet) marginalRef.current?.removeAnnotation(annotationType, annotationId);
+      else marginalRef.current?.addAnnotation(annotation.selection, annotationType, annotationId);
       type.isSet = !type.isSet;
       setAnnotations(_annotations);
     },

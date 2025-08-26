@@ -1,6 +1,4 @@
-import { BookStore } from "shared/contentManager";
-import { HistoryState } from "shared/plugins/History/HistoryManager";
-import PerfDocument from "shared/plugins/PerfOperations/Types/Document";
+import { BookStore, HistoryState, FlatDocument as PerfDocument } from "shared";
 
 export const downloadUsfm = (
   bookHandler: BookStore | null,
