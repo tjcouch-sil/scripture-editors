@@ -4,10 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../shared-react"
+      "path": "../../libs/shared-react"
     },
     {
-      "path": "../shared"
+      "path": "../../libs/shared"
     },
     {
       "path": "../utilities"

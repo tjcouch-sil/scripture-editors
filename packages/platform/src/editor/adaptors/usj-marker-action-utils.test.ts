@@ -4,7 +4,7 @@ import {
   $expectSelectionToBe,
   createBasicTestEnvironment,
   updateSelection,
-} from "../../../../shared/src/nodes/usj/test.utils";
+} from "../../../../../libs/shared/src/nodes/usj/test.utils";
 import { getUsjMarkerAction } from "./usj-marker-action.utils";
 import { $createTextNode, $getRoot, $isTextNode, TextNode } from "lexical";
 import { $createImmutableVerseNode, $isImmutableVerseNode, usjReactNodes } from "shared-react";

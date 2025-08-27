@@ -59,12 +59,12 @@ nx dev perf-vanilla                # Vanilla JS PERF editor
 
 This is an Nx monorepo containing multiple scripture editor packages that share common functionality:
 
-- **`packages/shared`**: Core framework-agnostic editor functionality (nodes, plugins, converters)
-- **`packages/shared-react`**: React-specific components and plugins extending shared functionality
+- **`libs/shared`**: Core framework-agnostic editor functionality (nodes, plugins, converters)
+- **`libs/shared-react`**: React-specific components and plugins extending shared functionality
 - **`packages/platform`**: Scripture editor for Platform.Bible with commenting and collaboration features
 - **`packages/scribe`**: Lightweight scripture editor for Scribe application
-- **`packages/perf-react`**: React-based editor for PERF format with performance optimizations
-- **`packages/perf-vanilla`**: Vanilla JS editor for PERF format
+- **`demos/perf-react`**: React-based editor for PERF format with performance optimizations
+- **`demos/perf-vanilla`**: Vanilla JS editor for PERF format
 - **`packages/utilities`**: Data format conversion utilities (USJ/USX/USFM)
 
 ### Core Technologies
@@ -99,8 +99,8 @@ Custom Lexical nodes for scripture content:
 
 Modular plugin system for editor functionality:
 
-- **Core Plugins** (`packages/shared/plugins/`): `CursorHandler`, `History`, `PerfHandlers`, `Typeahead`
-- **React Plugins** (`packages/shared-react/plugins/`): React-specific implementations and UI components
+- **Core Plugins** (`libs/shared/plugins/`): `CursorHandler`, `History`, `PerfHandlers`, `Typeahead`
+- **React Plugins** (`libs/shared-react/plugins/`): React-specific implementations and UI components
 - **Package-specific Plugins**: Extended functionality for each editor application
 
 #### Data Transformation Pipeline
@@ -139,10 +139,10 @@ shared-react (React-specific extensions)
 
 ### Key Files and Directories
 
-- **`packages/shared/nodes/`**: Core node implementations
-- **`packages/shared/plugins/`**: Core plugin implementations
-- **`packages/shared-react/nodes/`**: React-specific node extensions
-- **`packages/shared-react/plugins/`**: React-specific plugin implementations
+- **`libs/shared/nodes/`**: Core node implementations
+- **`libs/shared/plugins/`**: Core plugin implementations
+- **`libs/shared-react/nodes/`**: React-specific node extensions
+- **`libs/shared-react/plugins/`**: React-specific plugin implementations
 - **`packages/*/adaptors/`**: Data format conversion logic
 - **`packages/*/editor/`**: Editor component implementations
 - **`nx.json`**: Nx configuration with build targets and dependencies
@@ -167,8 +167,8 @@ When working with scripture data:
 
 ### Common Development Tasks
 
-- **Adding new scripture node types**: Extend base nodes in `packages/shared/nodes/`
-- **Creating React components**: Add to `packages/shared-react/` for reusable components
+- **Adding new scripture node types**: Extend base nodes in `libs/shared/nodes/`
+- **Creating React components**: Add to `libs/shared-react/` for reusable components
 - **Package-specific features**: Implement in the appropriate package directory
 - **Format conversion**: Use or extend adaptors in `packages/*/adaptors/`
-- **Plugin development**: Follow the plugin pattern in `packages/shared/plugins/`
+- **Plugin development**: Follow the plugin pattern in `libs/shared/plugins/`

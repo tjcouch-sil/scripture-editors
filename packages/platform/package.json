@@ -31,7 +31,6 @@
     "src/marginal"
   ],
   "scripts": {
-    "dev": "vite",
     "prepublish": "cd ../.. && nx build platform"
   },
   "peerDependencies": {
@@ -52,14 +51,10 @@
     "yjs": "^13.6.27"
   },
   "devDependencies": {
-    "platform-bible-react": "file:./lib/platform-bible-react",
-    "platform-bible-utils": "file:./lib/platform-bible-utils",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "shared": "workspace:~",
-    "shared-react": "workspace:~",
-    "tailwindcss": "4.1.11",
-    "tailwindcss-animate": "1.0.7"
+    "shared-react": "workspace:~"
   },
   "volta": {
     "extends": "../../package.json"

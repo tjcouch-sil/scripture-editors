@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../../packages/platform"
+    },
+    {
+      "path": "../../libs/shared-react"
+    },
+    {
+      "path": "../../libs/shared"
+    },
+    {
+      "path": "../../packages/utilities"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}

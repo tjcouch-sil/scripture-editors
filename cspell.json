@@ -10,7 +10,7 @@
     "node_modules/**",
     "packages/platform/lib/**",
     "packages/platform/scripts/project_files.md",
-    "packages/shared/plugins/PerfOperations/Types/__test__.ts",
+    "libs/shared/plugins/PerfOperations/Types/__test__.ts",
     "pnpm-lock.yaml",
     "**/*.svg"
   ],

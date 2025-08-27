@@ -1,2 +1,2 @@
 # Exclude test libraries from Nx project detection
-packages/platform/lib
+demos/platform/lib

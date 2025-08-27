@@ -31,7 +31,7 @@
   ],
   "references": [
     {
-      "path": "../shared"
+      "path": "../../libs/shared"
     },
     {
       "path": "../utilities"
